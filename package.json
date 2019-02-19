@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc",
-    "watch": "ts-node src/server.ts",
-    "w": "nodemon"
+    "watch": "nodemon"
   },
   "dependencies": {
     "express": "^4.16.4"
