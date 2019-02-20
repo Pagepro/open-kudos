@@ -1,6 +1,12 @@
+import { Router } from 'express'
 import { slackAuth } from '../controllers/auth'
-import { command } from '../controllers/slashCommand'
-import app from '../config/express'
+import { command, test } from '../controllers/slashCommand'
+const slackRoutes = Router()
 
-app.route('/')
+slackRoutes.route('/')
     .get(slackAuth, command)
+
+slackRoutes.route('/test')
+    .post(test)
+
+export { slackRoutes }
