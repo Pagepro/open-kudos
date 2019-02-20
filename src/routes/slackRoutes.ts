@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { slackAuth } from '../controllers/auth'
-import { command, test } from '../controllers/slashCommand'
+import { command, events } from '../controllers/slashCommand'
 const slackRoutes = Router()
 
-slackRoutes.route('/')
-    .get(slackAuth, command)
+slackRoutes.route('/events')
+    .post(events)
 
-slackRoutes.route('/test')
-    .post(test)
+slackRoutes.route('/commands')
+    .post(command)
 
 export { slackRoutes }
