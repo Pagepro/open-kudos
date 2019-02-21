@@ -1,5 +1,5 @@
 
 import app from './config/express'
-const port = 3000
+const port = process.env.PORT
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))

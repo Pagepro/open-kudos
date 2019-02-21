@@ -4,12 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "node -r dotenv/config  ./dist/server.js",
     "build": "tsc",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4"
   },
   "devDependencies": {
