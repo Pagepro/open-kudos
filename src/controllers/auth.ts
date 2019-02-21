@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction} from 'express'
+import { Request, Response, NextFunction } from 'express'
 
-function slackAuth(req: Request, res: Response, next: NextFunction){
+function slackAuth(req: Request, res: Response, next: NextFunction) {
 
 }
 
