@@ -14,7 +14,7 @@ MongoClient.connect(process.env.DB_URL, mongoClientOptions, (err, client) => {
     if (err) {
         console.warn(`Failed to connect to the database. ${err.stack}`)
     }
-    app.locals.db = client.db(process.env.DB_NAME || 'kudos_test')
+    app.locals.db = client.db(process.env.DB_NAME)
 });
 
 export default app;
