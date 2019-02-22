@@ -4,10 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "test": "mocha",
     "start": "node -r dotenv/config  ./dist/server.js",
     "build": "tsc",
     "watch": "nodemon",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "local": "node -r dotenv/config ./localtunnel.js",
+    "dev": "npm run local && npm run watch"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -15,7 +18,12 @@
     "express": "^4.16.4"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "localtunnel": "^1.9.1",
+    "mocha": "^6.0.0",
     "nodemon": "^1.18.10",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.0.2",
