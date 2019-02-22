@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { parse } from './../services/commandService'
+import { Db } from 'mongodb'
 
 function command(req: Request, res: Response, next: NextFunction) {
     const sampleResponse = {
@@ -54,4 +55,19 @@ function events(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export { command, events }
+async function test(req: Request, res: Response, next: NextFunction) {
+    try {
+        const db: Db = req.app.locals.db;
+        const test = await db.collection('test').insert({test: 'test'})
+
+        if (test) {
+            res.json(test)
+        } else {
+            res.send('error')
+        }
+    } catch (err) {
+        next(err)
+    }
+}
+
+export { command, events, test }

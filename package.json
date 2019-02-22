@@ -15,7 +15,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -24,6 +25,7 @@
     "chai": "^4.2.0",
     "localtunnel": "^1.9.1",
     "mocha": "^6.0.0",
+    "@types/mongodb": "^3.1.19",
     "nodemon": "^1.18.10",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.0.2",
