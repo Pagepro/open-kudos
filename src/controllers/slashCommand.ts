@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import { parse } from './../services/commandService'
 import { Db } from 'mongodb'
 
 function command(req: Request, res: Response, next: NextFunction) {
@@ -41,7 +42,8 @@ function command(req: Request, res: Response, next: NextFunction) {
             }
         ]
     }
-
+    console.log(req.body, req.headers)
+    const commandObj = parse(req.body.text)
     res.json(sampleResponse)
 }
 
