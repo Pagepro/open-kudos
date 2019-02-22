@@ -1,4 +1,3 @@
-
 import { expect } from 'chai'
 import * as commandService from './commandService'
 describe('CommandService', function () {
