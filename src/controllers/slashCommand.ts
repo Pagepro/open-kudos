@@ -31,6 +31,8 @@ function searchCommand(req: CustomRequest, res: Response, next: NextFunction) {
             if (validateGive(req.body.text)) {
                 req.command = parseGive(req.body.text)
                 next()
+            } else {
+                res.end("Simpler pls, what do you mean? Perhaps '/kudos help' will help")
             }
             break
         case 'help':

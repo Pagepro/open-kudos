@@ -18,5 +18,6 @@ function getKudosValueFromRaw(rawCommand: string): number {
     else return NaN
 }
 export function validateGive(rawCommand: string): boolean {
-    return true // rawCommand.trim().split(/\s+/).length == 3
+    // TO DO
+    return true
 }
