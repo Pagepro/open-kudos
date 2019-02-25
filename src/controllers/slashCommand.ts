@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { parseGive, validateGive } from './../services/commandService'
 import { Db } from 'mongodb'
-
+import KudosTransactionInfo from '../services/kudosTransactionInfo.interface'
 interface CustomRequest extends Request {
-    command?: any
+    command?: KudosTransactionInfo
 }
 
 function executeCommand(req: CustomRequest, res: Response, next: NextFunction) {

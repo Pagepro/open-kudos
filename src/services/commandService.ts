@@ -1,10 +1,13 @@
-export function parseGive(rawCommand: string): {} {
+import KudosTransactionInfo from './kudosTransactionInfo.interface'
+
+export function parseGive(rawCommand: string): KudosTransactionInfo {
     const kudosReceiverId = getUserIdFromRaw(rawCommand)
     const kudosTransactionValue = getKudosValueFromRaw(rawCommand)
-    return {
-        kudosReceiverId: kudosReceiverId,
-        kudosTransactionValue: kudosTransactionValue
+    const kudosTransactionInfo: KudosTransactionInfo = {
+        kudosReceiverId,
+        kudosTransactionValue
     }
+    return kudosTransactionInfo
 }
 
 function getUserIdFromRaw(rawCommand: string): string {
