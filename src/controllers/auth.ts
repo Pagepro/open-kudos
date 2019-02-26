@@ -7,8 +7,7 @@ function slackInstallAuth(req: Request, res: Response, next: NextFunction) {
         params: {
             code: req.query.code,
             client_id: process.env.CLIENT_ID,
-            client_secret: process.env.CLIENT_SECRET,
-            redirect_uri: 'https://kudosrobert.localtunnel.me/slack/redirect'
+            client_secret: process.env.CLIENT_SECRET
         }
     }).then((response) => {
         insertWorkspace(response.data)

@@ -5,7 +5,6 @@ interface WorkspaceInterface {
     accessToken: string,
     botUserId: string,
     botAccessToken: string
-
 }
 
 export default class Workspace implements WorkspaceInterface {
