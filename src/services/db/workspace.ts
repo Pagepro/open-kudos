@@ -14,9 +14,7 @@ export function insertWorkspace(workspaceObj: {}) {
             }, {
                 upsert: true
             })
-            db.workspaces[workspace.teamName] = { ...workspace }
-            initWebApi(db.workspaces[workspace.teamName])
-            initWorkspaceUsers(workspace.teamName)
+            initWorkspace(db, workspace)
         }
     })
 }
@@ -30,11 +28,14 @@ export function initWorkspaces() {
                 }
             })
             db.collection('workspaces').find().forEach((workspace) => {
-                db.workspaces[workspace.teamName] = { ...workspace }
-                initWebApi(db.workspaces[workspace.teamName])
-                initWorkspaceUsers(workspace.teamName)
+                initWorkspace(db, workspace)
             })
         }
     })
 }
 
+function initWorkspace(db: CustomDb, workspace: any) {
+    db.workspaces[workspace.teamName] = { ...workspace }
+    initWebApi(db.workspaces[workspace.teamName])
+    initWorkspaceUsers(workspace.teamName)
+}
