@@ -1,9 +1,9 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient, Db, Collection } from 'mongodb';
 import { Subject, Observable } from 'rxjs'
-import { fetchWorkspaces } from '../services/db/workspace'
+import { initWorkspaces } from '../services/db/workspace'
 
 export interface CustomDb extends Db {
-    workspaceCollection?: Function,
+    workspaceCollection?: (workspaceName: string, collection: string) => Collection,
     workspaces?: any
 }
 let db: CustomDb
@@ -20,12 +20,12 @@ export function connectMongo(dbURL: string, options: {}) {
         }
         db = client.db(process.env.DB_NAME)
         db.workspaces = {}
-        db.workspaceCollection = (workspace: string, collection: string) => {
-            return db.collection(`${workspace}_${collection}`)
+        db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
+            return db.collection(`${workspaceName}_${collection}`)
         }
         connect.next(db)
         connect.complete()
-        fetchWorkspaces()
+        initWorkspaces()
     })
 }
 
