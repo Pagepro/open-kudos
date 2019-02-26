@@ -28,19 +28,19 @@ export function connectMongo(dbURL: string, options: {}) {
         initWorkspaces()
     })
 }
-
-export const database = new Observable(subscriber => {
+export const database = new Promise((res, rej) => {
     if (db) {
-        subscriber.next(db)
+        res(db)
     } else {
         connect.subscribe({
             next: (dbClient) => {
-                subscriber.next(dbClient)
-                subscriber.complete()
+                res(dbClient)
+            },
+            error: (err) => {
+                rej(err)
             }
         })
     }
 })
-
 
 export default connect

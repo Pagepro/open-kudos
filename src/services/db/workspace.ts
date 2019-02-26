@@ -5,32 +5,28 @@ import { initWorkspaceUsers } from './users'
 
 export function insertWorkspace(workspaceObj: {}) {
     const workspace = new Workspace(workspaceObj)
-    database.subscribe({
-        next: (db: CustomDb) => {
-            db.collection('workspaces').updateOne({
-                teamId: { $eq: workspace.teamId }
-            }, {
-                $set: workspace
-            }, {
-                upsert: true
-            })
-            initWorkspace(db, workspace)
-        }
+    database.then((db: CustomDb) => {
+        db.collection('workspaces').updateOne({
+            teamId: { $eq: workspace.teamId }
+        }, {
+            $set: workspace
+        }, {
+            upsert: true
+        })
+        initWorkspace(db, workspace)
     })
 }
 
 export function initWorkspaces() {
-    database.subscribe({
-        next: (db: CustomDb) => {
-            db.createCollection('workspaces', {
-                validator: {
-                    $jsonSchema: schema
-                }
-            })
-            db.collection('workspaces').find().forEach((workspace) => {
-                initWorkspace(db, workspace)
-            })
-        }
+    database.then((db: CustomDb) => {
+        db.createCollection('workspaces', {
+            validator: {
+                $jsonSchema: schema
+            }
+        })
+        db.collection('workspaces').find().forEach((workspace) => {
+            initWorkspace(db, workspace)
+        })
     })
 }
 
