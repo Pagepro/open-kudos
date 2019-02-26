@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { slackAuth } from '../controllers/auth'
+import { slackInstallAuth } from '../controllers/auth'
 import { searchCommand, executeCommand, events, test } from '../controllers/slashCommand'
 const slackRoutes = Router()
 
@@ -11,5 +11,8 @@ slackRoutes.route('/commands')
 
 slackRoutes.route('/test')
     .get(test)
+
+slackRoutes.route('/redirect')
+    .get(slackInstallAuth)
 
 export { slackRoutes }
