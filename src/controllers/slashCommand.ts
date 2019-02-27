@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { parseGive, validateGive } from './../services/commandService'
 import { Db } from 'mongodb'
-import KudosTransactionInfo from '../services/kudosTransactionInfo.interface'
+import Transfer from '../models/transfer';
+import { saveTransfer } from '../services/db/transfer'
+
 interface CustomRequest extends Request {
-    command?: KudosTransactionInfo
+    command?: Transfer
 }
 
 function executeCommand(req: CustomRequest, res: Response, next: NextFunction) {
@@ -29,7 +31,8 @@ function searchCommand(req: CustomRequest, res: Response, next: NextFunction) {
     switch (kudosCommand.toLowerCase()) {
         case 'give':
             if (validateGive(req.body.text)) {
-                req.command = parseGive(req.body.text)
+                req.command = parseGive(req.body)
+                saveTransfer(req.body.team_domain, req.command)
                 next()
             } else {
                 res.end("Simpler pls, what do you mean? Perhaps '/kudos help' will help")

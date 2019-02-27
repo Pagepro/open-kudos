@@ -3,7 +3,7 @@ import Transfer, { schema } from '../../models/transfer'
 
 export function initWorkspaceTransfers( teamName: string) {
     database.then((db: CustomDb) => {
-        db.createCollection(`${teamName}_transfers`, {
+        db.createCollection(`${teamName}_transfers`.toLowerCase(), {
             validator: {
                 $jsonSchema: schema
             }
