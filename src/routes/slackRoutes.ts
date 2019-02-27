@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { slackInstallAuth } from '../controllers/auth'
-import { searchCommand, executeCommand, events, test } from '../controllers/slashCommand'
+import { searchCommand, executeCommand, test } from '../controllers/slashCommand'
+import { events } from '../controllers/slackEvents'
 const slackRoutes = Router()
 
 slackRoutes.route('/events')
