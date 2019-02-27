@@ -1,8 +1,15 @@
-import { getUser, updateUser } from './users'
-import User from '../../models/user'
+import cron from 'node-cron'
+import { getUser, updateUser, resetAllUsersGiveableKudos } from './db/users'
+import { saveTransfer } from './db/transfer'
+import User from '../models/user'
+import Transfer from '../models/transfer'
 
-
-export function transferKudos(teamName: string, senderId: string, receiverId: string, value: number) {
+export function transferKudos(teamName: string, transfer: Transfer) {
+    const {
+        senderId,
+        receiverId,
+        value
+    } = transfer
     return new Promise((resolve, reject) => {
         Promise.all([
             getUser(teamName, senderId),
@@ -12,12 +19,25 @@ export function transferKudos(teamName: string, senderId: string, receiverId: st
                 sender.kudosGiveable -= value
                 receiver.kudosGranted += value
                 receiver.kudosSpendable += value
-                updateUser(teamName, senderId, sender)
-                updateUser(teamName, receiverId, receiver)
-                resolve()
+                Promise.all([
+                    updateUser(teamName, senderId, sender),
+                    updateUser(teamName, receiverId, receiver),
+                    saveTransfer(teamName, transfer)
+                ]).then(() => {
+                    resolve()
+                })
             } else {
                 reject('Not enough kudos')
             }
+        })
+    })
+}
+
+export function setCronTask() {
+    cron.schedule('0 0 1 * *', () => {
+        console.log('cron task start')
+        resetAllUsersGiveableKudos().then(() => {
+            console.log('cron task end successful')
         })
     })
 }
