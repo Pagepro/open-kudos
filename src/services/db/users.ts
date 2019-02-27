@@ -20,7 +20,7 @@ export function initWorkspaceUsers( teamName: string) {
                 db.workspaceCollection(teamName, 'users').updateOne({
                     userSlackId: { $eq: user.userSlackId }
                 }, {
-                    $set: user
+                    $setOnInsert: user
                 }, {
                     upsert: true
                 })
@@ -46,5 +46,21 @@ export function updateUser(teamName: string, userId: string, updatedUser: User) 
         }, {
             $set: updatedUser
         })
+    })
+}
+
+export function resetUsersGiveableKudos(teamName: string) {
+    return database.then((db: CustomDb) => {
+        return db.workspaceCollection(teamName, 'users').updateMany({}, {
+            $set: { kudosGiveable: 100 }
+        })
+    })
+}
+
+export function resetAllUsersGiveableKudos() {
+    return database.then((db: CustomDb) => {
+        return Promise.all([Object.keys(db.workspaces).map((teamName: string) => {
+            return resetUsersGiveableKudos(teamName)
+        })])
     })
 }
