@@ -15,5 +15,4 @@ export function saveTransfer(teamName: string, transfer: Transfer) {
     return database.then((db: CustomDb) => {
         return db.workspaceCollection(teamName, 'transfers').insertOne(transfer)
     })
-
 }

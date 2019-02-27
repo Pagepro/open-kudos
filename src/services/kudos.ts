@@ -4,7 +4,6 @@ import { saveTransfer } from './db/transfer'
 import User from '../models/user'
 import Transfer from '../models/transfer'
 
-
 export function transferKudos(teamName: string, transfer: Transfer) {
     const {
         senderId,
