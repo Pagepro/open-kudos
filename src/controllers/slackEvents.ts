@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { WebClient } from '@slack/client'
 import GiveCommandHandler from './GiveCommandHandler';
+import { transferKudos } from '../services/kudos'
+import Transfer from '../models/transfer';
+import { getWebClient } from '../services/webApi/client';
 
 interface ISlackEventInfo {
     challenge?: object
@@ -34,7 +37,6 @@ function events(req: Request, res: Response, next: NextFunction) {
     } else if (subtype && subtype === 'bot_message') {
         res.sendStatus(200)
     } else {
-        console.log(slackEventInfo)
         res.sendStatus(200)
         handleEvent(slackEventInfo)
     }
@@ -88,6 +90,16 @@ async function handleGiveCommand(slackEventInfo: ISlackEventInfo) {
     await giveCommandHandler.validate()
 
     if (giveCommandHandler.isValid) {
+        const transfer = new Transfer({
+            senderId: giverUserId,
+            receiverId: giveCommandHandler.validReceiverUserId,
+            value: Number(points),
+            comment: informationWhyUserGetsPoints
+        })
+        console.log(slackEventInfo.team_id, transfer)
+        transferKudos(slackEventInfo.team_id, transfer).then(() => {
+            console.log('success')
+        })
         // TODO: call class method to give points for user
         sendResponseMessageToSlack(giveCommandHandler.messageWhyPointsWasGiven, slackEventInfo)
     } else {
@@ -103,11 +115,9 @@ function getInformationWhyUserGetsPoints(text: string, giverUserId: string) {
 }
 
 function sendResponseMessageToSlack(text: string, slackEventInfo: ISlackEventInfo) {
-    const token = process.env.BOT_USER_O_AUTH_ACCESS_TOKEN
-    const web = new WebClient(token)
     const { channel } = slackEventInfo.event
 
-    web.chat.postMessage({ channel, text })
+    getWebClient(slackEventInfo.team_id).chat.postMessage({ channel, text })
 }
 
 export { events }
