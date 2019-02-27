@@ -4,7 +4,7 @@ import { saveTransfer } from './db/transfer'
 import User from '../models/user'
 import Transfer from '../models/transfer'
 
-export function transferKudos(teamName: string, transfer: Transfer) {
+export function transferKudos(teamId: string, transfer: Transfer) {
     const {
         senderId,
         receiverId,
@@ -12,17 +12,17 @@ export function transferKudos(teamName: string, transfer: Transfer) {
     } = transfer
     return new Promise((resolve, reject) => {
         Promise.all([
-            getUser(teamName, senderId),
-            getUser(teamName, receiverId)
+            getUser(teamId, senderId),
+            getUser(teamId, receiverId)
         ]).then(([sender, receiver]: [User, User]) => {
             if (sender.kudosGiveable >= value) {
                 sender.kudosGiveable -= value
                 receiver.kudosGranted += value
                 receiver.kudosSpendable += value
                 Promise.all([
-                    updateUser(teamName, senderId, sender),
-                    updateUser(teamName, receiverId, receiver),
-                    saveTransfer(teamName, transfer)
+                    updateUser(teamId, senderId, sender),
+                    updateUser(teamId, receiverId, receiver),
+                    saveTransfer(teamId, transfer)
                 ]).then(() => {
                     resolve()
                 })

@@ -1,5 +1,5 @@
 interface UserInterface {
-    userSlackId: string,
+    userId: string,
     kudosGiveable: number,
     kudosGranted: number,
     kudosSpendable: number,
@@ -9,7 +9,7 @@ interface UserInterface {
 }
 
 export default class User implements UserInterface {
-    userSlackId: string
+    userId: string
     kudosGiveable: number
     kudosGranted: number
     kudosSpendable: number
@@ -21,7 +21,7 @@ export default class User implements UserInterface {
         this.kudosGiveable = obj.kudosGiveable || 100
         this.kudosSpendable = obj.kudosSpendable || 0
         this.kudosGranted = obj.kudosGranted || 0
-        this.userSlackId = obj.userSlackId || obj.id,
+        this.userId = obj.userId || obj.id,
         this.name = obj.name,
         this.realName = obj.realName || obj.real_name,
         this.isAdmin = obj.isAdmin || obj.is_admin
@@ -31,7 +31,7 @@ export default class User implements UserInterface {
 
 export const schema = {
     'bsonType': 'object',
-    'required': [ 'userSlackId', 'kudosGiveable', 'kudosGranted', 'kudosSpendable', 'isAdmin' ],
+    'required': [ 'userId', 'kudosGiveable', 'kudosGranted', 'kudosSpendable', 'isAdmin' ],
     'properties': {
         'name': {
             'bsonType': 'string',

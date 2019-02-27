@@ -32,8 +32,8 @@ export function initWorkspaces() {
 }
 
 function initWorkspace(db: CustomDb, workspace: any) {
-    db.workspaces[workspace.teamName] = { ...workspace }
-    initWebApi(db.workspaces[workspace.teamName])
-    initWorkspaceUsers(workspace.teamName)
-    initWorkspaceTransfers(workspace.teamName)
+    db.workspaces[workspace.teamId] = { ...workspace }
+    initWebApi(db.workspaces[workspace.teamId])
+    initWorkspaceUsers(workspace.teamId)
+    initWorkspaceTransfers(workspace.teamId)
 }
