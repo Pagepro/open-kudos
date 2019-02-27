@@ -1,16 +1,16 @@
 interface WorkspaceInterface {
-    teamId: string,
-    active: boolean,
     teamName: string,
+    active: boolean,
+    teamId: string,
     accessToken: string,
     botUserId: string,
     botAccessToken: string
 }
 
 export default class Workspace implements WorkspaceInterface {
-    teamId: string
-    active: boolean
     teamName: string
+    active: boolean
+    teamId: string
     accessToken: string
     botUserId: string
     botAccessToken: string

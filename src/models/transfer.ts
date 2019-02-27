@@ -17,6 +17,7 @@ export default class Transfer implements TransferInterface {
         this.receiverId = obj.receiverId,
         this.value = obj.value,
         this.comment = obj.comment
+        this.date = new Date()
     }
 }
 
