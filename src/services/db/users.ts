@@ -4,7 +4,7 @@ import { getWebClient } from '../webApi/client'
 
 export function initWorkspaceUsers( teamName: string) {
     database.then((db: CustomDb) => {
-        db.createCollection(`${teamName}_users`, {
+        db.createCollection(`${teamName}_users`.toLowerCase(), {
             validator: {
                 $jsonSchema: schema
             }
