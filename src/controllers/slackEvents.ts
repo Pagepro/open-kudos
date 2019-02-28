@@ -79,39 +79,31 @@ async function handleGiveCommand(slackEventInfo: ISlackEventInfo) {
         points = ''
     ] = text.split(' ')
     const giverUserId = slackEventInfo.event.user
-    const informationWhyUserGetsPoints = getInformationWhyUserGetsPoints(text, giverUserId)
-
     const giveCommandHandler = new GiveCommandHandler(
         giverUserId,
         points,
         receiverUserId,
-        informationWhyUserGetsPoints)
+        text)
 
     await giveCommandHandler.validate()
 
     if (giveCommandHandler.isValid) {
         const transfer = new Transfer({
-            senderId: giverUserId,
+            senderId: giveCommandHandler.giverUserId,
             receiverId: giveCommandHandler.validReceiverUserId,
-            value: Number(points),
-            comment: informationWhyUserGetsPoints
+            value: giveCommandHandler.validPoints,
+            comment: giveCommandHandler.getInformationWhyUserGetsPoints()
         })
-        console.log(slackEventInfo.team_id, transfer)
-        transferKudos(slackEventInfo.team_id, transfer).then(() => {
-            console.log('success')
-        })
-        // TODO: call class method to give points for user
-        sendResponseMessageToSlack(giveCommandHandler.messageWhyPointsWasGiven, slackEventInfo)
+
+        try {
+            await transferKudos(slackEventInfo.team_id, transfer)
+            sendResponseMessageToSlack(giveCommandHandler.getInformationWhyUserGetsPoints(), slackEventInfo)
+        } catch (ex) {
+            sendResponseMessageToSlack(ex.message, slackEventInfo)
+        }
     } else {
         sendResponseMessageToSlack(giveCommandHandler.errorMessage, slackEventInfo)
     }
-}
-
-function getInformationWhyUserGetsPoints(text: string, giverUserId: string) {
-    const wordsInCommand = text.split(' ')
-    return wordsInCommand.length > 4 ?
-        wordsInCommand.slice(3, wordsInCommand.length).join(' ') :
-        `<@${giverUserId}> didn't give reason for giving points.`;
 }
 
 function sendResponseMessageToSlack(text: string, slackEventInfo: ISlackEventInfo) {

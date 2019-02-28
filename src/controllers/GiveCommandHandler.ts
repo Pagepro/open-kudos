@@ -2,17 +2,17 @@ export default class GiveCommandHandler {
     points: string
     giverUserId: string
     receiverUserId: string
-    messageWhyPointsWasGiven: string
+    fullSlackCommand: string
     errorObject = {
         isValid: false,
         message: ''
     }
 
-    constructor(giverUserId: string, points: string, receiverUserId: string, messageWhyPointsWasGiven: string) {
+    constructor(giverUserId: string, points: string, receiverUserId: string, fullSlackCommand: string) {
         this.giverUserId = giverUserId
         this.points = points
         this.receiverUserId = receiverUserId
-        this.messageWhyPointsWasGiven = messageWhyPointsWasGiven
+        this.fullSlackCommand = fullSlackCommand
     }
 
     get validReceiverUserId() {
@@ -25,6 +25,17 @@ export default class GiveCommandHandler {
 
     get errorMessage() {
         return this.errorObject.message
+    }
+
+    get validPoints() {
+        return Number(this.points)
+    }
+
+    getInformationWhyUserGetsPoints() {
+        const wordsInCommand = this.fullSlackCommand.split(' ')
+        return wordsInCommand.length > 4 ?
+            `<@${this.giverUserId}> give ${this.receiverUserId} ${this.points} ${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
+            `<@${this.giverUserId}> didn't give reason for giving points.`;
     }
 
     async validate() {
@@ -45,7 +56,6 @@ export default class GiveCommandHandler {
         } catch (ex) {
             this.errorObject.isValid = false
             this.errorObject.message = ex.message
-            // TODO: add logger service
         }
     }
 
