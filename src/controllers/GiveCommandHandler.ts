@@ -1,22 +1,24 @@
+import Transfer from '../models/transfer';
+
 export default class GiveCommandHandler {
     points: string
-    giverUserId: string
-    receiverUserId: string
+    giverId: string
+    receiverId: string
     fullSlackCommand: string
     errorObject = {
         isValid: false,
         message: ''
     }
 
-    constructor(giverUserId: string, points: string, receiverUserId: string, fullSlackCommand: string) {
-        this.giverUserId = giverUserId
+    constructor(giverId: string, points: string, receiverId: string, fullSlackCommand: string) {
+        this.giverId = giverId
         this.points = points
-        this.receiverUserId = receiverUserId
+        this.receiverId = receiverId
         this.fullSlackCommand = fullSlackCommand
     }
 
-    get validReceiverUserId() {
-        return this.receiverUserId.substring(2, this.receiverUserId.length - 1)
+    get validReceiverId() {
+        return this.receiverId.substring(2, this.receiverId.length - 1)
     }
 
     get isValid() {
@@ -27,24 +29,33 @@ export default class GiveCommandHandler {
         return this.errorObject.message
     }
 
-    get validPoints() {
+    get validValue() {
         return Number(this.points)
     }
 
+    get transfer() {
+        return new Transfer({
+            senderId: this.giverId,
+            receiverId: this.validReceiverId,
+            value: this.validValue,
+            comment: this.getInformationWhyUserGetsPoints()
+        })
+    }
+
     getInformationWhyUserGetsPoints() {
-        const wordsInCommand = this.fullSlackCommand.split(' ')
+        const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
-            `<@${this.giverUserId}> give ${this.receiverUserId} ${this.points} ${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
-            `<@${this.giverUserId}> didn't give reason for giving points.`;
+            `<@${this.giverId}> give ${this.receiverId} ${this.points} ${wordsInCommand.slice(3, wordsInCommand.length).join(' ')}` :
+            `<@${this.giverId}> didn't give reason for giving points.`;
     }
 
     async validate() {
         try {
-            if (this.receiverUserId.match(/^<@.*>$/).length <= 0) {
+            if (this.receiverId.match(/^<@.*>$/).length <= 0) {
                 throw new Error(`I can't see for who you want to give points :(`);
             }
 
-            if (this.validReceiverUserId === this.giverUserId) {
+            if (this.validReceiverId === this.giverId) {
                 throw new Error('You cant add points for your self :(');
             }
 
@@ -58,6 +69,4 @@ export default class GiveCommandHandler {
             this.errorObject.message = ex.message
         }
     }
-
-    givePoints() { }
 }

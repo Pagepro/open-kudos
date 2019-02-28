@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-import { WebClient } from '@slack/client'
-import GiveCommandHandler from './GiveCommandHandler';
+import GiveCommandHandler from './giveCommandHandler'
 import { transferKudos } from '../services/kudos'
-import Transfer from '../models/transfer';
-import { getWebClient } from '../services/webApi/client';
+import { getWebClient } from '../services/webApi/client'
 
 interface ISlackEventInfo {
     challenge?: object
@@ -88,15 +86,8 @@ async function handleGiveCommand(slackEventInfo: ISlackEventInfo) {
     await giveCommandHandler.validate()
 
     if (giveCommandHandler.isValid) {
-        const transfer = new Transfer({
-            senderId: giveCommandHandler.giverUserId,
-            receiverId: giveCommandHandler.validReceiverUserId,
-            value: giveCommandHandler.validPoints,
-            comment: giveCommandHandler.getInformationWhyUserGetsPoints()
-        })
-
         try {
-            await transferKudos(slackEventInfo.team_id, transfer)
+            await transferKudos(slackEventInfo.team_id, giveCommandHandler.transfer)
             sendResponseMessageToSlack(giveCommandHandler.getInformationWhyUserGetsPoints(), slackEventInfo)
         } catch (ex) {
             sendResponseMessageToSlack(ex.message, slackEventInfo)
