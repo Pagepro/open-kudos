@@ -21,7 +21,7 @@ export function connectMongo(dbURL: string, options: {}) {
         db = client.db(process.env.DB_NAME)
         db.workspaces = {}
         db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
-            return db.collection(`${workspaceName}_${collection}`.toLowerCase())
+            return db.collection(`${workspaceName}_${collection}`)
         }
         connect.next(db)
         connect.complete()
