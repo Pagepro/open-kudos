@@ -49,7 +49,8 @@ export default class GiveCommandHandler {
     }
 
     get validValue() {
-        return Number(this.points)
+        const points = Number(this.points)
+        return Number.isInteger(points) && points > 0 && points
     }
 
     get transfer() {
@@ -78,7 +79,7 @@ export default class GiveCommandHandler {
                 throw new Error(getText(dictionary.TRANSFER_TO_MYSELF_ERROR));
             }
 
-            if (Number.isNaN(Number(this.points))) {
+            if (!this.validValue) {
                 throw new Error(getText(dictionary.NOT_VALID_AMOUNT_ERROR, { points: this.points }));
             }
 
