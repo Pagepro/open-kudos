@@ -6,28 +6,38 @@ import { setTranslations } from '../translations'
 
 export function saveTranslation(dictionary: DictionaryInterface) {
     database.then((db: CustomDb) => (
+        db.collection('translations').findOne({
+            locale: { $eq: dictionary.locale }
+        }).then((foundDictionary) => { updateTranslation({...dictionary, ...foundDictionary}) })
+
+    ))
+}
+
+export function initTranslations() {
+    return database.then((db: CustomDb) => (
+        db.createCollection('translations', {
+            validator: {
+                $jsonSchema: schema
+            }
+        })
+        .then(() => (
+            Promise.all(Object.keys(translations).map(key => (
+                saveTranslation((<any>translations)[key])
+            )))
+        ))
+    ))
+}
+
+export function updateTranslation(dictionary: DictionaryInterface) {
+     return database.then((db: CustomDb) => (
         db.collection('translations').updateOne({
             locale: { $eq: dictionary.locale }
         }, {
-            $setOnInsert: dictionary
+            $set: dictionary
         }, {
             upsert: true
         }).then(() => (
             setTranslations(dictionary)
         ))
     ))
-}
-
-export function initTranslations() {
-    database.then((db: CustomDb) => {
-        db.createCollection('translations', {
-            validator: {
-                $jsonSchema: schema
-            }
-        }).then(() => (
-            Promise.all(Object.keys(translations).map(key => (
-                saveTranslation((<any>translations)[key])
-            )))
-        ))
-    })
 }

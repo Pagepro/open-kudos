@@ -1,7 +1,9 @@
-import Transfer from '../models/transfer';
-import { ISlackEventInfo } from './interfaces';
-import { transferKudos } from '../services/kudos';
-import { sendResponseMessageToSlack } from './eventResponse';
+import Transfer from '../models/transfer'
+import { ISlackEventInfo } from './interfaces'
+import { transferKudos } from '../services/kudos'
+import { sendResponseMessageToSlack } from './eventResponse'
+import getText from '../services/translations'
+import dictionary from '../services/translations/dictionary';
 
 export default class GiveCommandHandler {
     slackEvent: ISlackEventInfo
@@ -62,8 +64,8 @@ export default class GiveCommandHandler {
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
-            `<@${this.giverId}> give ${this.receiverId} ${this.points} ${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
-            `<@${this.giverId}> didn't give reason for giving points.`;
+            `${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
+            getText(dictionary.NO_REASON);
     }
 
     async validate() {
@@ -92,8 +94,21 @@ export default class GiveCommandHandler {
         if (this.isValid) {
             try {
                 await transferKudos(this.team_id, this.transfer)
-                sendResponseMessageToSlack(this.getInformationWhyUserGetsPoints(), this.slackEvent)
+                const {
+                    senderId,
+                    receiverId,
+                    value,
+                    comment
+                } = this.transfer
+                const message = getText(dictionary.TRANSFER_RESPONSE, {
+                    sender: `<@${senderId}>`,
+                    receiver: `<@${receiverId}>`,
+                    value,
+                    comment
+                })
+                sendResponseMessageToSlack(message, this.slackEvent)
             } catch (ex) {
+                console.log(ex)
                 sendResponseMessageToSlack(ex, this.slackEvent)
             }
         } else {

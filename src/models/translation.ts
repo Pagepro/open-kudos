@@ -3,8 +3,7 @@ import dictionary from '../services/translations/dictionary'
 export const schema = {
     'bsonType': 'object',
     'required': [
-        'locale'
-        , [dictionary.TRANSFER_RESPONSE]
+        'locale', dictionary.TRANSFER_RESPONSE
     ],
     'properties': {
         [dictionary.TRANSFER_RESPONSE]: {
