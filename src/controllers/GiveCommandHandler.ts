@@ -34,8 +34,8 @@ export default class GiveCommandHandler {
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(' ')
         return wordsInCommand.length > 4 ?
-            `<@${this.giverUserId}> give ${this.receiverUserId} ${this.points} ${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
-            `<@${this.giverUserId}> didn't give reason for giving points.`;
+            `${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
+            `didn't give reason for giving points.`;
     }
 
     async validate() {

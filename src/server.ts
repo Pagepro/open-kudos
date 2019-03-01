@@ -1,7 +1,7 @@
 
 import app from './config/express'
 import connect from './config/mongodb'
-import { setCronTask } from './services/kudos';
+import { setCronTask } from './services/kudos'
 const port = process.env.PORT
 
 connect.subscribe({

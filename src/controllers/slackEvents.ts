@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import { WebClient } from '@slack/client'
 import GiveCommandHandler from './GiveCommandHandler';
 import { transferKudos } from '../services/kudos'
 import Transfer from '../models/transfer';
 import { getWebClient } from '../services/webApi/client';
+import dictionary from '../services/translations/dictionary'
+import getText from '../services/translations'
 
 interface ISlackEventInfo {
     challenge?: object
@@ -97,7 +98,13 @@ async function handleGiveCommand(slackEventInfo: ISlackEventInfo) {
 
         try {
             await transferKudos(slackEventInfo.team_id, transfer)
-            sendResponseMessageToSlack(giveCommandHandler.getInformationWhyUserGetsPoints(), slackEventInfo)
+            const message = getText(dictionary.TRANSFER_RESPONSE, {
+                receiver: `<@${transfer.receiverId}>`,
+                sender: `<@${transfer.senderId}>`,
+                value: transfer.value,
+                comment: transfer.comment
+            })
+            sendResponseMessageToSlack(message, slackEventInfo)
         } catch (ex) {
             sendResponseMessageToSlack(ex.message, slackEventInfo)
         }
