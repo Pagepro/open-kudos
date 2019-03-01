@@ -1,7 +1,8 @@
 import { DictionaryInterface } from './dictionary'
 
 const translationSet: any = {}
-export function setTranslations(dictionary: DictionaryInterface) {
+
+export function setTranslation(dictionary: DictionaryInterface) {
     translationSet[dictionary.locale] = dictionary
 }
 

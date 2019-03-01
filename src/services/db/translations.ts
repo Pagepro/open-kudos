@@ -2,14 +2,13 @@ import { database, CustomDb } from '../../config/mongodb'
 import { schema } from '../../models/translation'
 import * as translations from '../translations/locales'
 import { DictionaryInterface } from '../translations/dictionary'
-import { setTranslations } from '../translations'
+import { setTranslation } from '../translations'
 
 export function saveTranslation(dictionary: DictionaryInterface) {
     database.then((db: CustomDb) => (
         db.collection('translations').findOne({
             locale: { $eq: dictionary.locale }
         }).then((foundDictionary) => { updateTranslation({...dictionary, ...foundDictionary}) })
-
     ))
 }
 
@@ -25,6 +24,7 @@ export function initTranslations() {
                 saveTranslation((<any>translations)[key])
             )))
         ))
+        .then(setTranslations)
     ))
 }
 
@@ -36,8 +36,14 @@ export function updateTranslation(dictionary: DictionaryInterface) {
             $set: dictionary
         }, {
             upsert: true
-        }).then(() => (
-            setTranslations(dictionary)
-        ))
+        })
+    ))
+}
+
+function setTranslations() {
+    return database.then((db: CustomDb) => (
+        db.collection('translations').find({}).forEach(translation => {
+            setTranslation(translation)
+        })
     ))
 }
