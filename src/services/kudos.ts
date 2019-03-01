@@ -3,6 +3,8 @@ import { getUser, updateUser, resetAllUsersGiveableKudos } from './db/users'
 import { saveTransfer } from './db/transfer'
 import User from '../models/user'
 import Transfer from '../models/transfer'
+import dictionary from './translations/dictionary';
+import getText from './translations';
 
 export function transferKudos(teamId: string, transfer: Transfer) {
     const {
@@ -27,7 +29,7 @@ export function transferKudos(teamId: string, transfer: Transfer) {
                     resolve()
                 })
             } else {
-                reject('Not enough kudos')
+                reject(getText(dictionary.NOT_ENOUGH_KUDOS_TO_TRANSFER))
             }
         })
     })

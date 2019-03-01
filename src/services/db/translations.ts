@@ -5,7 +5,7 @@ import { DictionaryInterface } from '../translations/dictionary'
 import { setTranslation } from '../translations'
 
 export function saveTranslation(dictionary: DictionaryInterface) {
-    database.then((db: CustomDb) => (
+    return database.then((db: CustomDb) => (
         db.collection('translations').findOne({
             locale: { $eq: dictionary.locale }
         }).then((foundDictionary) => { updateTranslation({...dictionary, ...foundDictionary}) })
