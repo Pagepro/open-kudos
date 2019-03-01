@@ -2,7 +2,7 @@ import { database, CustomDb } from '../../config/mongodb'
 import User, { schema } from '../../models/user'
 import { getWebClient } from '../webApi/client'
 
-export function initWorkspaceUsers( teamId: string) {
+export function initWorkspaceUsers(teamId: string) {
     database.then((db: CustomDb) => {
         db.createCollection(`${teamId}_users`, {
             validator: {
@@ -10,23 +10,23 @@ export function initWorkspaceUsers( teamId: string) {
             }
         })
         getWebClient(teamId).users.list()
-        .then((response: any) => {
-            response.members
-            .filter((member: any) => {
-                return !member.is_bot && member.name !== 'slackbot'
-            })
-            .forEach((member: any) => {
-                const user = new User(member)
-                db.workspaceCollection(teamId, 'users').updateOne({
-                    userId: { $eq: user.userId }
-                }, {
-                    $setOnInsert: user
-                }, {
-                    upsert: true
-                })
+            .then((response: any) => {
+                response.members
+                    .filter((member: any) => {
+                        return !member.is_bot && member.name !== 'slackbot' && !member.deleted
+                    })
+                    .forEach((member: any) => {
+                        const user = new User(member)
+                        db.workspaceCollection(teamId, 'users').updateOne({
+                            userId: { $eq: user.userId }
+                        }, {
+                                $setOnInsert: user
+                            }, {
+                                upsert: true
+                            })
 
+                    })
             })
-        })
     })
 }
 
@@ -44,8 +44,8 @@ export function updateUser(teamId: string, userId: string, updatedUser: User) {
         return db.workspaceCollection(teamId, 'users').updateOne({
             userId: { $eq: userId }
         }, {
-            $set: updatedUser
-        })
+                $set: updatedUser
+            })
     })
 }
 
