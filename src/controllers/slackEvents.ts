@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import GiveCommandHandler from '../eventCommandHandlers/giveCommandHandler'
 import { ISlackEventInfo } from '../eventCommandHandlers/interfaces'
-import { sendResponseMessageToSlack } from '../eventCommandHandlers/eventResponse';
+import { sendResponseMessageToSlack } from '../eventCommandHandlers/eventResponse'
+import getText from '../services/translations'
+import dictionary from '../services/translations/dictionary'
 
 function events(req: Request, res: Response, next: NextFunction) {
     const slackEventInfo: ISlackEventInfo = req.body
@@ -23,7 +25,6 @@ function handleEvent(slackEventInfo: ISlackEventInfo) {
 
 function getSlackCommand(slackEventInfo: ISlackEventInfo) {
     const [_firstWord, command = '', ...restOfMessage] = slackEventInfo.event.text.split(' ')
-
     return command.toLowerCase()
 }
 
@@ -35,11 +36,11 @@ async function handleCommand(command: string, slackEventInfo: ISlackEventInfo) {
             break;
         }
         case 'help':
-            sendResponseMessageToSlack(`Here you will see all commands that ou can use :)`, slackEventInfo)
+            sendResponseMessageToSlack(getText(dictionary.HELP_RESPONSE), slackEventInfo)
             break;
         default:
             sendResponseMessageToSlack(
-                `I don't know that command please use help if you want to know all commands`,
+                getText(dictionary.COMMAND_NOT_RECOGNIZED),
                 slackEventInfo
             )
             break;

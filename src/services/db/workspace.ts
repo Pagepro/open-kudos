@@ -19,7 +19,7 @@ export function insertWorkspace(workspaceObj: {}) {
 }
 
 export function initWorkspaces() {
-    database.then((db: CustomDb) => {
+    return database.then((db: CustomDb) => {
         db.createCollection('workspaces', {
             validator: {
                 $jsonSchema: schema

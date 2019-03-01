@@ -1,12 +1,14 @@
-import Transfer from '../models/transfer';
-import { ISlackEventInfo } from './interfaces';
-import { transferKudos } from '../services/kudos';
-import { sendResponseMessageToSlack } from './eventResponse';
+import Transfer from '../models/transfer'
+import { ISlackEventInfo } from './interfaces'
+import { transferKudos } from '../services/kudos'
+import { sendResponseMessageToSlack } from './eventResponse'
+import getText from '../services/translations'
+import dictionary from '../services/translations/dictionary';
 
 export default class GiveCommandHandler {
     slackEvent: ISlackEventInfo
     points: string
-    giverId: string
+    senderId: string
     receiverId: string
     fullSlackCommand: string
     channel: string
@@ -27,7 +29,7 @@ export default class GiveCommandHandler {
         ] = text.split(' ')
         this.channel = channel
         this.team_id = team_id
-        this.giverId = user
+        this.senderId = user
         this.points = points
         this.receiverId = receiverId
         this.fullSlackCommand = text
@@ -52,7 +54,7 @@ export default class GiveCommandHandler {
 
     get transfer() {
         return new Transfer({
-            senderId: this.giverId,
+            senderId: this.senderId,
             receiverId: this.validReceiverId,
             value: this.validValue,
             comment: this.getInformationWhyUserGetsPoints()
@@ -62,22 +64,22 @@ export default class GiveCommandHandler {
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
-            `<@${this.giverId}> give ${this.receiverId} ${this.points} ${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
-            `<@${this.giverId}> didn't give reason for giving points.`;
+            `${wordsInCommand.slice(4, wordsInCommand.length).join(' ')}` :
+            getText(dictionary.NO_REASON);
     }
 
     async validate() {
         try {
             if (this.receiverId.match(/^<@.*>$/).length <= 0) {
-                throw new Error(`I can't see for who you want to give points :(`);
+                throw new Error(getText(dictionary.NO_RECEIVER_ERROR));
             }
 
-            if (this.validReceiverId === this.giverId) {
-                throw new Error('You cant add points for your self :(');
+            if (this.validReceiverId === this.senderId) {
+                throw new Error(getText(dictionary.TRANSFER_TO_MYSELF_ERROR));
             }
 
             if (Number.isNaN(Number(this.points))) {
-                throw new Error(`You gave: ${this.points} and it is not valid amount of points :(`);
+                throw new Error(getText(dictionary.NOT_VALID_AMOUNT_ERROR, { points: this.points }));
             }
 
             this.errorObject.isValid = true
@@ -92,7 +94,19 @@ export default class GiveCommandHandler {
         if (this.isValid) {
             try {
                 await transferKudos(this.team_id, this.transfer)
-                sendResponseMessageToSlack(this.getInformationWhyUserGetsPoints(), this.slackEvent)
+                const {
+                    senderId,
+                    receiverId,
+                    value,
+                    comment
+                } = this.transfer
+                const message = getText(dictionary.TRANSFER_RESPONSE, {
+                    sender: `<@${senderId}>`,
+                    receiver: `<@${receiverId}>`,
+                    value,
+                    comment
+                })
+                sendResponseMessageToSlack(message, this.slackEvent)
             } catch (ex) {
                 sendResponseMessageToSlack(ex, this.slackEvent)
             }

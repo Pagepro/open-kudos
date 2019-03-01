@@ -1,6 +1,7 @@
-import { MongoClient, Db, Collection } from 'mongodb';
-import { Subject, Observable } from 'rxjs'
+import { MongoClient, Db, Collection } from 'mongodb'
+import { Subject } from 'rxjs'
 import { initWorkspaces } from '../services/db/workspace'
+import { initTranslations } from '../services/db/translations'
 
 export interface CustomDb extends Db {
     workspaceCollection?: (workspaceName: string, collection: string) => Collection,
@@ -26,6 +27,7 @@ export function connectMongo(dbURL: string, options: {}) {
         connect.next(db)
         connect.complete()
         initWorkspaces()
+        initTranslations()
     })
 }
 export const database = new Promise((res, rej) => {
