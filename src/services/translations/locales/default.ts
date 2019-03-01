@@ -1,4 +1,4 @@
-import dictionary from '../dictionary'
+import dictionary, { DictionaryInterface } from '../dictionary'
 
 const translations  = {
     locale: 'default',
