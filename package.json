@@ -1,16 +1,14 @@
 {
   "name": "Kudos",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "test": "nodemon --exec mocha",
     "start": "node -r dotenv/config  ./dist/server.js",
     "build": "tsc",
     "watch": "nodemon",
-    "postinstall": "npm run build",
-    "local": "node -r dotenv/config ./localtunnel.js",
-    "dev": "npm run local && npm run watch"
+    "postinstall": "yarn build",
+    "local": "node -r dotenv/config ./localtunnel.js"
   },
   "dependencies": {
     "@reactivex/rxjs": "^6.4.0",
