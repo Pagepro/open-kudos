@@ -90,7 +90,7 @@ async function handleGiveCommand(slackEventInfo: ISlackEventInfo) {
             await transferKudos(slackEventInfo.team_id, giveCommandHandler.transfer)
             sendResponseMessageToSlack(giveCommandHandler.getInformationWhyUserGetsPoints(), slackEventInfo)
         } catch (ex) {
-            sendResponseMessageToSlack(ex.message, slackEventInfo)
+            sendResponseMessageToSlack(ex, slackEventInfo)
         }
     } else {
         sendResponseMessageToSlack(giveCommandHandler.errorMessage, slackEventInfo)
