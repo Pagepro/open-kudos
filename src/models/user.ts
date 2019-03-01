@@ -21,17 +21,16 @@ export default class User implements UserInterface {
         this.kudosGiveable = obj.kudosGiveable || 100
         this.kudosSpendable = obj.kudosSpendable || 0
         this.kudosGranted = obj.kudosGranted || 0
-        this.userId = obj.userId || obj.id,
-        this.name = obj.name,
-        this.realName = obj.realName || obj.real_name,
-        this.isAdmin = obj.isAdmin || obj.is_admin
-
+        this.userId = obj.userId || obj.id
+        this.name = obj.name
+        this.realName = obj.realName || obj.real_name
+        this.isAdmin = obj.isAdmin || obj.is_admin || false
     }
 }
 
 export const schema = {
     'bsonType': 'object',
-    'required': [ 'userId', 'kudosGiveable', 'kudosGranted', 'kudosSpendable', 'isAdmin' ],
+    'required': ['userId', 'kudosGiveable', 'kudosGranted', 'kudosSpendable', 'isAdmin'],
     'properties': {
         'name': {
             'bsonType': 'string',

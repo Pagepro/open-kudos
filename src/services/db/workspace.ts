@@ -10,10 +10,10 @@ export function insertWorkspace(workspaceObj: {}) {
         db.collection('workspaces').updateOne({
             teamId: { $eq: workspace.teamId }
         }, {
-            $setOnInsert: workspace
-        }, {
-            upsert: true
-        })
+                $setOnInsert: workspace
+            }, {
+                upsert: true
+            })
         initWorkspace(db, workspace)
     })
 }
