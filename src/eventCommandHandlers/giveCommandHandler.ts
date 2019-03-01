@@ -1,20 +1,37 @@
 import Transfer from '../models/transfer';
+import { ISlackEventInfo } from './interfaces';
+import { transferKudos } from '../services/kudos';
+import { sendResponseMessageToSlack } from './eventResponse';
 
 export default class GiveCommandHandler {
+    slackEvent: ISlackEventInfo
     points: string
     giverId: string
     receiverId: string
     fullSlackCommand: string
+    channel: string
+    team_id: string
     errorObject = {
         isValid: false,
         message: ''
     }
 
-    constructor(giverId: string, points: string, receiverId: string, fullSlackCommand: string) {
-        this.giverId = giverId
+    constructor(slackEventInfo: ISlackEventInfo) {
+        const { team_id } = slackEventInfo
+        const { text, user, channel } = slackEventInfo.event
+        const [
+            _firstWord,
+            _command,
+            receiverId = '',
+            points = ''
+        ] = text.split(' ')
+        this.channel = channel
+        this.team_id = team_id
+        this.giverId = user
         this.points = points
         this.receiverId = receiverId
-        this.fullSlackCommand = fullSlackCommand
+        this.fullSlackCommand = text
+        this.slackEvent = slackEventInfo
     }
 
     get validReceiverId() {
@@ -67,6 +84,20 @@ export default class GiveCommandHandler {
         } catch (ex) {
             this.errorObject.isValid = false
             this.errorObject.message = ex.message
+        }
+    }
+
+    async handleCommand() {
+        await this.validate()
+        if (this.isValid) {
+            try {
+                await transferKudos(this.team_id, this.transfer)
+                sendResponseMessageToSlack(this.getInformationWhyUserGetsPoints(), this.slackEvent)
+            } catch (ex) {
+                sendResponseMessageToSlack(ex, this.slackEvent)
+            }
+        } else {
+            sendResponseMessageToSlack(this.errorMessage, this.slackEvent)
         }
     }
 }
