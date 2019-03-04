@@ -62,6 +62,10 @@ export default class GiveCommandHandler {
         })
     }
 
+    get isReceiverUserIdValid() {
+        return (!Boolean(this.receiverId.match(/^<@.*>$/)) || this.receiverId.match(/^<@.*>$/).length <= 0)
+    }
+
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
@@ -69,9 +73,9 @@ export default class GiveCommandHandler {
             getText(dictionary.NO_REASON);
     }
 
-    async validate() {
+    validate() {
         try {
-            if (this.receiverId.match(/^<@.*>$/).length <= 0) {
+            if (this.isReceiverUserIdValid) {
                 throw new Error(getText(dictionary.NO_RECEIVER_ERROR));
             }
 
@@ -91,7 +95,7 @@ export default class GiveCommandHandler {
     }
 
     async handleCommand() {
-        await this.validate()
+        this.validate()
         if (this.isValid) {
             try {
                 await transferKudos(this.team_id, this.transfer)
