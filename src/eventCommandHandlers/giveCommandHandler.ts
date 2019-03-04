@@ -59,6 +59,10 @@ export default class GiveCommandHandler {
         })
     }
 
+    get isReceiverUserIdValid() {
+        return (!Boolean(this.receiverId.match(/^<@.*>$/)) || this.receiverId.match(/^<@.*>$/).length <= 0)
+    }
+
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
@@ -66,9 +70,9 @@ export default class GiveCommandHandler {
             `<@${this.giverId}> didn't give reason for giving points.`;
     }
 
-    async validate() {
+    validate() {
         try {
-            if (this.receiverId.match(/^<@.*>$/).length <= 0) {
+            if (this.isReceiverUserIdValid) {
                 throw new Error(`I can't see for who you want to give points :(`);
             }
 
@@ -88,7 +92,7 @@ export default class GiveCommandHandler {
     }
 
     async handleCommand() {
-        await this.validate()
+        this.validate()
         if (this.isValid) {
             try {
                 await transferKudos(this.team_id, this.transfer)
