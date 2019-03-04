@@ -9,5 +9,5 @@ export function setTranslation(dictionary: DictionaryInterface) {
 export default function getText(phrase: keyof DictionaryInterface, config: any = {}): string {
     return Object.keys(config).reduce((prev, key) => (
         prev.replace(`%${key}`, config[key])
-    ), (<string>translationSet[config.locale || 'default'][phrase] || translationSet.default[phrase]))
+    ), (<string>translationSet[config.locale] && translationSet[config.locale][phrase] || translationSet.default[phrase]))
 }

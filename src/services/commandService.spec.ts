@@ -1,6 +1,5 @@
 import { expect } from 'chai'
 import * as commandService from './commandService'
-import Transfer from '../models/transfer'
 
 describe('CommandService parseGive', function () {
   it('parseGive shall for any textCommand return Object', () => {
