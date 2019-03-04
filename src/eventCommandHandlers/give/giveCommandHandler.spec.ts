@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import GiveCommandHandler from './giveCommandHandler'
-import { ISlackEventInfo } from './interfaces'
+import { ISlackEventInfo } from '../interfaces'
 
 const slackEventInfoFromUserWithFullCommand: ISlackEventInfo = {
     token: 'ZZZZZZWSxiZZZ2yIvs3peJ',

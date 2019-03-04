@@ -1,9 +1,9 @@
-import Transfer from '../models/transfer'
-import { ISlackEventInfo } from './interfaces'
-import { transferKudos } from '../services/kudos'
-import { sendResponseMessageToSlack } from './eventResponse'
-import getText from '../services/translations'
-import dictionary from '../services/translations/dictionary';
+import Transfer from '../../models/transfer'
+import { ISlackEventInfo } from '../interfaces'
+import { transferKudos } from '../../services/kudos'
+import { sendResponseMessageToSlack } from '../eventResponse'
+import getText from '../../services/translations'
+import dictionary from '../../services/translations/dictionary';
 
 export default class GiveCommandHandler {
     slackEvent: ISlackEventInfo
