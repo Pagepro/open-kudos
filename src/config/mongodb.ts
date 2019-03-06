@@ -11,10 +11,9 @@ const mongoClientOptions = { promiseLibrary: Promise, useNewUrlParser: true }
 const subscribers: any[] = []
 let isConnecting = false
 
-function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoClientOptions): Promise<{}> {
-    isConnecting = true
-    console.log("what",process.env.DB_URL, mongoClientOptions)
-    return new Promise((res, rej) => {
+function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoClientOptions) {
+    if (!isConnecting) {
+        isConnecting = true
         MongoClient.connect(dbURL, options, (err, client) => {
             if (err) {
                 console.warn(`Failed to connect to the database. ${err.stack}`)
@@ -35,7 +34,7 @@ function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoCli
                 initTranslations()
             }
         })
-    })
+    }
 }
 export const database = function(): Promise<CustomDb> {
     return new Promise((res, rej) => {
