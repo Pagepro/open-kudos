@@ -8,7 +8,7 @@ export interface CustomDb extends Db {
 }
 let db: CustomDb
 const mongoClientOptions = { promiseLibrary: Promise, useNewUrlParser: true }
-const subscribers: any[] = []
+let subscribers: any[] = []
 let isConnecting = false
 
 function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoClientOptions) {
@@ -17,7 +17,7 @@ function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoCli
         MongoClient.connect(dbURL, options, (err, client) => {
             if (err) {
                 console.warn(`Failed to connect to the database. ${err.stack}`)
-                subscribers.filter(([res, rej]: [Function, Function]) => {
+                subscribers = subscribers.filter(([res, rej]: [Function, Function]) => {
                     rej(err.stack)
                 })
                 isConnecting = false
@@ -27,7 +27,7 @@ function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoCli
                 db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
                     return db.collection(`${workspaceName}_${collection}`)
                 }
-                subscribers.filter(([res, rej]: [Function, Function]) => {
+                subscribers = subscribers.filter(([res, rej]: [Function, Function]) => {
                     res(db)
                 })
                 initWorkspaces()
