@@ -17,7 +17,7 @@ function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoCli
         MongoClient.connect(dbURL, options, (err, client) => {
             if (err) {
                 console.warn(`Failed to connect to the database. ${err.stack}`)
-                subscribers = subscribers.filter(([res, rej]: [Function, Function]) => {
+                subscribers.forEach(([res, rej]: [Function, Function]) => {
                     rej(err.stack)
                 })
                 isConnecting = false
@@ -27,17 +27,19 @@ function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoCli
                 db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
                     return db.collection(`${workspaceName}_${collection}`)
                 }
-                subscribers = subscribers.filter(([res, rej]: [Function, Function]) => {
-                    res(db)
-                })
                 initWorkspaces()
                 initTranslations()
+                subscribers.forEach(([res, rej]: [Function, Function]) => {
+                    res(db)
+                })
             }
+            subscribers = []
         })
     }
 }
-export const database = function(): Promise<CustomDb> {
-    return new Promise((res, rej) => {
+
+export const database = (): Promise<CustomDb> => (
+    new Promise((res, rej) => {
         if (db) {
             res(db)
         } else if (!isConnecting) {
@@ -45,5 +47,6 @@ export const database = function(): Promise<CustomDb> {
         }
         subscribers.push([res, rej])
     })
-}
+)
+
 export default database
