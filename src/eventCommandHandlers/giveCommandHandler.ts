@@ -3,7 +3,8 @@ import { ISlackEventInfo } from './interfaces'
 import { transferKudos } from '../services/kudos'
 import { sendResponseMessageToSlack } from './eventResponse'
 import getText from '../services/translations'
-import dictionary from '../services/translations/dictionary';
+import dictionary from '../services/translations/dictionary'
+import { getWebClient } from '../services/webApi/client'
 
 export default class GiveCommandHandler {
     slackEvent: ISlackEventInfo
@@ -13,6 +14,7 @@ export default class GiveCommandHandler {
     fullSlackCommand: string
     channel: string
     team_id: string
+    locale: string
     errorObject = {
         isValid: false,
         message: ''
@@ -34,6 +36,7 @@ export default class GiveCommandHandler {
         this.receiverId = receiverId
         this.fullSlackCommand = text
         this.slackEvent = slackEventInfo
+        this.locale = ''
     }
 
     get validReceiverId() {
@@ -62,6 +65,24 @@ export default class GiveCommandHandler {
         })
     }
 
+    async getLocale() {
+        if (this.locale) {
+            return { locale: this.locale }
+        }
+
+        const apiResponse =
+            await getWebClient(this.team_id)
+                .users
+                .info({
+                    include_locale: true,
+                    user: this.senderId
+                })
+
+        const { user: { locale = 'en-US' } = {} } = { ...apiResponse }
+        this.locale = locale
+        return { locale }
+    }
+
     getInformationWhyUserGetsPoints() {
         const wordsInCommand = this.fullSlackCommand.split(/\s+/)
         return wordsInCommand.length > 4 ?
@@ -70,17 +91,18 @@ export default class GiveCommandHandler {
     }
 
     async validate() {
+        const dictionaryConfig = await this.getLocale()
         try {
             if (this.receiverId.match(/^<@.*>$/).length <= 0) {
-                throw new Error(getText(dictionary.NO_RECEIVER_ERROR));
+                throw new Error(getText(dictionary.NO_RECEIVER_ERROR, dictionaryConfig));
             }
 
             if (this.validReceiverId === this.senderId) {
-                throw new Error(getText(dictionary.TRANSFER_TO_MYSELF_ERROR));
+                throw new Error(getText(dictionary.TRANSFER_TO_MYSELF_ERROR, dictionaryConfig));
             }
 
             if (!this.validValue) {
-                throw new Error(getText(dictionary.NOT_VALID_AMOUNT_ERROR, { points: this.points }));
+                throw new Error(getText(dictionary.NOT_VALID_AMOUNT_ERROR, { points: this.points, ...dictionaryConfig }));
             }
 
             this.errorObject.isValid = true
@@ -92,6 +114,7 @@ export default class GiveCommandHandler {
 
     async handleCommand() {
         await this.validate()
+        const dictionaryConfig = await this.getLocale()
         if (this.isValid) {
             try {
                 await transferKudos(this.team_id, this.transfer)
@@ -105,7 +128,8 @@ export default class GiveCommandHandler {
                     sender: `<@${senderId}>`,
                     receiver: `<@${receiverId}>`,
                     value,
-                    comment
+                    comment,
+                    ...dictionaryConfig
                 })
                 sendResponseMessageToSlack(message, this.slackEvent)
             } catch (ex) {
