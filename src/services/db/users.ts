@@ -3,7 +3,7 @@ import User, { schema } from '../../models/user'
 import { getWebClient } from '../webApi/client'
 
 export function initWorkspaceUsers(teamId: string) {
-    database.then((db: CustomDb) => {
+    database().then((db: CustomDb) => {
         db.createCollection(`${teamId}_users`, {
             validator: {
                 $jsonSchema: schema
@@ -31,7 +31,7 @@ export function initWorkspaceUsers(teamId: string) {
 }
 
 export function getUser(teamId: string, userId: string) {
-    return database.then((db: CustomDb) => {
+    return database().then((db: CustomDb) => {
         return db.workspaceCollection(teamId, 'users').findOne({
             userId: { $eq: userId }
         })
@@ -40,7 +40,7 @@ export function getUser(teamId: string, userId: string) {
 }
 
 export function updateUser(teamId: string, userId: string, updatedUser: User) {
-    return database.then((db: CustomDb) => {
+    return database().then((db: CustomDb) => {
         return db.workspaceCollection(teamId, 'users').updateOne({
             userId: { $eq: userId }
         }, {
@@ -50,7 +50,7 @@ export function updateUser(teamId: string, userId: string, updatedUser: User) {
 }
 
 export function resetUsersGiveableKudos(teamId: string) {
-    return database.then((db: CustomDb) => {
+    return database().then((db: CustomDb) => {
         return db.workspaceCollection(teamId, 'users').updateMany({}, {
             $set: { kudosGiveable: 100 }
         })
@@ -58,7 +58,7 @@ export function resetUsersGiveableKudos(teamId: string) {
 }
 
 export function resetAllUsersGiveableKudos() {
-    return database.then((db: CustomDb) => {
+    return database().then((db: CustomDb) => {
         return Promise.all([Object.keys(db.workspaces).map((teamId: string) => {
             return resetUsersGiveableKudos(teamId)
         })])

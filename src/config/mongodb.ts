@@ -1,5 +1,4 @@
 import { MongoClient, Db, Collection } from 'mongodb'
-import { Subject } from 'rxjs'
 import { initWorkspaces } from '../services/db/workspace'
 import { initTranslations } from '../services/db/translations'
 
@@ -8,41 +7,46 @@ export interface CustomDb extends Db {
     workspaces?: any
 }
 let db: CustomDb
-const connect = new Subject()
 const mongoClientOptions = { promiseLibrary: Promise, useNewUrlParser: true }
+let subscribers: any[] = []
+let isConnecting = false
 
-connectMongo(process.env.DB_URL, mongoClientOptions)
-
-export function connectMongo(dbURL: string, options: {}) {
-    MongoClient.connect(dbURL, options, (err, client) => {
-        if (err) {
-            connect.error(err.stack)
-            console.warn(`Failed to connect to the database. ${err.stack}`)
-        }
-        db = client.db(process.env.DB_NAME)
-        db.workspaces = {}
-        db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
-            return db.collection(`${workspaceName}_${collection}`)
-        }
-        connect.next(db)
-        connect.complete()
-        initWorkspaces()
-        initTranslations()
-    })
-}
-export const database = new Promise((res, rej) => {
-    if (db) {
-        res(db)
-    } else {
-        connect.subscribe({
-            next: (dbClient) => {
-                res(dbClient)
-            },
-            error: (err) => {
-                rej(err)
+function connectMongo(dbURL: string = process.env.DB_URL, options: {} = mongoClientOptions) {
+    if (!isConnecting) {
+        isConnecting = true
+        MongoClient.connect(dbURL, options, (err, client) => {
+            if (err) {
+                console.warn(`Failed to connect to the database. ${err.stack}`)
+                subscribers.forEach(([res, rej]: [Function, Function]) => {
+                    rej(err.stack)
+                })
+                isConnecting = false
+            } else {
+                db = client.db(process.env.DB_NAME)
+                db.workspaces = {}
+                db.workspaceCollection = (workspaceName: string, collection: string): Collection => {
+                    return db.collection(`${workspaceName}_${collection}`)
+                }
+                initWorkspaces()
+                initTranslations()
+                subscribers.forEach(([res, rej]: [Function, Function]) => {
+                    res(db)
+                })
             }
+            subscribers = []
         })
     }
-})
+}
 
-export default connect
+export const database = (): Promise<CustomDb> => (
+    new Promise((res, rej) => {
+        if (db) {
+            res(db)
+        } else if (!isConnecting) {
+            connectMongo()
+        }
+        subscribers.push([res, rej])
+    })
+)
+
+export default database

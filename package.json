@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "test": "nodemon --exec mocha",
+    "test": "nodemon -r dotenv/config --exec mocha",
     "start": "node -r dotenv/config  ./dist/server.js",
     "build": "tsc",
     "watch": "nodemon",
@@ -20,8 +20,7 @@
     "express": "^4.16.4",
     "i18n": "^0.8.3",
     "mongodb": "^3.1.13",
-    "node-cron": "^2.0.3",
-    "rxjs": "^6.4.0"
+    "node-cron": "^2.0.3"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

@@ -5,7 +5,7 @@ import { DictionaryInterface } from '../translations/dictionary'
 import { setTranslation } from '../translations'
 
 export function saveTranslation(dictionary: DictionaryInterface) {
-    return database.then((db: CustomDb) => (
+    return database().then((db: CustomDb) => (
         db.collection('translations').findOne({
             locale: { $eq: dictionary.locale }
         }).then((foundDictionary) => { updateTranslation({...dictionary, ...foundDictionary}) })
@@ -13,7 +13,7 @@ export function saveTranslation(dictionary: DictionaryInterface) {
 }
 
 export function initTranslations() {
-    return database.then((db: CustomDb) => (
+    return database().then((db: CustomDb) => (
         db.createCollection('translations', {
             validator: {
                 $jsonSchema: schema
@@ -29,7 +29,7 @@ export function initTranslations() {
 }
 
 export function updateTranslation(dictionary: DictionaryInterface) {
-     return database.then((db: CustomDb) => (
+     return database().then((db: CustomDb) => (
         db.collection('translations').updateOne({
             locale: { $eq: dictionary.locale }
         }, {
@@ -41,7 +41,7 @@ export function updateTranslation(dictionary: DictionaryInterface) {
 }
 
 function setTranslations() {
-    return database.then((db: CustomDb) => (
+    return database().then((db: CustomDb) => (
         db.collection('translations').find({}).forEach(translation => {
             setTranslation(translation)
         })

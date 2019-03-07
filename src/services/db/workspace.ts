@@ -6,7 +6,7 @@ import { initWorkspaceTransfers } from './transfer';
 
 export function insertWorkspace(workspaceObj: {}) {
     const workspace = new Workspace(workspaceObj)
-    database.then((db: CustomDb) => {
+    database().then((db: CustomDb) => {
         db.collection('workspaces').updateOne({
             teamId: { $eq: workspace.teamId }
         }, {
@@ -19,7 +19,7 @@ export function insertWorkspace(workspaceObj: {}) {
 }
 
 export function initWorkspaces() {
-    return database.then((db: CustomDb) => {
+    return database().then((db: CustomDb) => {
         db.createCollection('workspaces', {
             validator: {
                 $jsonSchema: schema
