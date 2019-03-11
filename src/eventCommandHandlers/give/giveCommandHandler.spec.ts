@@ -1,7 +1,9 @@
 import { expect } from 'chai'
 import GiveCommandHandler from './giveCommandHandler'
 import { ISlackEventInfo } from '../interfaces'
+import TestHelper from '../../utils/testHelper'
 
+const testHelper = new TestHelper<ISlackEventInfo>()
 const slackEventBasicObject: ISlackEventInfo = {
     token: 'ZZZZZZWSxiZZZ2yIvs3peJ',
     team_id: 'T061EG9R6',
@@ -21,33 +23,29 @@ const slackEventBasicObject: ISlackEventInfo = {
         'U0LAN0Z89'
     ]
 }
-
-const fullCommand = '<@U0LAN0Z10> give <@U0LAN0Z99> 10 for test purpose'
-const commandWithoutReasonOfGivingPoints = '<@U061F7AUR> give <@U0LAN0Z99> 10'
-const commandWithReceiverEqualGiver = '<@U061F7AUR> give <@U061F7AUR> 10 for test purpose'
-const commandWithNotValidPointsAmount = '<@U061F7AUR> give <@U0LAN0Z99> XYZ for test purpose'
-const commandWithNotValidReceiver = '<@U061F7AUR> give notValidUser 10 for test purpose'
+const eventWithFullCommand = { event: { text: '<@U0LAN0Z10> give <@U0LAN0Z99> 10 for test purpose' } }
+const eventWithCommandWithoutReasonOfGivingPoints = { event: { text: '<@U061F7AUR> give <@U0LAN0Z99> 10' } }
+const eventWithCommandWhereReceiverEqualGiver = { event: { text: '<@U061F7AUR> give <@U061F7AUR> 10 for test purpose' } }
+const eventWithCommandWhereNotValidPointsAmount = { event: { text: '<@U061F7AUR> give <@U0LAN0Z99> XYZ for test purpose' } }
+const eventWithCommandWhereNotValidReceiver = { event: { text: '<@U061F7AUR> give notValidUser 10 for test purpose' } }
 
 describe('GiveCommandHandler tests', function () {
     it('getInformationWhyUserGetsPoints should return full information about the reason for giving kudos', () => {
-        slackEventBasicObject.event.text = fullCommand
-        const slackEventInfoFromUserWithFullCommand = slackEventBasicObject
+        const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(slackEventBasicObject, eventWithFullCommand)
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithFullCommand)
-        const validMessage = giveCommandHandler.getInformationWhyUserGetsPoints()
-        expect(validMessage).to.be.equal('<@U061F7AUR> give <@U0LAN0Z99> 10 for test purpose')
+        const informationWhyUserGetsPoints = giveCommandHandler.getInformationWhyUserGetsPoints()
+        expect(informationWhyUserGetsPoints).to.be.equal('for test purpose')
     })
 
     it('getInformationWhyUserGetsPoints should return basic information about the reason for giving kudos', () => {
-        slackEventBasicObject.event.text = commandWithoutReasonOfGivingPoints
-        const slackEventInfoFromUserWithoutReasonOfGivignPoints = slackEventBasicObject
+        const slackEventInfoFromUserWithoutReasonOfGivignPoints = testHelper.createTestObject(slackEventBasicObject, eventWithCommandWithoutReasonOfGivingPoints)
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithoutReasonOfGivignPoints)
         const validMessage = giveCommandHandler.getInformationWhyUserGetsPoints()
         expect(validMessage).to.be.equal(`<@U061F7AUR> didn't give reason for giving points.`)
     })
 
     it('giveCommandHandler validation method should return error if sender === receiver', () => {
-        slackEventBasicObject.event.text = commandWithReceiverEqualGiver
-        const slackEventInfoFromUserWithReceiverEqualGiver = slackEventBasicObject
+        const slackEventInfoFromUserWithReceiverEqualGiver = testHelper.createTestObject(slackEventBasicObject, eventWithCommandWhereReceiverEqualGiver)
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithReceiverEqualGiver)
         giveCommandHandler.validate()
         expect(giveCommandHandler.errorObject.isValid).to.be.equal(false)
@@ -55,8 +53,7 @@ describe('GiveCommandHandler tests', function () {
     })
 
     it('giveCommandHandler validation method should return error if there is wrong point amount', () => {
-        slackEventBasicObject.event.text = commandWithNotValidPointsAmount
-        const slackEventInfoFromUserWithNotValidPointsAmount = slackEventBasicObject
+        const slackEventInfoFromUserWithNotValidPointsAmount = testHelper.createTestObject(slackEventBasicObject, eventWithCommandWhereNotValidPointsAmount)
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithNotValidPointsAmount)
         giveCommandHandler.validate()
         expect(giveCommandHandler.errorObject.isValid).to.be.equal(false)
@@ -64,8 +61,7 @@ describe('GiveCommandHandler tests', function () {
     })
 
     it('giveCommandHandler validation method should return error if there is wrong receiver username', () => {
-        slackEventBasicObject.event.text = commandWithNotValidReceiver
-        const slackEventInfoFromUserWithNotValidRecievier = slackEventBasicObject
+        const slackEventInfoFromUserWithNotValidRecievier = testHelper.createTestObject(slackEventBasicObject, eventWithCommandWhereNotValidReceiver)
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithNotValidRecievier)
         console.log(giveCommandHandler.receiverId)
         giveCommandHandler.validate()
