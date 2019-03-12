@@ -2,6 +2,17 @@ import { database, CustomDb } from '../../config/mongodb'
 import User, { schema } from '../../models/user'
 import { getWebClient } from '../webApi/client'
 
+export interface IUser {
+    userId: string,
+    isAdmin: boolean,
+    kudosGiveable: number,
+    kudosGranted: number,
+    kudosSpendable: number,
+    locale: string,
+    name: string,
+    realName: string
+}
+
 export function initWorkspaceUsers(teamId: string) {
     database().then((db: CustomDb) => {
         db.createCollection(`${teamId}_users`, {
@@ -30,7 +41,7 @@ export function initWorkspaceUsers(teamId: string) {
     })
 }
 
-export function getUser(teamId: string, userId: string) {
+export function getUser(teamId: string, userId: string): Promise<IUser> {
     return database().then((db: CustomDb) => {
         return db.workspaceCollection(teamId, 'users').findOne({
             userId: { $eq: userId }

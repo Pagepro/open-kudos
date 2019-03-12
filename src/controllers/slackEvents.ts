@@ -4,6 +4,7 @@ import { ISlackEventInfo } from '../eventCommandHandlers/interfaces'
 import { sendResponseMessageToSlack } from '../eventCommandHandlers/eventResponse'
 import getText from '../services/translations'
 import dictionary from '../services/translations/dictionary'
+import BalanceCommandHandler from '../eventCommandHandlers/balance/balanceCommandHandler'
 
 function events(req: Request, res: Response, next: NextFunction) {
     const slackEventInfo: ISlackEventInfo = req.body
@@ -33,6 +34,11 @@ async function handleCommand(command: string, slackEventInfo: ISlackEventInfo) {
         case 'give': {
             const giveCommandHandler = new GiveCommandHandler(slackEventInfo)
             giveCommandHandler.handleCommand()
+            break;
+        }
+        case 'balance': {
+            const balanceCommandHandler = new BalanceCommandHandler(slackEventInfo)
+            balanceCommandHandler.handleCommand()
             break;
         }
         case 'help':
