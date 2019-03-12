@@ -7,7 +7,6 @@ import TestHelper from '../../utils/testHelper'
 const testCollectionName = 'TEST_users'
 const testTeamName = 'TEST'
 const testUserId = 'U061F7AUR'
-const eventWithFullCommand = { event: { text: '@kudos balance' } }
 const testHelper = new TestHelper<ISlackEventInfo>()
 const slackEventBasicObject: ISlackEventInfo = {
     token: 'ZZZZZZWSxiZZZ2yIvs3peJ',
@@ -28,8 +27,12 @@ const slackEventBasicObject: ISlackEventInfo = {
         'U0LAN0Z89'
     ]
 }
+const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(
+    slackEventBasicObject,
+    { event: { text: '@kudos balance' } }
+)
 
-describe('GiveCommandHandler tests', function () {
+describe('BalanceCommandHandler tests', function () {
     before(async () => {
         const db: CustomDb = await database()
         await db.createCollection(testCollectionName)
@@ -45,8 +48,7 @@ describe('GiveCommandHandler tests', function () {
         })
     })
 
-    it('getInformationWhyUserGetsPoints should return full information about the reason for giving kudos', async () => {
-        const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(slackEventBasicObject, eventWithFullCommand)
+    it(`getBalanceInformation should return full information about the users kudos' balance`, async () => {
         const balanceCommandHandler = new BalanceCommandHandler(slackEventInfoFromUserWithFullCommand)
         const balanceInformation = await balanceCommandHandler.getBalanceInformation()
         expect(balanceInformation).to.be.equal(`Here is your current balance \n\nGiveable Balance\n50 Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\nSpendable Balance\n20 Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`)
