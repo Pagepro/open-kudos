@@ -1,6 +1,6 @@
 import { WebClient } from '@slack/client'
 
-let clients : any = {}
+const clients : any = {}
 export function initWebApi(workspace: any) {
     clients[workspace.teamId] = new WebClient(workspace.botAccessToken)
 }

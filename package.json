@@ -1,5 +1,5 @@
 {
-  "name": "Kudos",
+  "name": "open-kudos",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
@@ -7,11 +7,11 @@
     "start": "node -r dotenv/config  ./dist/server.js",
     "build": "tsc",
     "watch": "nodemon",
-    "postinstall": "yarn build",
     "local": "node -r dotenv/config ./localtunnel.js"
   },
   "dependencies": {
-    "@reactivex/rxjs": "^6.4.0",
+    "@decorators/di": "^1.0.2",
+    "@decorators/express": "^2.3.0",
     "@slack/client": "^4.9.0",
     "@slack/events-api": "^2.1.1",
     "axios": "^0.18.0",
@@ -24,6 +24,7 @@
     "node-cron": "^2.0.3"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.17.0",
     "@types/chai": "^4.1.7",
     "@types/express": "^4.16.1",
     "@types/i18n": "^0.8.5",
@@ -38,6 +39,7 @@
     "ts-loader": "^5.3.3",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3"
   }
 }
