@@ -55,7 +55,7 @@ describe('GiveCommandHandler tests', function () {
     it('getInformationWhyUserGetsPoints should return basic information about the reason for giving kudos', () => {
         const giveCommandHandler = new GiveCommandHandler(slackEventInfoFromUserWithoutReasonOfGivignPoints)
         const validMessage = giveCommandHandler.getInformationWhyUserGetsPoints()
-        expect(validMessage).to.be.equal(`for no reason`)
+        expect(validMessage).to.be.equal('for no reason')
     })
 
     it('giveCommandHandler validation method should return error if sender === receiver', () => {

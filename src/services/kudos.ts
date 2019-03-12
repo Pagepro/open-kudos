@@ -43,3 +43,8 @@ export function setCronTask() {
         })
     })
 }
+
+export async function getKudosBalance(teamId: string, userId: string) {
+    const user = await getUser(teamId, userId)
+    return `Here is your current balance \n\nGiveable Balance\n${user.kudosGiveable} Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\nSpendable Balance\n${user.kudosSpendable} Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`
+}
