@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import GiveCommandHandler from '../eventCommandHandlers/giveCommandHandler'
+import GiveCommandHandler from '../eventCommandHandlers/give/giveCommandHandler'
 import { ISlackEventInfo } from '../eventCommandHandlers/interfaces'
 import { sendResponseMessageToSlack } from '../eventCommandHandlers/eventResponse'
 import getText from '../services/translations'

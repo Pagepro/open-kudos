@@ -7,14 +7,12 @@ export interface ISlackEventInfo {
     {
         subtype?: string
         bot_id?: string
-        client_msg_id: string
         type: string
         text: string
         user: string
         ts: string
         channel: string
         event_ts: string
-        channel_type: string
     },
     type: string
     event_id: string
