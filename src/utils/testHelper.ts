@@ -1,8 +1,13 @@
 import merge from 'lodash/merge'
+import cloneDeep from 'lodash/cloneDeep'
+
+type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+}
 
 class TestHelper<T> {
-    createTestObject(baseTestObject: T, additionalProperties: object): T {
-        return merge(baseTestObject, additionalProperties)
+    createTestObject(baseTestObject: T, additionalProperties: RecursivePartial<T>): T {
+        return merge(cloneDeep(baseTestObject), additionalProperties)
     }
 }
 
