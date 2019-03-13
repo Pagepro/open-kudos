@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
 
 interface IWorkspace {
   teamName: string,
@@ -9,39 +9,42 @@ interface IWorkspace {
   botAccessToken: string
 }
 
+type IWorkspaceDocument = IWorkspace & Document
+
+
 const workspaceSchema: Schema<IWorkspace> = new Schema({
-  teamName: {
-    type: String,
+  accessToken: {
+    required: 'Access token is required',
     trim: true,
-    required: 'Team name is required'
-  },
-  teamId: {
     type: String,
-    trim: true,
-    required: 'Team id team id is required'
+    unique: true,
   },
   active: {
-    type: Boolean,
-    default: false
-  },
-  accessToken: {
-    type: String,
-    trim: true,
-    unique: true,
-    required: 'Access token is required'
-  },
-  botUserId: {
-    type: String,
-    trim: true,
-    unique: true,
-    required: 'botUserId is required'
+    default: false,
+    type: Boolean
   },
   botAccessToken: {
-    type: String,
+    required: 'botAccessToken is required',
     trim: true,
+    type: String,
     unique: true,
-    required: 'botAccessToken is required'
-  }
+  },
+  botUserId: {
+    required: 'botUserId is required',
+    trim: true,
+    type: String,
+    unique: true,
+  },
+  teamId: {
+    required: 'Team id team id is required',
+    trim: true,
+    type: String
+  },
+  teamName: {
+    required: 'Team name is required',
+    trim: true,
+    type: String
+  },
 })
 
-export default model('Workspace', workspaceSchema)
+export default model<IWorkspaceDocument>('Workspace', workspaceSchema)

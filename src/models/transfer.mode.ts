@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
 
 interface ITransfer {
   senderId: string,
@@ -8,31 +8,33 @@ interface ITransfer {
   comment?: string
 }
 
+type ITransferDocument = ITransfer & Document
+
 const transferSchema: Schema<ITransfer> = new Schema({
-  teamId: {
-    type: String,
-    trim: true,
-    required: 'Team id team id is required'
-  },
-  senderId: {
-    type: String,
-    trim: true,
-    required: 'Sender id is required'
+  comment: String,
+  date: {
+    required: 'Date of transaction is required',
+    type: Date
   },
   receiverId: {
-    type: String,
+    required: 'Receiver id is required',
     trim: true,
-    required: 'Receiver id is required'
+    type: String
+  },
+  senderId: {
+    required: 'Sender id is required',
+    trim: true,
+    type: String
+  },
+  teamId: {
+    required: 'Team id team id is required',
+    trim: true,
+    type: String,
   },
   value: {
-    type: Number,
-    required: 'Values is required'
-  },
-  date: {
-    type: Date,
-    required: 'Date of transaction is required'
-  },
-  comment: String
+    required: 'Values is required',
+    type: Number
+  }
 })
 
-export default model('Transfer', transferSchema)
+export default model<ITransferDocument>('Transfer', transferSchema)

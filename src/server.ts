@@ -1,23 +1,12 @@
-
-// import app from './config/express'
-// import database from './config/mongodb'
-// import { setCronTask } from './services/kudos'
-// const port = process.env.PORT
-
-// database().then(dbClient => {
-//     app.locals.db = dbClient
-//     app.listen(port, () => console.log(`App listening on port ${port}!`))
-//     setCronTask()
-// }).catch((err) => {
-//     console.log(err)
-// })
-
-import './common/extensions'
+import mongoose from 'mongoose'
 // tslint:disable-next-line
 import App from './app'
-import mongoose from 'mongoose'
+import './common/extensions'
 
-mongoose.connect(process.env.DB_NAME)
+mongoose.connect(process.env.DB_URL, {
+  useCreateIndex: true,
+  useNewUrlParser: true
+})
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
   // tslint:disable-next-line:no-console

@@ -4,12 +4,13 @@ import DefaultSlackCommandHandler from "../slackCommandHandlers/defaultSlackComm
 import GiveSlackCommandHandler from "../slackCommandHandlers/giveSlackCommandHandler"
 import HelpSlackCommandHandler from "../slackCommandHandlers/helpSlackCommandHandler"
 import { SlackCommandType } from "./definitions/slackCommandHandlerFactory"
+import BalanceSlackCommandHandler from "../slackCommandHandlers/balanceSlackCommandHandler"
 
 
 export default class SlackCommandHandlerFactory {
-  constructor (private eventInfo: ISlackEventInfo) { }
+  constructor(private eventInfo: ISlackEventInfo) { }
 
-  private get eventText () {
+  private get eventText() {
     try {
       return this.eventInfo.event.text || ''
     } catch (_) {
@@ -17,8 +18,8 @@ export default class SlackCommandHandlerFactory {
     }
   }
 
-  private get commandType () {
-    const [, command = '' ] = this.eventText
+  private get commandType() {
+    const [, command = ''] = this.eventText
     const commandType = SlackCommandType[
       command.toLowerCase() as keyof typeof SlackCommandType
     ]
@@ -26,10 +27,12 @@ export default class SlackCommandHandlerFactory {
     return commandType
   }
 
-  public createSlackCommandHandler (): BaseSlackCommandHandler {
+  public createSlackCommandHandler(): BaseSlackCommandHandler {
     switch (this.commandType) {
       case SlackCommandType.give:
         return new GiveSlackCommandHandler(this.eventInfo)
+      case SlackCommandType.balance:
+        return new BalanceSlackCommandHandler(this.eventInfo)
       case SlackCommandType.help:
         return new HelpSlackCommandHandler(this.eventInfo)
       default:

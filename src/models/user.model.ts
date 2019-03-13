@@ -1,56 +1,59 @@
-import { Schema, model } from 'mongoose'
+import { Document, model, Schema } from 'mongoose'
 
-interface IUser {
+export interface IUser {
   userId: string,
-  kudosGiveable: number,
-  kudosGranted: number,
-  kudosSpendable: number,
+  teamId: string,
+  kudosGiveable?: number,
+  kudosGranted?: number,
+  kudosSpendable?: number,
   name: string,
   realName: string,
   isAdmin: boolean
 }
 
-const userSchema: Schema<IUser> = new Schema({
-  userId: {
-    type: String,
-    trim: true,
-    required: 'Slack user id is required'
-  },
-  teamId: {
-    type: String,
-    trim: true,
-    required: 'Slack team id is required'
+type IUserDocument = IUser & Document
+
+const userSchema = new Schema<IUser>({
+  isAdmin: {
+    default: false,
+    type: Boolean
   },
   kudosGiveable: {
-    type: Number,
     default: 100,
-    min: 0
+    min: 0,
+    type: Number,
   },
   kudosGranted: {
-    type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    type: Number
   },
   kudosSpendable: {
-    type: Number,
     default: 0,
-    min: 0
+    min: 0,
+    type: Number
   },
   name: {
-    type: String,
+    required: 'Name is required',
     trim: true,
-    required: 'Name is required'
+    type: String,
   },
   realName: {
-    type: String,
+    required: 'Real name is required',
     trim: true,
-    required: 'Real name is required'
+    type: String,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false
+  teamId: {
+    required: 'Slack team id is required',
+    trim: true,
+    type: String,
+  },
+  userId: {
+    required: 'Slack user id is required',
+    trim: true,
+    type: String,
   }
 
 })
 
-export default model('User', userSchema)
+export default model<IUserDocument>('User', userSchema)

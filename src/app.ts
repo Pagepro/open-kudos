@@ -10,18 +10,18 @@ class App {
   constructor() {
     this.expressApp = express()
 
-    this.configureMiddlewares()
+    this.configureMiddleware()
     this.configureRoutes()
   }
 
-  private configureMiddlewares (): void {
+  private configureMiddleware(): void {
     this.expressApp.use(bodyParser.json())
     this.expressApp.use(bodyParser.urlencoded({
       extended: false
     }))
   }
 
-  private configureRoutes (): void {
+  private configureRoutes(): void {
     attachControllers(this.router, [
       TestController
     ])
