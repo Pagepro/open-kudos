@@ -15,11 +15,19 @@
 import './common/extensions'
 // tslint:disable-next-line
 import App from './app'
+import mongoose from 'mongoose'
+
+mongoose.connect(process.env.DB_NAME)
+mongoose.Promise = global.Promise
+mongoose.connection.on('error', (err) => {
+  // tslint:disable-next-line:no-console
+  console.error(`🚫🚫🚫🚫🚫 → ${err.message}`)
+})
 
 const {
   expressApp
 } = App
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3000
 
 expressApp.listen(PORT, () => {
   // tslint:disable-next-line
