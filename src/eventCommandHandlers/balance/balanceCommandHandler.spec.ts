@@ -51,7 +51,7 @@ describe('BalanceCommandHandler tests', function () {
     it(`getBalanceInformation should return full information about the users kudos' balance`, async () => {
         const balanceCommandHandler = new BalanceCommandHandler(slackEventInfoFromUserWithFullCommand)
         const balanceInformation = await balanceCommandHandler.getBalanceInformation()
-        expect(balanceInformation).to.be.equal(`Here is your current balance \n\nGiveable Balance\n50 Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\nSpendable Balance\n20 Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`)
+        expect(balanceInformation).to.be.equal(`Here is your current balance \n\n*Giveable Balance*\n50 Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\n*Spendable Balance*\n20 Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`)
     })
 
     after(async () => {
