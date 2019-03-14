@@ -1,6 +1,6 @@
 import { Document, model, Schema } from 'mongoose'
 
-interface IWorkspace {
+export interface IWorkspace {
   teamName: string,
   active: boolean,
   teamId: string,
