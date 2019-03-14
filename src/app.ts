@@ -1,6 +1,7 @@
 import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
 import express from 'express'
+import BotInstallationController from './controllers/botInstallationController'
 import TestController from './controllers/testController'
 
 class App {
@@ -10,19 +11,20 @@ class App {
   constructor() {
     this.expressApp = express()
 
-    this.configureMiddleware()
+    this.configureMiddlewares()
     this.configureRoutes()
   }
 
-  private configureMiddleware(): void {
+  private configureMiddlewares(): void {
     this.expressApp.use(bodyParser.json())
     this.expressApp.use(bodyParser.urlencoded({
-      extended: false
+      extended: true
     }))
   }
 
   private configureRoutes(): void {
     attachControllers(this.router, [
+      BotInstallationController,
       TestController
     ])
 
