@@ -1,7 +1,9 @@
 import { WebAPICallResult, WebClient } from '@slack/client'
 import { StringTMap } from '../controllers/definitions/common'
+import { ISlackEventInfo } from '../controllers/definitions/slackController'
 import { IUser } from '../models/user.model'
 import { IWorkspace } from '../models/workspace.model'
+import Workspace from '../models/workspace.model'
 
 interface ISlackUserResponse {
   id: string
@@ -44,13 +46,31 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
 }
 
 export default class SlackClientService {
-  private client: WebClient
-  constructor(botAccessToken: string) {
-    this.client = new WebClient(botAccessToken)
+  public static clients: StringTMap<WebClient> = {}
+
+  public static initWebClient(workspace: IWorkspace) {
+    this.clients[workspace.teamId] = new WebClient(workspace.botAccessToken)
   }
 
-  public async getWorkspaceMembers() {
-    const webApiResult = await this.client.users.list() as IExtendedWebApiCallResult
+  public static async  getWebClient(teamId: string): Promise<WebClient> {
+    if (this.clients[teamId]) {
+      return this.clients[teamId]
+    } else {
+      const workspace = await Workspace.findOne({ teamId })
+      this.clients[teamId] = new WebClient(workspace.botAccessToken)
+      return this.clients[teamId]
+    }
+  }
+
+  public static async sendMessage(text: string, eventInfo: ISlackEventInfo) {
+    const { team_id, event: { channel } } = eventInfo
+    const client = await this.getWebClient(team_id)
+    client.chat.postMessage({ channel, text })
+  }
+
+  public static async getWorkspaceMembers(teamId: string) {
+    const client = await this.getWebClient(teamId)
+    const webApiResult = await client.users.list() as IExtendedWebApiCallResult
     if (webApiResult.ok) {
       return webApiResult.members
         .filter(user =>

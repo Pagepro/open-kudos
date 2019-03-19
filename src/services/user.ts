@@ -9,10 +9,10 @@ export default class UserService {
   }
 
   public static async initUsers(workspace: IWorkspace) {
-    const slackClient = new SlackClientService(workspace.botAccessToken)
+    SlackClientService.initWebClient(workspace)
     let operationResult = false
     try {
-      const usersToInit = await slackClient.getWorkspaceMembers()
+      const usersToInit = await SlackClientService.getWorkspaceMembers(workspace.teamId)
       for (const user of usersToInit) {
         await User.findOneAndUpdate(
           {
@@ -34,5 +34,9 @@ export default class UserService {
     }
 
     return operationResult
+  }
+
+  public static getUser(userId: string) {
+    return User.findOne({ userId })
   }
 }

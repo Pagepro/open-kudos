@@ -2,6 +2,7 @@ import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
 import express from 'express'
 import BotInstallationController from './controllers/botInstallationController'
+import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
 
 class App {
@@ -24,8 +25,9 @@ class App {
 
   private configureRoutes(): void {
     attachControllers(this.router, [
+      SlackController,
       BotInstallationController,
-      TestController
+      TestController,
     ])
 
     this.expressApp.use('/api', this.router)

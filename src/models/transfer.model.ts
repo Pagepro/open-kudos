@@ -1,10 +1,11 @@
 import { Document, model, Schema } from 'mongoose'
 
-interface ITransfer {
+export interface ITransfer {
   senderId: string,
   receiverId: string,
+  teamId: string,
   value: number,
-  date: Date,
+  // date?: Date,
   comment?: string
 }
 
@@ -13,6 +14,7 @@ type ITransferDocument = ITransfer & Document
 const transferSchema: Schema<ITransfer> = new Schema({
   comment: String,
   date: {
+    default: new Date(),
     required: 'Date of transaction is required',
     type: Date
   },

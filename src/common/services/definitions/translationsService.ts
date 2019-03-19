@@ -10,7 +10,7 @@ export interface ITranslationsMapping {
 export interface ILocaleTranslations {
   couldntFindThePersonYouWantedToGivePointsTo: string
   forNoReason: string
-  hereYouWillFindAllCommandsThatYoucanUse: string
+  hereYouWillFindAllCommandsThatYouCanUse: string
   iCouldntRecognizeThatCommandPleaseUseHelp: string
   xGaveYZPoints: string
   youCantGivePointsToYourself: string

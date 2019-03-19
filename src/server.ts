@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
-// tslint:disable-next-line
-import App from './app'
 import './common/extensions'
+// tslint:disable-next-line
+import mongoose from 'mongoose'
+import App from './app'
 
 mongoose.connect(process.env.DB_URL, {
   useCreateIndex: true,

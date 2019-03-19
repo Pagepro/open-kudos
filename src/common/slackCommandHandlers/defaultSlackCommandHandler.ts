@@ -1,10 +1,14 @@
-import TranslationsService from "../services/translationsService"
+import { ISlackEventInfo } from "../../controllers/definitions/slackController"
+
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class DefaultSlackCommandHandler extends BaseSlackCommandHandler {
-  private translationsService = new TranslationsService()
-
+  constructor(eventInfo: ISlackEventInfo) {
+    super()
+    this.eventInfo = eventInfo
+  }
   public handleCommand(): void {
-    throw new Error(this.translationsService.getTranslation("iCouldntRecognizeThatCommandPleaseUseHelp"))
+    const message = this.translationsService.getTranslation("iCouldntRecognizeThatCommandPleaseUseHelp")
+    this.sendMessage(message, this.eventInfo)
   }
 }

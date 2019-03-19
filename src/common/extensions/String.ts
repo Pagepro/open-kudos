@@ -1,4 +1,4 @@
-export {}
+export { }
 declare global {
   // tslint:disable-next-line
   interface StringConstructor {
@@ -7,12 +7,12 @@ declare global {
 
   // tslint:disable-next-line
   interface String {
-    format (...formatValues: Array<number | string>): string
+    format(...formatValues: Array<number | string>): string
   }
 }
 const EMPTY_STRING = ''
 
-const format = function (this: string, formatValues: Array<number | string>) {
+const format = function (this: string, ...formatValues: Array<number | string>) {
   return this.replace(/{(\d+)}/g, (match, index) =>
     typeof formatValues[index] !== 'undefined'
       ? formatValues[index].toString()
@@ -23,7 +23,10 @@ const format = function (this: string, formatValues: Array<number | string>) {
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
-  },
+  }
+})
+
+Object.defineProperties(String.prototype, {
   format: {
     get: () => format
   }

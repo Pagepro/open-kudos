@@ -11,7 +11,7 @@ import { ISlackEventInfo, SlackEventSubtype } from '../definitions/slackControll
 @Controller('/slack')
 export default class SlackController {
   @Post('/events')
-  public events (@ResponseDecorator() res: Response, @RequestDecorator() { body }: Request) {
+  public events(@ResponseDecorator() res: Response, @RequestDecorator() { body }: Request) {
     const slackEventInfo: ISlackEventInfo = body
     const { challenge, event } = slackEventInfo
 
