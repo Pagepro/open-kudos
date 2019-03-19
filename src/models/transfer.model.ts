@@ -33,6 +33,7 @@ const transferSchema: Schema<ITransfer> = new Schema({
     type: String,
   },
   value: {
+    min: 0,
     required: 'Values is required',
     type: Number
   }

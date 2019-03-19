@@ -11,7 +11,6 @@ export interface IWorkspace {
 
 type IWorkspaceDocument = IWorkspace & Document
 
-
 const workspaceSchema: Schema<IWorkspace> = new Schema({
   accessToken: {
     required: 'Access token is required',

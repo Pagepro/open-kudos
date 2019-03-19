@@ -8,7 +8,6 @@ import axios from 'axios'
 import { Request, Response } from 'express'
 import { slackOauthUrl } from '../config/const'
 import { IWorkspace } from '../models/workspace.model'
-import SlackClientService from '../services/slackClient'
 import UserService from '../services/user'
 import WorkspaceService from '../services/workspace'
 
@@ -53,7 +52,7 @@ export default class BotInstallationController {
 
     return {
       accessToken: access_token,
-      active,
+      active: active ? active : false,
       botAccessToken: bot_access_token,
       botUserId: bot_user_id,
       teamId: team_id,
