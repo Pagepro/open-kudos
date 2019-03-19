@@ -1,8 +1,14 @@
-import { ISlackEventInfo } from "../../controllers/definitions/slackController"
+import TransferService from "../../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class BalanceSlackCommandHandler extends BaseSlackCommandHandler {
-  public handleCommand(): void {
-    throw new Error("Method not implemented.")
+  public async getBalanceInformation() {
+    const balanceInformation = await TransferService.getKudosBalance(this.teamId, this.senderId)
+    return balanceInformation
+  }
+
+  public async handleCommand() {
+    const message = await this.getBalanceInformation()
+    this.sendMessage(message, this.eventInfo)
   }
 }

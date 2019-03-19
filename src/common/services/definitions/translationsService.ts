@@ -15,5 +15,6 @@ export interface ILocaleTranslations {
   xGaveYZPoints: string
   youCantGivePointsToYourself: string
   youDontHaveEnoughKudosToTransfer: string
-  youTriedToGiveXPointsButThisIsNotValid: string
+  youTriedToGiveXPointsButThisIsNotValid: string,
+  kudosBalance: string
 }

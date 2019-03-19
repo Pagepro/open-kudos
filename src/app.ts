@@ -4,6 +4,7 @@ import express from 'express'
 import BotInstallationController from './controllers/botInstallationController'
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
+import TransferService from './services/transfer'
 
 class App {
   public expressApp: express.Application
@@ -14,6 +15,7 @@ class App {
 
     this.configureMiddlewares()
     this.configureRoutes()
+    this.configureCronTasks()
   }
 
   private configureMiddlewares(): void {
@@ -31,6 +33,10 @@ class App {
     ])
 
     this.expressApp.use('/api', this.router)
+  }
+
+  private configureCronTasks(): void {
+    TransferService.setResetKudosTask()
   }
 }
 

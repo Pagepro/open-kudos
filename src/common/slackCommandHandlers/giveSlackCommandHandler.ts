@@ -1,5 +1,4 @@
-import { ISlackEventInfo } from "../../controllers/definitions/slackController"
-import { ITransfer } from "../../models/transfer.model"
+
 import TransferService from "../../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
@@ -29,7 +28,7 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
     this.validate()
     if (this.isValid) {
       try {
-        await TransferService.transferPoints(this.transfer)
+        await TransferService.transferKudos(this.transfer)
         const {
           senderId,
           receiverId,

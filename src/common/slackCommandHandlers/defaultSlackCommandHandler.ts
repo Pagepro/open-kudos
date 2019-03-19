@@ -1,5 +1,3 @@
-import { ISlackEventInfo } from "../../controllers/definitions/slackController"
-
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class DefaultSlackCommandHandler extends BaseSlackCommandHandler {

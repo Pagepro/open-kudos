@@ -3,8 +3,6 @@ import { ITransfer } from "../../models/transfer.model"
 import SlackClientService from "../../services/slackClient"
 import TranslationsService from "../services/translationsService"
 
-
-
 abstract class BaseSlackCommandHandler {
   protected translationsService = new TranslationsService()
   protected eventInfo: ISlackEventInfo

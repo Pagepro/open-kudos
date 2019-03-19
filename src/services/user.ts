@@ -36,7 +36,18 @@ export default class UserService {
     return operationResult
   }
 
-  public static getUser(userId: string) {
-    return User.findOne({ userId })
+  public static getUser(teamId: string, userId: string) {
+    return User.findOne({
+      $and: [
+        { teamId },
+        { userId }
+      ]
+    })
+  }
+
+  public static resetAllUsersGiveableKudos() {
+    return User.updateMany({}, {
+      $set: { kudosGiveable: 100 }
+    })
   }
 }

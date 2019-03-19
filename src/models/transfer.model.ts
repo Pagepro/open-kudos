@@ -5,7 +5,6 @@ export interface ITransfer {
   receiverId: string,
   teamId: string,
   value: number,
-  // date?: Date,
   comment?: string
 }
 
