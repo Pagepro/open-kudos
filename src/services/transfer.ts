@@ -1,7 +1,7 @@
 import cron from 'node-cron'
 import TranslationsService from '../common/services/translationsService'
-import Transfer, { ITransfer } from '../models/transfer.model'
 import '../models/transfer.model'
+import Transfer, { ITransfer } from '../models/transfer.model'
 import UserService from './user'
 
 export default class TransferService {
@@ -18,12 +18,13 @@ export default class TransferService {
         sender.kudosGiveable -= value
         receiver.kudosGranted += value
         receiver.kudosSpendable += value
-        await sender.save()
-        await receiver.save()
-        await Transfer.create(transfer)
+        sender.save()
+        receiver.save()
+        Transfer.create(transfer)
       }
       else {
-        throw new Error(this.translationsService.getTranslation('youDontHaveEnoughKudosToTransfer'))
+        throw new Error(this.translationsService
+          .getTranslation('youDontHaveEnoughKudosToTransfer'))
       }
     } catch (ex) {
       throw new Error(ex.message)
@@ -33,7 +34,8 @@ export default class TransferService {
 
   public static async getKudosBalance(teamId: string, userId: string) {
     const user = await UserService.getUser(teamId, userId)
-    return this.translationsService.getTranslation('kudosBalance', user.kudosGiveable, user.kudosSpendable)
+    return this.translationsService
+      .getTranslation('kudosBalance', user.kudosGiveable, user.kudosSpendable)
   }
 
   public static setResetKudosTask() {

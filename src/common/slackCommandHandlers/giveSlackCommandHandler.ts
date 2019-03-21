@@ -5,16 +5,19 @@ import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
   public validate() {
     try {
-      if (this.isReceiverUserIdValid) {
-        throw new Error(this.translationsService.getTranslation('couldntFindThePersonYouWantedToGivePointsTo'))
+      if (this.isReceiverUserIdInvalid) {
+        throw new Error(this.translationsService
+          .getTranslation('couldntFindThePersonYouWantedToGivePointsTo'))
       }
 
       if (this.validReceiverId === this.senderId) {
-        throw new Error(this.translationsService.getTranslation('youCantGivePointsToYourself'))
+        throw new Error(this.translationsService
+          .getTranslation('youCantGivePointsToYourself'))
       }
 
       if (!this.validValue) {
-        throw new Error(this.translationsService.getTranslation('youTriedToGiveXPointsButThisIsNotValid', this.value))
+        throw new Error(this.translationsService
+          .getTranslation('youTriedToGiveXPointsButThisIsNotValid', this.value))
       }
 
       this.errorObject.isValid = true
@@ -24,18 +27,19 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
     }
   }
 
-  public async handleCommand() {
+  public handleCommand() {
     this.validate()
     if (this.isValid) {
       try {
-        await TransferService.transferKudos(this.transfer)
+        TransferService.transferKudos(this.transfer)
         const {
           senderId,
           receiverId,
           value,
           comment
         } = this.transfer
-        const message = this.translationsService.getTranslation('xGaveYZPoints', senderId, receiverId, value, comment)
+        const message = this.translationsService
+          .getTranslation('xGaveYZPoints', senderId, receiverId, value, comment)
         this.sendMessage(message, this.eventInfo)
       } catch (ex) {
         // handle and log error

@@ -74,10 +74,10 @@ abstract class BaseSlackCommandHandler {
     }
   }
 
-  get isReceiverUserIdValid() {
+  get isReceiverUserIdInvalid() {
     const receiverIdRegexMatches = this.receiverId.match(/^<@.*>$/)
 
-    return !(receiverIdRegexMatches || receiverIdRegexMatches.length <= 0)
+    return !receiverIdRegexMatches
   }
 
   public sendMessage(text: string, eventInfo: ISlackEventInfo): void {
