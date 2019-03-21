@@ -5,15 +5,12 @@ import TranslationsService from "../services/translationsService"
 
 abstract class BaseSlackCommandHandler {
   protected translationsService = new TranslationsService()
-  protected eventInfo: ISlackEventInfo
   protected errorObject = {
     isValid: false,
     message: ''
   }
 
-  constructor(eventInfo: ISlackEventInfo) {
-    this.eventInfo = eventInfo
-  }
+  constructor(protected eventInfo: ISlackEventInfo) { }
 
   get text() {
     const { text } = this.eventInfo.event
@@ -67,18 +64,20 @@ abstract class BaseSlackCommandHandler {
       this.translationsService.getTranslation('forNoReason')
   }
 
-  get transfer() {
+  get transfer(): ITransfer {
     return {
       comment: this.getInformationWhyUserGetsPoints(),
       receiverId: this.validReceiverId,
       senderId: this.senderId,
       teamId: this.teamId,
       value: this.validValue
-    } as ITransfer
+    }
   }
 
   get isReceiverUserIdValid() {
-    return (!Boolean(this.receiverId.match(/^<@.*>$/)) || this.receiverId.match(/^<@.*>$/).length <= 0)
+    const receiverIdRegexMatches = this.receiverId.match(/^<@.*>$/)
+
+    return !(receiverIdRegexMatches || receiverIdRegexMatches.length <= 0)
   }
 
   public sendMessage(text: string, eventInfo: ISlackEventInfo): void {

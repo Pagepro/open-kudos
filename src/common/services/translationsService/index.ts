@@ -6,13 +6,16 @@ const translationsMapping: ITranslationsMapping = {
 }
 
 export default class TranslationsService {
-  public static locale = Locale.en
+  constructor(private locale: Locale = Locale.en) {}
 
   private get currentLocaleTranslations() {
-    return translationsMapping[TranslationsService.locale]
+    return translationsMapping[this.locale]
   }
 
-  public getTranslation(key: keyof ILocaleTranslations, ...valuesToInsert: Array<string | number>) {
+  public getTranslation(
+    key: keyof ILocaleTranslations,
+    ...valuesToInsert: Array<string | number>
+  ) {
     return this.currentLocaleTranslations[key].format(...valuesToInsert)
   }
 }

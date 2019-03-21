@@ -6,7 +6,8 @@ export interface ITranslationsMapping {
   [Locale.en]: ILocaleTranslations
 }
 
-// We define this interface to make sure that every language implements all of the translations keys
+// We define this interface to make sure that every language implements all of
+// the translations keys
 export interface ILocaleTranslations {
   couldntFindThePersonYouWantedToGivePointsTo: string
   forNoReason: string

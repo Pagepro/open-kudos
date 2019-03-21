@@ -1,3 +1,4 @@
+// tslint:disable:max-line-length
 import { ILocaleTranslations } from "../../definitions/translationsService"
 
 export default {

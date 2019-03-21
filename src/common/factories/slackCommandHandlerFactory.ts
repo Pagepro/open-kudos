@@ -11,11 +11,11 @@ export default class SlackCommandHandlerFactory {
   constructor(private eventInfo: ISlackEventInfo) { }
 
   private get eventText() {
-    try {
-      return this.eventInfo.event.text || ''
-    } catch (_) {
-      return ''
-    }
+    return Object.tryGetProperty(
+      this.eventInfo,
+      e => e.event.text,
+      String.empty
+    )
   }
 
   private get commandType() {

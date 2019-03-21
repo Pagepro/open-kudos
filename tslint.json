@@ -12,6 +12,9 @@
         "semicolon": [
             true,
             "never"
+        ],
+        "max-line-length": [
+            true, {"limit": 80, "ignore-pattern": "^import |^export {(.*?)}"}
         ]
     }
 }
