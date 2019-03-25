@@ -4,6 +4,7 @@ import '../models/transfer.model'
 import Transfer, { ITransfer } from '../models/transfer.model'
 import UserService from './user'
 
+// TODO: remove statics
 export default class TransferService {
   public static translationsService = new TranslationsService()
   public static async transferKudos(transfer: ITransfer) {
@@ -38,6 +39,7 @@ export default class TransferService {
       .getTranslation('kudosBalance', user.kudosGiveable, user.kudosSpendable)
   }
 
+  // TODO: move to separate service
   public static setResetKudosTask() {
     // tslint:disable-next-line:no-console
     cron.schedule('0 0 1 * *', () => {

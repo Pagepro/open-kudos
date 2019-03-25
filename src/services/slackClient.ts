@@ -1,5 +1,4 @@
 import { WebAPICallResult, WebClient } from '@slack/client'
-import { StringTMap } from '../controllers/definitions/common'
 import { ISlackEventInfo } from '../controllers/definitions/slackController'
 import { IUser } from '../models/user.model'
 import { IWorkspace } from '../models/workspace.model'

@@ -10,7 +10,7 @@ export default class BalanceSlackCommandHandler extends
       )
     }
 
-    public async handleCommand() {
+    public async onHandleCommand() {
       this.sendMessage(
         await this.getBalanceInformation(),
         this.eventInfo

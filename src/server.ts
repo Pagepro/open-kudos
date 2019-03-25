@@ -2,8 +2,12 @@ import './common/extensions'
 // tslint:disable-next-line
 import mongoose from 'mongoose'
 import App from './app'
+import Config from './common/consts/config'
 
-mongoose.connect(process.env.DB_URL, {
+
+// TODO: move this connecion logic to app class
+// or create separate service for db
+mongoose.connect(Config.dbConnectionString, {
   useCreateIndex: true,
   useNewUrlParser: true
 })
@@ -16,7 +20,7 @@ mongoose.connection.on('error', (err) => {
 const {
   expressApp
 } = App
-const PORT = process.env.PORT || 3000
+const PORT = Config.port || 3000
 
 expressApp.listen(PORT, () => {
   // tslint:disable-next-line

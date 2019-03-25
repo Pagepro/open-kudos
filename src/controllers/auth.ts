@@ -1,21 +1,23 @@
 import axios from 'axios'
 import {
-  NextFunction,
   Request,
   Response,
 } from 'express'
+import Config from '../common/consts/config'
+import SlackConsts from '../common/consts/slack'
 import { insertWorkspace } from '../services/db/workspace'
 
-function slackInstallAuth(req: Request, res: Response, next: NextFunction) {
-  axios.get('https://slack.com/api/oauth.access', {
+const slackInstallAuth = async (req: Request, res: Response) => {
+  const { data } = await axios.get(SlackConsts.skackAuthUrl, {
     params: {
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: Config.clientId,
+      client_secret: Config.clientSecret,
       code: req.query.code,
     }
-  }).then((response) => {
-    insertWorkspace(response.data)
   })
+
+  insertWorkspace(data)
+
   res.end('Success')
 }
 

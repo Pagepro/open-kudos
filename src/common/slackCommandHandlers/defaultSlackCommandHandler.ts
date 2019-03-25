@@ -2,7 +2,7 @@ import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class DefaultSlackCommandHandler
   extends BaseSlackCommandHandler {
-    public handleCommand(): void {
+    public onHandleCommand(): void {
       this.sendMessage(
         this.translationsService.getTranslation(
           "iCouldntRecognizeThatCommandPleaseUseHelp"

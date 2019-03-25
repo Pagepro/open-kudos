@@ -1,6 +1,7 @@
 import '../models/workspace.model'
 import Workspace, { IWorkspace } from '../models/workspace.model'
 
+// TODO: remove statics
 export default class WorkspaceService {
   public static async create(workspace: IWorkspace) {
     let operationResult = false

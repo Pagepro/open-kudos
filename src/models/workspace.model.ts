@@ -2,7 +2,7 @@ import { Document, model, Schema } from 'mongoose'
 
 export interface IWorkspace {
   teamName: string,
-  active: boolean,
+  active?: boolean,
   teamId: string,
   accessToken: string,
   botUserId: string,
@@ -19,7 +19,7 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     unique: true,
   },
   active: {
-    default: false,
+    default: true,
     type: Boolean
   },
   botAccessToken: {

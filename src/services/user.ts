@@ -3,6 +3,8 @@ import User, { IUser } from '../models/user.model'
 import { IWorkspace } from '../models/workspace.model'
 import SlackClientService from './slackClient'
 
+
+// TODO: remove statics
 export default class UserService {
   public static create(user: IUser) {
     return User.create(user)
@@ -10,9 +12,12 @@ export default class UserService {
 
   public static async initUsers(workspace: IWorkspace) {
     SlackClientService.initWebClient(workspace)
-    let operationResult = false
+
     try {
-      const usersToInit = await SlackClientService.getWorkspaceMembers(workspace.teamId)
+      const usersToInit = await SlackClientService.getWorkspaceMembers(
+        workspace.teamId
+      )
+
       for (const user of usersToInit) {
         await User.findOneAndUpdate(
           {
@@ -27,15 +32,15 @@ export default class UserService {
           }
         )
       }
-      operationResult = true
+
+      return true
     } catch (ex) {
-      operationResult = false
+      return false
       // handle error
     }
-
-    return operationResult
   }
 
+  // TODO: I think user id is unique enough
   public static getUser(teamId: string, userId: string) {
     return User.findOne({
       $and: [
