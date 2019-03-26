@@ -8,9 +8,9 @@ import axios from 'axios'
 import { Request, Response } from 'express'
 import Config from '../common/consts/config'
 import SlackConsts from '../common/consts/slack'
-import { IWorkspace } from '../models/workspace.model'
 import UserService from '../common/services/user'
 import WorkspaceService from '../common/services/workspace'
+import { IWorkspace } from '../models/workspace.model'
 
 @Controller('/installation')
 export default class BotInstallationController {

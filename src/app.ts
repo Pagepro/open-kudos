@@ -8,6 +8,8 @@ import SlackController from './controllers/slackController'
 
 class App {
   public expressApp: express.Application
+  private configurationService = new ConfigurationService()
+  private dbService = new DbService()
   private router: express.Router = express.Router()
 
   constructor() {
@@ -36,13 +38,11 @@ class App {
   }
 
   private configureCronTasks(): void {
-    const configurationService = new ConfigurationService()
-    configurationService.setResetKudosTask()
+    this.configurationService.setResetKudosTask()
   }
 
   private connectToDatabase(): void {
-    const dbService = new DbService()
-    dbService.connect()
+    this.dbService.connect()
   }
 }
 

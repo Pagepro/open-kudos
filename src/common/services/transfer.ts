@@ -34,14 +34,21 @@ export default class TransferService {
           .getTranslation('youDontHaveEnoughKudosToTransfer'))
       }
     } catch (ex) {
+      // TODO: Add logger here when implemented
       throw new Error(ex.message)
-      // handle error
     }
   }
 
   public async getKudosBalance(teamId: string, userId: string) {
-    const user = await this.userService.getUser(teamId, userId)
-    return this.translationsService
-      .getTranslation('kudosBalance', user.kudosGiveable, user.kudosSpendable)
+    const {
+      kudosGiveable,
+      kudosSpendable
+    } = await this.userService.getUser(teamId, userId)
+
+    return this.translationsService.getTranslation(
+      'kudosBalance',
+      kudosGiveable,
+      kudosSpendable
+    )
   }
 }

@@ -44,6 +44,7 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
   members: ISlackUserResponse[]
 }
 
+// TODO: remove statics
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
 
