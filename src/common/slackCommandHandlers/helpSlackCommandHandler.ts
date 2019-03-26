@@ -1,4 +1,4 @@
-import SlackClientService from "../../services/slackClient"
+import SlackClientService from "../services/slackClient"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class HelpSlackCommandHandler extends BaseSlackCommandHandler {

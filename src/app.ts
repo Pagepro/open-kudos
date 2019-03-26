@@ -1,9 +1,10 @@
 import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
 import express from 'express'
+import ConfigurationService from './common/services/configuration'
+import DbService from './common/services/db'
 import BotInstallationController from './controllers/botInstallationController'
 import SlackController from './controllers/slackController'
-import TransferService from './services/transfer'
 
 class App {
   public expressApp: express.Application
@@ -15,6 +16,7 @@ class App {
     this.configureMiddlewares()
     this.configureRoutes()
     this.configureCronTasks()
+    this.connectToDatabase()
   }
 
   private configureMiddlewares(): void {
@@ -34,7 +36,13 @@ class App {
   }
 
   private configureCronTasks(): void {
-    TransferService.setResetKudosTask()
+    const configurationService = new ConfigurationService()
+    configurationService.setResetKudosTask()
+  }
+
+  private connectToDatabase(): void {
+    const dbService = new DbService()
+    dbService.connect()
   }
 }
 

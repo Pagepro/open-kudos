@@ -1,19 +1,20 @@
-import TransferService from "../../services/transfer"
+import TransferService from "../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class BalanceSlackCommandHandler extends
   BaseSlackCommandHandler {
-    public getBalanceInformation() {
-      return TransferService.getKudosBalance(
-        this.teamId,
-        this.senderId
-      )
-    }
-
-    public async onHandleCommand() {
-      this.sendMessage(
-        await this.getBalanceInformation(),
-        this.eventInfo
-      )
-    }
+  public getBalanceInformation() {
+    const transferService = new TransferService()
+    return transferService.getKudosBalance(
+      this.teamId,
+      this.senderId
+    )
   }
+
+  public async onHandleCommand() {
+    this.sendMessage(
+      await this.getBalanceInformation(),
+      this.eventInfo
+    )
+  }
+}

@@ -12,13 +12,14 @@ declare global {
 }
 const EMPTY_STRING = ''
 
-const format = function (this: string, ...formatValues: Array<number | string>) {
-  return this.replace(/{(\d+)}/g, (match, index) =>
-    typeof formatValues[index] !== 'undefined'
-      ? formatValues[index].toString()
-      : match
-  )
-}
+const format =
+  function (this: string, ...formatValues: Array<number | string>) {
+    return this.replace(/{(\d+)}/g, (match, index) =>
+      typeof formatValues[index] !== 'undefined'
+        ? formatValues[index].toString()
+        : match
+    )
+  }
 
 Object.defineProperties(String, {
   empty: {

@@ -1,8 +1,8 @@
 import { WebAPICallResult, WebClient } from '@slack/client'
-import { ISlackEventInfo } from '../controllers/definitions/slackController'
-import { IUser } from '../models/user.model'
-import { IWorkspace } from '../models/workspace.model'
-import Workspace from '../models/workspace.model'
+import { ISlackEventInfo } from '../../controllers/definitions/slackController'
+import { IUser } from '../../models/user.model'
+import { IWorkspace } from '../../models/workspace.model'
+import Workspace from '../../models/workspace.model'
 
 interface ISlackUserResponse {
   id: string
@@ -45,7 +45,7 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
 }
 
 export default class SlackClientService {
-  public static clients: StringTMap<WebClient> = {}
+  public static clients: IStringTMap<WebClient> = {}
 
   public static initWebClient(workspace: IWorkspace) {
     this.clients[workspace.teamId] = new WebClient(workspace.botAccessToken)

@@ -1,5 +1,5 @@
 import { ISlackEventInfo } from "../../controllers/definitions/slackController"
-import SlackClientService from "../../services/slackClient"
+import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
 
 abstract class BaseSlackCommandHandler {

@@ -9,8 +9,8 @@ import { Request, Response } from 'express'
 import Config from '../common/consts/config'
 import SlackConsts from '../common/consts/slack'
 import { IWorkspace } from '../models/workspace.model'
-import UserService from '../services/user'
-import WorkspaceService from '../services/workspace'
+import UserService from '../common/services/user'
+import WorkspaceService from '../common/services/workspace'
 
 @Controller('/installation')
 export default class BotInstallationController {
@@ -21,9 +21,12 @@ export default class BotInstallationController {
   ) {
     const response = await this.getVerificationInformation(req)
     const workspace = this.getWorkspaceFromResponse(response)
+    const workspaceService = new WorkspaceService()
+    const userService = new UserService()
+
     try {
-      const workspaceInitiated = WorkspaceService.create(workspace)
-      const usersInitiated = UserService.initUsers(workspace)
+      const workspaceInitiated = workspaceService.create(workspace)
+      const usersInitiated = userService.initUsers(workspace)
       if (workspaceInitiated && usersInitiated) {
         res.end('Workspace created')
       }
@@ -33,7 +36,7 @@ export default class BotInstallationController {
   }
 
   private async getVerificationInformation(req: Request) {
-    const { data } = await axios.get(SlackConsts.skackAuthUrl, {
+    const { data } = await axios.get(SlackConsts.slackAuthUrl, {
       params: {
         client_id: Config.clientId,
         client_secret: Config.clientSecret,
