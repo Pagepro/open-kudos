@@ -1,13 +1,17 @@
+import './common/definitions'
+import './common/extensions'
+// tslint:disable-next-line
+import App from './app'
+import Config from './common/consts/config'
 
-import app from './config/express'
-import database from './config/mongodb'
-import { setCronTask } from './services/kudos'
-const port = process.env.PORT
+const {
+  expressApp
+} = App
+const PORT = Config.port || 3000
 
-database().then(dbClient => {
-    app.locals.db = dbClient
-    app.listen(port, () => console.log(`App listening on port ${port}!`))
-    setCronTask()
-}).catch((err) => {
-    console.log(err)
+expressApp.listen(PORT, () => {
+  // tslint:disable-next-line
+  console.log(`Listening on port ${PORT}`)
+  // tslint:disable-next-line
+  console.log(`App url: http://localhost:${PORT}/`)
 })
