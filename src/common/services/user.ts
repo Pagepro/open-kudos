@@ -4,24 +4,26 @@ import { IWorkspace } from '../../models/workspace.model'
 import SlackClientService from './slackClient'
 
 export default class UserService {
+  private slackClientService = new SlackClientService()
   public create(user: IUser) {
     return User.create(user)
   }
 
   public async initUsers(workspace: IWorkspace) {
-    SlackClientService.initWebClient(workspace)
+    this.slackClientService.initWebClient(workspace)
 
     try {
-      const usersToInit = await SlackClientService.getWorkspaceMembers(
+      const usersToInit = await this.slackClientService.getWorkspaceMembers(
         workspace.teamId
       )
 
       for (const user of usersToInit) {
+        const { teamId, userId } = user
         await User.findOneAndUpdate(
           {
             $and: [
-              { teamId: user.teamId },
-              { userId: user.userId }
+              { teamId },
+              { userId }
             ]
           },
           user,
@@ -33,6 +35,9 @@ export default class UserService {
 
       return true
     } catch (ex) {
+      // TODO: Add logger here when implemented
+      // tslint:disable-next-line:no-console
+      console.log(ex.message)
       return false
       // handle error
     }

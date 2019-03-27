@@ -60,6 +60,7 @@ export default class BotInstallationController {
 
     return {
       accessToken: access_token,
+      active: true,
       botAccessToken: bot_access_token,
       botUserId: bot_user_id,
       teamId: team_id,

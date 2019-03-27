@@ -35,6 +35,8 @@ export default class TransferService {
       }
     } catch (ex) {
       // TODO: Add logger here when implemented
+      // tslint:disable-next-line:no-console
+      console.log(ex.message)
       throw new Error(ex.message)
     }
   }

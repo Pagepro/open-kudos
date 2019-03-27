@@ -22,11 +22,12 @@ abstract class BaseSlackCommandHandler {
   }
 
   protected translationsService = new TranslationsService()
+  protected slackClientService = new SlackClientService()
 
   constructor(protected eventInfo: ISlackEventInfo) { }
 
   public sendMessage(text: string, eventInfo: ISlackEventInfo): void {
-    SlackClientService.sendMessage(text, eventInfo)
+    this.slackClientService.sendMessage(text, eventInfo)
   }
 
   public async handleCommand(): Promise<void> {

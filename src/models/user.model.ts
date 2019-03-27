@@ -53,7 +53,11 @@ const userSchema = new Schema<IUser>({
     trim: true,
     type: String,
   }
+})
 
+userSchema.index({
+  teamId: 'text',
+  userId: 'text'
 })
 
 export default model<IUserDocument>('User', userSchema)

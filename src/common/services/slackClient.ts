@@ -48,27 +48,29 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
 
-  public static initWebClient(workspace: IWorkspace) {
-    this.clients[workspace.teamId] = new WebClient(workspace.botAccessToken)
+  public initWebClient(workspace: IWorkspace) {
+    SlackClientService.clients[workspace.teamId] =
+      new WebClient(workspace.botAccessToken)
   }
 
-  public static async  getWebClient(teamId: string): Promise<WebClient> {
-    if (this.clients[teamId]) {
-      return this.clients[teamId]
+  public async  getWebClient(teamId: string): Promise<WebClient> {
+    if (SlackClientService.clients[teamId]) {
+      return SlackClientService.clients[teamId]
     } else {
       const workspace = await Workspace.findOne({ teamId })
-      this.clients[teamId] = new WebClient(workspace.botAccessToken)
-      return this.clients[teamId]
+      SlackClientService.clients[teamId] =
+        new WebClient(workspace.botAccessToken)
+      return SlackClientService.clients[teamId]
     }
   }
 
-  public static async sendMessage(text: string, eventInfo: ISlackEventInfo) {
+  public async sendMessage(text: string, eventInfo: ISlackEventInfo) {
     const { team_id, event: { channel } } = eventInfo
     const client = await this.getWebClient(team_id)
     client.chat.postMessage({ channel, text })
   }
 
-  public static async getWorkspaceMembers(teamId: string) {
+  public async getWorkspaceMembers(teamId: string) {
     const client = await this.getWebClient(teamId)
     const webApiResult = await client.users.list() as IExtendedWebApiCallResult
     if (webApiResult.ok) {
@@ -78,6 +80,9 @@ export default class SlackClientService {
         ).map(user => {
           return {
             isAdmin: user.is_admin ? user.is_admin : false,
+            kudosGiveable: 100,
+            kudosGranted: 0,
+            kudosSpendable: 0,
             name: user.name,
             realName: user.profile.real_name,
             teamId: user.team_id,

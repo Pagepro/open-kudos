@@ -5,10 +5,11 @@ import {
 } from 'express'
 import Config from '../common/consts/config'
 import SlackConsts from '../common/consts/slack'
-import { insertWorkspace } from '../services/db/workspace'
+import WorkspaceService from '../common/services/workspace'
 
 const slackInstallAuth = async (req: Request, res: Response) => {
-  const { data } = await axios.get(SlackConsts.skackAuthUrl, {
+  const workspaceService = new WorkspaceService()
+  const { data } = await axios.get(SlackConsts.slackAuthUrl, {
     params: {
       client_id: Config.clientId,
       client_secret: Config.clientSecret,
@@ -16,7 +17,7 @@ const slackInstallAuth = async (req: Request, res: Response) => {
     }
   })
 
-  insertWorkspace(data)
+  workspaceService.create(data)
 
   res.end('Success')
 }
