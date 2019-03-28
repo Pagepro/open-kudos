@@ -1,20 +1,14 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
         "target": "es6",
-        "noImplicitAny": true,
-        "moduleResolution": "node",
+        "module": "commonjs",
         "outDir": "dist",
-        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
+        "esModuleInterop": true
     },
-    "include": [
-        "src/**/*"
+    "exclude": [
+        "node_modules"
     ]
 }
