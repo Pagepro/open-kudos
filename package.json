@@ -20,6 +20,8 @@
     "express": "^4.16.4",
     "i18n": "^0.8.3",
     "lodash": "^4.17.11",
+    "mocha-prepare": "^0.1.0",
+    "mongo-unit": "^1.4.4",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
     "node-cron": "^2.0.3"
