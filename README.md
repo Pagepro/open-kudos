@@ -7,40 +7,39 @@ If one of your coworkers helps you and you want to thanks them, now you can give
   - Check the current balance of givable and spendable points (kudos)
 
 # Features roadmap:
-  - Check list of available prizes
+  - Check the list of available prizes
   - Exchange points for prizes
-  - Display a list of users with the high amout of points
+  - Display a list of users with the highest amount of points
   - etc.
 
-### Tech stack
+### Tech Stack
 
-Open Kudos uses a number of open source projects to work properly in future we will be adding more feauters based on other technologies:
+Open Kudos uses a number of open source projects to work properly in future we will be adding more features based on other technologies:
 
 * [node.js] - evented I/O for the backend
 * [Express] - fast node.js network app framework 
-* [typescript] - typed superset of JavaScript that compiles to plain JavaScript
-* [node.js] - evented I/O for the backend
-* [mongoose] - elegant mongodb object modeling for node.js
+* [typescript] - a typed superset of JavaScript that compiles to plain JavaScript
+* [mongoose] - elegant MongoDB object modelling for node.js
 
-And of course Kudos itself is open source with a [public repository][kudos]
+And of course, Kudos itself is open source with a [public repository][kudos]
  on GitHub.
 
 ### Kudos bot commands
 
 Give command:
 
->@kudos give @username2 10 for beeing kind today
+>@kudos give @username2 10 for being kind today
 
-Kudos give response:
+Kudos the give response:
 
->@username1 gave @username2 10 for beeing kind today
+>@username1 gave @username2 10 for being kind today
 
 
 Balance command:
 
 >@kudos balance
 
-Kudos balance response:
+Kudos the balance response:
 
 >Here is your current balance
 >
