@@ -3,6 +3,8 @@ import { ISlackEventInfo } from '../../controllers/definitions/slackController'
 import { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import Workspace from '../../models/workspace.model'
+import SlackConsts from '../consts/slack'
+import { SlackResponseType } from '../factories/definitions/slackCommandHandlerFactory'
 
 interface ISlackUserResponse {
   id: string
@@ -64,10 +66,26 @@ export default class SlackClientService {
     }
   }
 
-  public async sendMessage(text: string, eventInfo: ISlackEventInfo) {
-    const { team_id, event: { channel } } = eventInfo
+  public async sendMessage(
+    text: string,
+    eventInfo: ISlackEventInfo,
+    type: SlackResponseType
+  ) {
+    const { team_id, event: { channel, user } } = eventInfo
     const client = await this.getWebClient(team_id)
-    client.chat.postMessage({ channel, text })
+    switch (type) {
+      case SlackResponseType.hidden:
+        client.chat.postEphemeral({ channel, text, user })
+        break
+
+      case SlackResponseType.general:
+        client.chat.postMessage({ channel: SlackConsts.generalChanel, text })
+        break
+
+      case SlackResponseType.standard:
+      default:
+        client.chat.postMessage({ channel, text })
+    }
   }
 
   public async getWorkspaceMembers(teamId: string) {

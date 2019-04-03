@@ -3,3 +3,9 @@ export enum SlackCommandType {
   help = 'help',
   balance = 'balance'
 }
+
+export enum SlackResponseType {
+  hidden = 'hidden',
+  general = 'general',
+  standard = 'standard'
+}

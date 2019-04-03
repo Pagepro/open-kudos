@@ -94,4 +94,11 @@ describe('GiveCommandHandler tests', function () {
 
     expect(receiver.kudosSpendable).to.be.equal(30)
   })
+
+  it('giveCommandHandler should response with proper information', async () => {
+    const giveCommandHandler = new GiveCommandHandlerToTest(slackEventInfoWithValidData)
+    const message = giveCommandHandler.getCommandResponse()
+
+    expect(message).to.be.equal('<@U072A8BOG> just received *10* kudos from <@U061F7AUR> for test purpose.')
+  })
 })
