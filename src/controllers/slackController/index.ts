@@ -18,8 +18,10 @@ export default class SlackController {
     const { challenge, event } = slackEventInfo
 
     if (challenge) {
-      return res.send(body)
+      res.send(body)
     }
+
+    res.sendStatus(200)
 
     const subtype = event ? event.subtype : null
 
@@ -31,7 +33,5 @@ export default class SlackController {
 
       handler.handleCommand()
     }
-
-    return res.sendStatus(200)
   }
 }

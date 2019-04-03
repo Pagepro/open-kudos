@@ -1,7 +1,8 @@
 export enum SlackCommandType {
   give = 'give',
   help = 'help',
-  balance = 'balance'
+  balance = 'balance',
+  gifts = 'gifts'
 }
 
 export enum SlackResponseType {
