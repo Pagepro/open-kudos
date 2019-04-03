@@ -25,9 +25,9 @@ export default class TransferService {
         sender.kudosGiveable -= value
         receiver.kudosGranted += value
         receiver.kudosSpendable += value
-        sender.save()
-        receiver.save()
-        Transfer.create(transfer)
+        await sender.save()
+        await receiver.save()
+        await Transfer.create(transfer)
       }
       else {
         throw new Error(this.translationsService

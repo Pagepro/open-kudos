@@ -34,7 +34,7 @@ abstract class BaseSlackCommandHandler {
     try {
       await this.validate()
 
-      this.onHandleCommand()
+      await this.onHandleCommand()
     } catch ({ message }) {
       this.sendMessage(message, this.eventInfo)
     }

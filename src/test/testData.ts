@@ -3,6 +3,7 @@ import { IUser } from "../models/user.model"
 
 const testTeamName = 'TEST'
 const testUserId = 'U061F7AUR'
+const receiverUserId = 'U072A8BOG'
 const slackEventBasicObject: ISlackEventInfo = {
   api_app_id: 'A0MDYCDME',
   authed_users: [
@@ -36,4 +37,15 @@ const testUserData: IUser = {
   userId: testUserId
 }
 
-export { testUserData, slackEventBasicObject }
+const testReceiverData: IUser = {
+  isAdmin: true,
+  kudosGiveable: 50,
+  kudosGranted: 50,
+  kudosSpendable: 20,
+  name: 'receiver.receiver',
+  realName: 'receiverUser',
+  teamId: testTeamName,
+  userId: receiverUserId
+}
+
+export { testUserData, slackEventBasicObject, testReceiverData }
