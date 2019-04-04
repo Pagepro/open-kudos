@@ -1,17 +1,28 @@
+import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
+import GiftService from "../services/gift"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
-export default class BalanceSlackCommandHandler extends
+export default class GiftsSlackCommandHandler extends
   BaseSlackCommandHandler {
   public async onHandleCommand() {
+
     this.sendMessage(
-      await this.getGiftsInformation(),
-      this.eventInfo
+      this.getGiftsText(),
+      this.messageConsumer,
+      SlackResponseType.hidden,
+      await this.getGiftsAsAttachment()
     )
   }
 
-  public getGiftsInformation() {
+  public getGiftsText() {
     return this.translationsService.getTranslation(
-      "iCouldntRecognizeThatCommandPleaseUseHelp"
+      "giftsList"
     )
+  }
+  public async getGiftsAsAttachment() {
+    const giftService = new GiftService()
+    const allGiftsAsAttachment = await giftService.getAllGiftsAsAttachment()
+
+    return allGiftsAsAttachment
   }
 }

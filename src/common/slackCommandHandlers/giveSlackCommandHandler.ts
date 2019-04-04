@@ -56,8 +56,9 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
       await transferService.transferKudos(this.transfer)
       this.sendMessage(
         this.getCommandResponse(),
-        this.eventInfo,
-        SlackResponseType.general)
+        this.messageConsumer,
+        SlackResponseType.general
+      )
     } catch (ex) {
       // TODO: handle log error
       // tslint:disable-next-line:no-console

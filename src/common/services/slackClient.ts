@@ -1,5 +1,5 @@
-import { WebAPICallResult, WebClient } from '@slack/client'
-import { ISlackEventInfo } from '../../controllers/definitions/slackController'
+import { MessageAttachment, WebAPICallResult, WebClient } from '@slack/client'
+import { IMessageConsumer } from '../../controllers/definitions/slackController'
 import { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import Workspace from '../../models/workspace.model'
@@ -68,23 +68,28 @@ export default class SlackClientService {
 
   public async sendMessage(
     text: string,
-    eventInfo: ISlackEventInfo,
-    type: SlackResponseType
+    consumer: IMessageConsumer,
+    type: SlackResponseType = SlackResponseType.standard,
+    attachments?: MessageAttachment[],
   ) {
-    const { team_id, event: { channel, user } } = eventInfo
-    const client = await this.getWebClient(team_id)
+    const { teamId, channel, user } = consumer
+    const client = await this.getWebClient(teamId)
     switch (type) {
       case SlackResponseType.hidden:
-        client.chat.postEphemeral({ channel, text, user })
+        client.chat.postEphemeral({ channel, text, user, attachments })
         break
 
       case SlackResponseType.general:
-        client.chat.postMessage({ channel: SlackConsts.mainChannelName, text })
+        client.chat.postMessage({
+          attachments,
+          channel: SlackConsts.mainChannelName,
+          text
+        })
         break
 
       case SlackResponseType.standard:
       default:
-        client.chat.postMessage({ channel, text })
+        client.chat.postMessage({ channel, text, attachments })
     }
   }
 
