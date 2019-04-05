@@ -3,8 +3,9 @@ import * as chai from 'chai'
 import GiveCommandHandler from '../../common/slackCommandHandlers/giveSlackCommandHandler'
 import { ISlackEventInfo } from '../../controllers/definitions/slackController'
 import TestHelper from '../../utils/testHelper'
-import { slackEventBasicObject } from '../testData';
+import { slackEventBasicObject, testUserData, testReceiverData } from '../testData'
 import chaiAsPromised from 'chai-as-promised'
+import User from '../../models/user.model'
 
 class GiveCommandHandlerToTest extends GiveCommandHandler {
   public async validate() {
@@ -35,6 +36,16 @@ const slackEventInfoFromUserWithNotValidPointsAmount = testHelper.createTestObje
 const slackEventInfoFromUserWithNotValidRecievier = testHelper.createTestObject(
   slackEventBasicObject,
   { event: { text: '<@U061F7AUR> give notValidUser 10 for test purpose' } }
+)
+const slackEventInfoWithValidData = testHelper.createTestObject(
+  slackEventBasicObject,
+  {
+    event:
+    {
+      user: testUserData.userId,
+      text: `<@U061F7AUR> give <@${testReceiverData.userId}> 10 for test purpose`
+    }
+  }
 )
 
 describe('GiveCommandHandler tests', function () {
@@ -74,5 +85,20 @@ describe('GiveCommandHandler tests', function () {
       .to
       .be
       .rejectedWith(`Couldn't find the person you wanted to give points to :(`);
+  })
+
+  it('giveCommandHandler should add points for receiver', async () => {
+    const giveCommandHandler = new GiveCommandHandlerToTest(slackEventInfoWithValidData)
+    await giveCommandHandler.handleCommand()
+    const receiver = await User.findOne({ userId: testReceiverData.userId })
+
+    expect(receiver.kudosSpendable).to.be.equal(30)
+  })
+
+  it('giveCommandHandler should response with proper information', async () => {
+    const giveCommandHandler = new GiveCommandHandlerToTest(slackEventInfoWithValidData)
+    const message = giveCommandHandler.getCommandResponse()
+
+    expect(message).to.be.equal('<@U072A8BOG> just received *10* kudos from <@U061F7AUR> for test purpose.')
   })
 })

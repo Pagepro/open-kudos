@@ -1,4 +1,5 @@
 import { ISlackEventInfo } from "../../controllers/definitions/slackController"
+import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
 
@@ -26,15 +27,19 @@ abstract class BaseSlackCommandHandler {
 
   constructor(protected eventInfo: ISlackEventInfo) { }
 
-  public sendMessage(text: string, eventInfo: ISlackEventInfo): void {
-    this.slackClientService.sendMessage(text, eventInfo)
+  public sendMessage(
+    text: string,
+    eventInfo: ISlackEventInfo,
+    type: SlackResponseType = SlackResponseType.standard
+  ): void {
+    this.slackClientService.sendMessage(text, eventInfo, type)
   }
 
   public async handleCommand(): Promise<void> {
     try {
       await this.validate()
 
-      this.onHandleCommand()
+      await this.onHandleCommand()
     } catch ({ message }) {
       this.sendMessage(message, this.eventInfo)
     }

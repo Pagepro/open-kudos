@@ -1,4 +1,5 @@
 import { ITransfer } from "../../models/transfer.model"
+import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import TransferService from "../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
@@ -51,20 +52,12 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
 
   public async onHandleCommand() {
     try {
-      const { senderId, receiverId, value, comment } = this.transfer
-
       const transferService = new TransferService()
       await transferService.transferKudos(this.transfer)
-
-      const message = this.translationsService.getTranslation(
-        "xGaveYZPoints",
-        senderId,
-        receiverId,
-        value,
-        comment
-      )
-
-      this.sendMessage(message, this.eventInfo)
+      this.sendMessage(
+        this.getCommandResponse(),
+        this.eventInfo,
+        SlackResponseType.general)
     } catch (ex) {
       // TODO: handle log error
       // tslint:disable-next-line:no-console
@@ -72,6 +65,17 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
       // tslint:disable-next-line:no-console
       console.log(this.eventInfo)
     }
+  }
+
+  public getCommandResponse() {
+    const { senderId, receiverId, value, comment } = this.transfer
+    return this.translationsService.getTranslation(
+      "xGaveYZPoints",
+      senderId,
+      receiverId,
+      value,
+      comment
+    )
   }
 
   protected async validate() {

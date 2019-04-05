@@ -1,3 +1,4 @@
+import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import SlackClientService from "../services/slackClient"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
@@ -8,7 +9,8 @@ export default class HelpSlackCommandHandler extends BaseSlackCommandHandler {
       this.translationsService.getTranslation(
         "hereYouWillFindAllCommandsThatYouCanUse"
       ),
-      this.eventInfo
+      this.eventInfo,
+      SlackResponseType.hidden
     )
   }
 }
