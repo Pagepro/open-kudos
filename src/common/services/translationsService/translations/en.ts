@@ -7,6 +7,7 @@ export default {
   getForKudos: "Get for {0} Kudos",
   giftsList: 'There are the list of gifts you can buy',
   hereYouWillFindAllCommandsThatYouCanUse: 'Here you will find all commands that you can use :)',
+  iCouldntRecognizeThatAction: "I couldn't recognize that action, please contact the administrator",
   iCouldntRecognizeThatCommandPleaseUseHelp: "I couldn't recognize that command please use help to see the list of commands",
   kudosBalance: `Here is your current balance \n\n*Giveable Balance*\n{0} Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\n*Spendable Balance*\n{1} Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`,
   xGaveYZPoints: '<@{1}> just received *{2}* kudos from <@{0}> {3}.',

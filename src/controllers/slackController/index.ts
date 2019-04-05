@@ -5,8 +5,9 @@ import {
   Response as ResponseDecorator
 } from '@decorators/express'
 import { Request, Response } from 'express'
+import SlackActionHandlerFactory from '../../common/factories/slackActionHandlerFactory'
 import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandlerFactory'
-import { ISlackEventInfo, SlackEventSubtype } from '../definitions/slackController'
+import { ISlackAction, ISlackActionPayload, ISlackEventInfo, SlackEventSubtype } from '../definitions/slackController'
 
 @Controller('/slack')
 export default class SlackController {
@@ -31,6 +32,23 @@ export default class SlackController {
 
         handler.handleCommand()
       }
+  }
+
+  @Post('/actions')
+  public actions(
+    @ResponseDecorator() res: Response,
+    @RequestDecorator() { body }: Request) {
+    res.status(200).end()
+
+    const { payload } = body as ISlackActionPayload
+    if (payload) {
+      const slackAction: ISlackAction = JSON.parse(payload)
+      const actionHandlerFactory =
+        new SlackActionHandlerFactory(slackAction)
+
+      const handler = actionHandlerFactory.createSlackActionHandler()
+
+      handler.handleAction()
     }
   }
 }

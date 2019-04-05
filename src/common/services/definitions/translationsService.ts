@@ -19,5 +19,6 @@ export interface ILocaleTranslations {
   youTriedToGiveXPointsButThisIsNotValid: string,
   kudosBalance: string,
   giftsList: string,
-  getForKudos: string
+  getForKudos: string,
+  iCouldntRecognizeThatAction: string
 }

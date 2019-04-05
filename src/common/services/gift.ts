@@ -2,6 +2,7 @@ import { AttachmentAction, MessageAttachment } from '@slack/client'
 import '../../models/gift.model'
 import Gift from '../../models/gift.model'
 import { gifts } from '../../test/testData'
+import SlackConsts from '../consts/slack'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
@@ -32,9 +33,11 @@ export default class GiftService {
               "getForKudos",
               gift.cost
             ),
-            type: 'button'
+            type: 'button',
+            value: gift.id
           }
         ] as AttachmentAction[],
+        callback_id: SlackConsts.buyGiftCallback,
         color: this.getRandomHexColor(),
         text: gift.description,
         title: gift.name,
