@@ -3,7 +3,7 @@ export default class SlackConsts {
     return 'https://slack.com/api/oauth.access'
   }
 
-  public static get generalChanel(): string {
+  public static get mainChannelName(): string {
     return 'general'
   }
 }

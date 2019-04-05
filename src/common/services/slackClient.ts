@@ -79,7 +79,7 @@ export default class SlackClientService {
         break
 
       case SlackResponseType.general:
-        client.chat.postMessage({ channel: SlackConsts.generalChanel, text })
+        client.chat.postMessage({ channel: SlackConsts.mainChannelName, text })
         break
 
       case SlackResponseType.standard:
