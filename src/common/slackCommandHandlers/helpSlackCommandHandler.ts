@@ -9,7 +9,7 @@ export default class HelpSlackCommandHandler extends BaseSlackCommandHandler {
       this.translationsService.getTranslation(
         "hereYouWillFindAllCommandsThatYouCanUse"
       ),
-      this.eventInfo,
+      this.messageConsumer,
       SlackResponseType.hidden
     )
   }

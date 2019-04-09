@@ -18,20 +18,19 @@ export default class SlackController {
     const { challenge, event } = slackEventInfo
 
     if (challenge) {
-      return res.send(body)
+      res.send(body).end()
+    } else {
+      res.sendStatus(200)
+      const subtype = event ? event.subtype : null
+
+      if (subtype !== SlackEventSubtype.botMessage) {
+        const commandHandlerFactory =
+          new SlackCommandHandlerFactory(slackEventInfo)
+
+        const handler = commandHandlerFactory.createSlackCommandHandler()
+
+        handler.handleCommand()
+      }
     }
-
-    const subtype = event ? event.subtype : null
-
-    if (subtype !== SlackEventSubtype.botMessage) {
-      const commandHandlerFactory =
-        new SlackCommandHandlerFactory(slackEventInfo)
-
-      const handler = commandHandlerFactory.createSlackCommandHandler()
-
-      handler.handleCommand()
-    }
-
-    return res.sendStatus(200)
   }
 }

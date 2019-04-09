@@ -17,5 +17,7 @@ export interface ILocaleTranslations {
   youCantGivePointsToYourself: string
   youDontHaveEnoughKudosToTransfer: string
   youTriedToGiveXPointsButThisIsNotValid: string,
-  kudosBalance: string
+  kudosBalance: string,
+  giftsList: string,
+  getForKudos: string
 }

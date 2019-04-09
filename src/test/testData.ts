@@ -1,4 +1,5 @@
 import { ISlackEventInfo } from "../controllers/definitions/slackController"
+import { IGift } from "../models/gift.model"
 import { IUser } from "../models/user.model"
 
 const testTeamName = 'TEST'
@@ -48,4 +49,31 @@ const testReceiverData: IUser = {
   userId: receiverUserId
 }
 
-export { testUserData, slackEventBasicObject, testReceiverData }
+const gifts: IGift[] = [
+  {
+    cost: 10,
+    description: 'Cool game description',
+    isAvailable: false,
+    name: 'Cool-gam-2000',
+    teamId: ''
+  },
+  {
+    cost: 10,
+    description: 'This is thermal mug description',
+    name: 'Thermal mug',
+    teamId: ''
+  },
+  {
+    cost: 90,
+    description: 'This is Monopoly Game description',
+    name: 'Monopoly Game',
+    teamId: ''
+  }
+]
+
+export {
+  testUserData,
+  slackEventBasicObject,
+  testReceiverData,
+  gifts
+}

@@ -26,3 +26,9 @@ export interface ISlackEventInfo {
   event_time: number,
   authed_users: string[]
 }
+
+export interface IMessageConsumer {
+  teamId: string,
+  channel: string,
+  user?: string
+}
