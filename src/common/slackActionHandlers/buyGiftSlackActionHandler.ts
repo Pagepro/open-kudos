@@ -4,16 +4,21 @@ import GiftTransferService from "../services/giftTransfer"
 import BaseSlackActionHandler from "./baseSlackActionHandler"
 
 export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
+  private giftTransferService = new GiftTransferService()
+  get giftAction() {
+    const [giftClickAction] = this.action.actions
+    return giftClickAction
+  }
 
   get giftId() {
-    return this.action.actions[0].value
+    return this.giftAction.value
   }
 
   get giftName() {
-    return this.action.actions[0].name
+    return this.giftAction.name
   }
 
-  get gitTransfer(): IGiftTransfer {
+  get giftTransfer(): IGiftTransfer {
     return {
       giftId: this.giftId,
       teamId: this.teamId,
@@ -21,26 +26,30 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
     }
   }
 
-  public async onHandleAction(): Promise<void> {
-    try {
-      let message = ""
-      const giftTransferService = new GiftTransferService()
-      if (await giftTransferService.validateTransfer(this.gitTransfer)) {
-        await giftTransferService.transferGift(this.gitTransfer)
-        message = this.translationsService.getTranslation(
-          "youBoughtGift",
-          this.giftName
-        )
-      } else {
-        message = this.translationsService.getTranslation(
+  public async validate(): Promise<void> {
+    const giftInStockAndUserHasKudos =
+      await this.giftTransferService.validateTransfer(this.giftTransfer)
+
+    if (!giftInStockAndUserHasKudos) {
+      throw new Error(
+        this.translationsService.getTranslation(
           "youDontHaveEnoughKudosOrGiftOut"
         )
-      }
+      )
+    }
+  }
+
+  public async onHandleAction(): Promise<void> {
+    try {
+      await this.giftTransferService.transferGift(this.giftTransfer)
 
       this.sendMessage(
-        message,
+        this.translationsService.getTranslation(
+          "youBoughtGift",
+          this.giftName
+        ),
         this.messageConsumer,
-        SlackResponseType.hidden,
+        SlackResponseType.hidden
       )
     } catch (ex) {
       // TODO: handle log error

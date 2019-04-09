@@ -21,9 +21,8 @@ export default class GiftService {
     await Gift.insertMany(giftsWithTeamId)
   }
 
-  public async getGiftById(teamId: string, giftId: string) {
-    const gift = await Gift.findOne({ teamId, _id: giftId })
-    return gift
+  public getGiftById(teamId: string, giftId: string) {
+    return Gift.findOne({ teamId, _id: giftId })
   }
 
   public async getAllGiftsAsAttachment(teamId: string) {

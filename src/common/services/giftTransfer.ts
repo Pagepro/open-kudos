@@ -4,15 +4,8 @@ import TranslationsService from "./translationsService"
 import UserService from "./user"
 
 export default class GiftTransferService {
-  private translationsService: TranslationsService
-  private userService: UserService
-  private giftService: GiftService
-
-  constructor() {
-    this.translationsService = new TranslationsService()
-    this.userService = new UserService()
-    this.giftService = new GiftService()
-  }
+  private userService = new UserService()
+  private giftService = new GiftService()
 
   public async transferGift(transfer: IGiftTransfer) {
     const { userId, teamId, giftId } = transfer
@@ -21,8 +14,10 @@ export default class GiftTransferService {
         this.userService.getUser(teamId, userId),
         this.giftService.getGiftById(teamId, giftId)
       ])
+
       user.kudosSpendable -= gift.cost
       gift.amount -= 1
+
       await Promise.all([
         user.save(),
         gift.save(),
@@ -43,11 +38,9 @@ export default class GiftTransferService {
         this.userService.getUser(teamId, userId),
         this.giftService.getGiftById(teamId, giftId)
       ])
-      if (gift.amount > 0 && gift.cost <= user.kudosSpendable) {
-        return true
-      } else {
-        return false
-      }
+
+      return gift.amount > 0 && gift.cost <= user.kudosSpendable
+
     } catch (ex) {
       // TODO: Add logger here when implemented
       // tslint:disable-next-line:no-console
@@ -55,5 +48,4 @@ export default class GiftTransferService {
       return false
     }
   }
-
 }

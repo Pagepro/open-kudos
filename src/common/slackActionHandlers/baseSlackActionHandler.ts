@@ -43,13 +43,22 @@ abstract class BaseSlackActionHandler {
 
   public async handleAction(): Promise<void> {
     try {
+      await this.validate()
       await this.onHandleAction()
     } catch ({ message }) {
-      this.sendMessage(message, this.messageConsumer)
+      this.sendMessage(
+        message,
+        this.messageConsumer,
+        SlackResponseType.hidden
+      )
     }
   }
 
   public abstract onHandleAction(): void
+
+  protected async validate(): Promise<void> {
+    return
+  }
 }
 
 export default BaseSlackActionHandler
