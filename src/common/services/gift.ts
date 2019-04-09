@@ -2,6 +2,7 @@ import { AttachmentAction, MessageAttachment } from '@slack/client'
 import '../../models/gift.model'
 import Gift from '../../models/gift.model'
 import { gifts } from '../../test/testData'
+import SlackConsts from '../consts/slack'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
@@ -20,6 +21,10 @@ export default class GiftService {
     await Gift.insertMany(giftsWithTeamId)
   }
 
+  public getGiftById(teamId: string, giftId: string) {
+    return Gift.findOne({ teamId, _id: giftId })
+  }
+
   public async getAllGiftsAsAttachment(teamId: string) {
     await this.initGifts(teamId)
     const allGifts = await Gift.find({ teamId })
@@ -32,9 +37,11 @@ export default class GiftService {
               "getForKudos",
               gift.cost
             ),
-            type: 'button'
+            type: 'button',
+            value: gift.id
           }
         ] as AttachmentAction[],
+        callback_id: SlackConsts.buyGiftCallback,
         color: this.getRandomHexColor(),
         text: gift.description,
         title: gift.name,
@@ -45,8 +52,8 @@ export default class GiftService {
   }
 
   private getRandomHexColor() {
-    // tslint:disable-next-line:no-bitwise
-    return `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
+    return "#" +
+      `${Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0')}`
   }
 
 }

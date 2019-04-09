@@ -1,12 +1,11 @@
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
-import BaseSlackCommandHandler from "./baseSlackCommandHandler"
+import BaseSlackActionHandler from "./baseSlackActionHandler"
 
-export default class DefaultSlackCommandHandler
-  extends BaseSlackCommandHandler {
-  public onHandleCommand(): void {
+export default class DefaultSlackActionHandler extends BaseSlackActionHandler {
+  public onHandleAction(): void {
     this.sendMessage(
       this.translationsService.getTranslation(
-        "iCouldntRecognizeThatCommandPleaseUseHelp"
+        "iCouldntRecognizeThatAction"
       ),
       this.messageConsumer,
       SlackResponseType.hidden,

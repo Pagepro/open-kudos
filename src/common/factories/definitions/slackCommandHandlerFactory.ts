@@ -10,3 +10,7 @@ export enum SlackResponseType {
   general = 'general',
   standard = 'standard'
 }
+
+export enum SlackActionsCallbacks {
+  buyGift = 'buyGift'
+}

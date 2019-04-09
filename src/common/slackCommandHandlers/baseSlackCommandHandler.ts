@@ -49,7 +49,11 @@ abstract class BaseSlackCommandHandler {
 
       await this.onHandleCommand()
     } catch ({ message }) {
-      this.sendMessage(message, this.messageConsumer)
+      this.sendMessage(
+        message,
+        this.messageConsumer,
+        SlackResponseType.hidden
+      )
     }
   }
 

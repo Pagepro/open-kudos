@@ -28,7 +28,7 @@ const transferSchema: Schema<ITransfer> = new Schema({
     type: String
   },
   teamId: {
-    required: 'Team id team id is required',
+    required: 'Team id is required',
     trim: true,
     type: String,
   },
@@ -37,6 +37,10 @@ const transferSchema: Schema<ITransfer> = new Schema({
     required: 'Values is required',
     type: Number
   }
+})
+
+transferSchema.index({
+  teamId: 'text'
 })
 
 export default model<ITransferDocument>('Transfer', transferSchema)

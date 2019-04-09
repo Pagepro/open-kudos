@@ -32,3 +32,38 @@ export interface IMessageConsumer {
   channel: string,
   user?: string
 }
+
+export interface ISlackActionPayload {
+  payload: string
+}
+
+export interface ISlackAction {
+  type: string,
+  actions: [
+    {
+      name: string,
+      type: string,
+      value: string
+    }
+  ],
+  callback_id: string,
+  team: {
+    id: string,
+    domain: string
+  },
+  channel: {
+    id: string,
+    name: string
+  },
+  user: {
+    id: string,
+    name: string
+  },
+  action_ts: string,
+  message_ts: string,
+  attachment_id: string,
+  token: string,
+  is_app_unfurl: boolean,
+  response_url: string,
+  trigger_id: string
+}
