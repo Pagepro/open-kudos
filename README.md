@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Pagepro/open-kudos.svg?branch=development)](https://travis-ci.org/Pagepro/open-kudos)
+
 # Open Kudos
 
 If one of your coworkers helps you and you want to thanks them, now you can give them kudos. Then, they can exchange their kudos for prizes.
