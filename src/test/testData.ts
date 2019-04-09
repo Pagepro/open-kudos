@@ -54,17 +54,20 @@ const gifts: IGift[] = [
     cost: 10,
     description: 'Cool game description',
     isAvailable: false,
-    name: 'Cool-gam-2000'
+    name: 'Cool-gam-2000',
+    teamId: ''
   },
   {
     cost: 10,
     description: 'This is thermal mug description',
-    name: 'Thermal mug'
+    name: 'Thermal mug',
+    teamId: ''
   },
   {
     cost: 90,
     description: 'This is Monopoly Game description',
-    name: 'Monopoly Game'
+    name: 'Monopoly Game',
+    teamId: ''
   }
 ]
 

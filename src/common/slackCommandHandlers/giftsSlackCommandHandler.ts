@@ -10,7 +10,7 @@ export default class GiftsSlackCommandHandler extends
       this.getGiftsText(),
       this.messageConsumer,
       SlackResponseType.hidden,
-      await this.getGiftsAsAttachment()
+      await this.getGiftsAsAttachment(this.teamId)
     )
   }
 
@@ -19,9 +19,10 @@ export default class GiftsSlackCommandHandler extends
       "giftsList"
     )
   }
-  public async getGiftsAsAttachment() {
+  public async getGiftsAsAttachment(teamId: string) {
     const giftService = new GiftService()
-    const allGiftsAsAttachment = await giftService.getAllGiftsAsAttachment()
+    const allGiftsAsAttachment = await giftService
+      .getAllGiftsAsAttachment(teamId)
 
     return allGiftsAsAttachment
   }

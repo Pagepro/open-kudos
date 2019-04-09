@@ -11,24 +11,23 @@ export default class GiftService {
     this.translationsService = new TranslationsService()
   }
 
-  public async initGifts() {
+  public async initGifts(teamId: string) {
+    // TODO: for now we display static list of gifts in future gifts will be
+    // added from dashboard with valid teamId so initGifts method
+    // will be removed
+    const giftsWithTeamId = gifts.map(gift => ({ ...gift, teamId }))
     await Gift.deleteMany({})
-    await Gift.insertMany(gifts)
+    await Gift.insertMany(giftsWithTeamId)
   }
 
-  public async getAllGifts() {
-    await this.initGifts()
-    return Gift.find({})
-  }
-
-  public async getAllGiftsAsAttachment() {
-    await this.initGifts()
-    const allGifts = await Gift.find({})
+  public async getAllGiftsAsAttachment(teamId: string) {
+    await this.initGifts(teamId)
+    const allGifts = await Gift.find({ teamId })
     const giftAsAttachment = allGifts.map(gift => {
       return {
         actions: [
           {
-            id: gift.id,
+            name: gift.name,
             text: this.translationsService.getTranslation(
               "getForKudos",
               gift.cost
