@@ -1,5 +1,6 @@
 import { ISlackAction } from "../../controllers/definitions/slackController"
 import BaseSlackActionHandler from "../slackActionHandlers/baseSlackActionHandler"
+import BuyGiftSlackActionHandler from "../slackActionHandlers/buyGiftSlackActionHandler"
 import DefaultSlackActionHandler from "../slackActionHandlers/defaultSlackActionHandler"
 import { SlackActionsCallbacks } from "./definitions/slackCommandHandlerFactory"
 
@@ -18,7 +19,7 @@ export default class SlackActionHandlerFactory {
   private get actionType() {
     const actionCallbackId = this.actionCallbackId
     const actionType = SlackActionsCallbacks[
-      actionCallbackId.toLowerCase() as keyof typeof SlackActionsCallbacks
+      actionCallbackId as keyof typeof SlackActionsCallbacks
     ]
 
     return actionType
@@ -27,11 +28,9 @@ export default class SlackActionHandlerFactory {
   public createSlackActionHandler(): BaseSlackActionHandler {
     switch (this.actionType) {
       case SlackActionsCallbacks.buyGift:
-        // return new BuyGiftSlackActionHandler(this.action)
-        return new DefaultSlackActionHandler(this.action)
+        return new BuyGiftSlackActionHandler(this.action)
       default:
         return new DefaultSlackActionHandler(this.action)
-
     }
   }
 }

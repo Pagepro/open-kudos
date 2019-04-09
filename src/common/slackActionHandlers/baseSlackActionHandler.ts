@@ -9,17 +9,24 @@ abstract class BaseSlackActionHandler {
   protected slackClientService = new SlackClientService()
   constructor(protected action: ISlackAction) { }
 
-  get messageConsumer() {
-    const {
-      team: { id: teamId },
-      channel: { id: channelId },
-      user: { id: userId }
-    } = this.action
 
+  get userId() {
+    return this.action.user.id
+  }
+
+  get chanelId() {
+    return this.action.channel.id
+  }
+
+  get teamId() {
+    return this.action.team.id
+  }
+
+  get messageConsumer() {
     const messageConsumer: IMessageConsumer = {
-      channel: channelId,
-      teamId,
-      user: userId
+      channel: this.chanelId,
+      teamId: this.teamId,
+      user: this.userId
     }
 
     return messageConsumer

@@ -21,6 +21,11 @@ export default class GiftService {
     await Gift.insertMany(giftsWithTeamId)
   }
 
+  public async getGiftById(teamId: string, giftId: string) {
+    const gift = await Gift.findOne({ teamId, _id: giftId })
+    return gift
+  }
+
   public async getAllGiftsAsAttachment(teamId: string) {
     await this.initGifts(teamId)
     const allGifts = await Gift.find({ teamId })
@@ -48,8 +53,8 @@ export default class GiftService {
   }
 
   private getRandomHexColor() {
-    // tslint:disable-next-line:no-bitwise
-    return `#${(Math.random() * 0xFFFFFF << 0).toString(16)}`
+    return "#" +
+      `${Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0')}`
   }
 
 }

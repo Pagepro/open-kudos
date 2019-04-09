@@ -11,5 +11,4 @@ export default class DefaultSlackActionHandler extends BaseSlackActionHandler {
       SlackResponseType.hidden,
     )
   }
-
 }

@@ -51,6 +51,7 @@ const testReceiverData: IUser = {
 
 const gifts: IGift[] = [
   {
+    amount: 10,
     cost: 10,
     description: 'Cool game description',
     isAvailable: false,
@@ -58,12 +59,14 @@ const gifts: IGift[] = [
     teamId: ''
   },
   {
+    amount: 10,
     cost: 10,
     description: 'This is thermal mug description',
     name: 'Thermal mug',
     teamId: ''
   },
   {
+    amount: 10,
     cost: 90,
     description: 'This is Monopoly Game description',
     name: 'Monopoly Game',

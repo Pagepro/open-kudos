@@ -20,5 +20,7 @@ export interface ILocaleTranslations {
   kudosBalance: string,
   giftsList: string,
   getForKudos: string,
-  iCouldntRecognizeThatAction: string
+  iCouldntRecognizeThatAction: string,
+  youBoughtGift: string,
+  youDontHaveEnoughKudosOrGiftOut: string
 }

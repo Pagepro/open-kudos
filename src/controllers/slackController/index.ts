@@ -7,7 +7,12 @@ import {
 import { Request, Response } from 'express'
 import SlackActionHandlerFactory from '../../common/factories/slackActionHandlerFactory'
 import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandlerFactory'
-import { ISlackAction, ISlackActionPayload, ISlackEventInfo, SlackEventSubtype } from '../definitions/slackController'
+import {
+  ISlackAction,
+  ISlackActionPayload,
+  ISlackEventInfo,
+  SlackEventSubtype
+} from '../definitions/slackController'
 
 @Controller('/slack')
 export default class SlackController {
@@ -32,6 +37,7 @@ export default class SlackController {
 
         handler.handleCommand()
       }
+    }
   }
 
   @Post('/actions')

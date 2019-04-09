@@ -1,4 +1,4 @@
-import { SlackActionsCallbacks } from "../factories/definitions/slackCommandHandlerFactory";
+import { SlackActionsCallbacks } from "../factories/definitions/slackCommandHandlerFactory"
 
 export default class SlackConsts {
   public static get slackAuthUrl(): string {
