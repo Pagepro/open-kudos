@@ -2,7 +2,7 @@
 
 # Open Kudos
 
-If one of your coworkers helps you and you want to thanks them, now you can give them kudos. Then, they can exchange their kudos for prizes.
+If simple "thanks" is not enough, give Kudos! Kudos can be later exchanged for prizes, which makes it a better way to say "thanks" at work.
 
 # Available Features!
   - Give points (kudos) for other coworkers
