@@ -11,7 +11,7 @@ export default {
   iCouldntRecognizeThatCommandPleaseUseHelp: "I couldn't recognize that command please use help to see the list of commands",
   kudosBalance: `Here is your current balance \n\n*Giveable Balance*\n{0} Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\n*Spendable Balance*\n{1} Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`,
   xGaveYZPoints: '<@{1}> just received *{2}* kudos from <@{0}> {3}.',
-  youBoughtGift: `You've purchased {0} for {1} kudos. *Please contact the office manager to collect the gift*`,
+  youBoughtGift: `You've purchased *{0}* for {1} kudos. Please contact the office manager to collect the gift`,
   youCantGivePointsToYourself: 'You cant add points for yourself :(',
   youDontHaveEnoughKudosOrGiftOut: `You don't have enough kudos to buy a gift or the gift is out of stock :(`,
   youDontHaveEnoughKudosToTransfer: `You don't have enough kudos to transfer`,
