@@ -1,13 +1,14 @@
+import { IGiftTransferResult } from "../../controllers/definitions/giftTransfer"
 import GiftTransfer, { IGiftTransfer } from "../../models/giftTransfer.model"
 import GiftService from "./gift"
-import TranslationsService from "./translationsService"
 import UserService from "./user"
 
 export default class GiftTransferService {
   private userService = new UserService()
   private giftService = new GiftService()
 
-  public async transferGift(transfer: IGiftTransfer) {
+  public async transferGift(transfer: IGiftTransfer):
+    Promise<IGiftTransferResult> {
     const { userId, teamId, giftId } = transfer
     try {
       const [user, gift] = await Promise.all([
@@ -23,6 +24,10 @@ export default class GiftTransferService {
         gift.save(),
         GiftTransfer.create(transfer)
       ])
+
+      const { name, cost } = gift
+
+      return { name, cost }
     } catch (ex) {
       // TODO: Add logger here when implemented
       // tslint:disable-next-line:no-console

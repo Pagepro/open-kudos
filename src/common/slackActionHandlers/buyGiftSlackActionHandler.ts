@@ -41,12 +41,14 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
 
   public async onHandleAction(): Promise<void> {
     try {
-      await this.giftTransferService.transferGift(this.giftTransfer)
+      const { name, cost } = await this.giftTransferService
+        .transferGift(this.giftTransfer)
 
       this.sendMessage(
         this.translationsService.getTranslation(
           "youBoughtGift",
-          this.giftName
+          name,
+          cost
         ),
         this.messageConsumer,
         SlackResponseType.hidden
