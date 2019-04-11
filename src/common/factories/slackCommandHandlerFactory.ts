@@ -2,6 +2,7 @@ import { ISlackEventInfo } from "../../controllers/definitions/slackController"
 import BalanceSlackCommandHandler from "../slackCommandHandlers/balanceSlackCommandHandler"
 import BaseSlackCommandHandler from "../slackCommandHandlers/baseSlackCommandHandler"
 import DefaultSlackCommandHandler from "../slackCommandHandlers/defaultSlackCommandHandler"
+import GiftsSlackCommandHandler from "../slackCommandHandlers/giftsSlackCommandHandler"
 import GiveSlackCommandHandler from "../slackCommandHandlers/giveSlackCommandHandler"
 import HelpSlackCommandHandler from "../slackCommandHandlers/helpSlackCommandHandler"
 import { SlackCommandType } from "./definitions/slackCommandHandlerFactory"
@@ -35,6 +36,8 @@ export default class SlackCommandHandlerFactory {
         return new BalanceSlackCommandHandler(this.eventInfo)
       case SlackCommandType.help:
         return new HelpSlackCommandHandler(this.eventInfo)
+      case SlackCommandType.gifts:
+        return new GiftsSlackCommandHandler(this.eventInfo)
       default:
         return new DefaultSlackCommandHandler(this.eventInfo)
     }

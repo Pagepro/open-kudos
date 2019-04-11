@@ -5,8 +5,14 @@ import {
   Response as ResponseDecorator
 } from '@decorators/express'
 import { Request, Response } from 'express'
+import SlackActionHandlerFactory from '../../common/factories/slackActionHandlerFactory'
 import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandlerFactory'
-import { ISlackEventInfo, SlackEventSubtype } from '../definitions/slackController'
+import {
+  ISlackAction,
+  ISlackActionPayload,
+  ISlackEventInfo,
+  SlackEventSubtype
+} from '../definitions/slackController'
 
 @Controller('/slack')
 export default class SlackController {
@@ -18,20 +24,37 @@ export default class SlackController {
     const { challenge, event } = slackEventInfo
 
     if (challenge) {
-      return res.send(body)
+      res.send(body).end()
+    } else {
+      res.sendStatus(200)
+      const subtype = event ? event.subtype : null
+
+      if (subtype !== SlackEventSubtype.botMessage) {
+        const commandHandlerFactory =
+          new SlackCommandHandlerFactory(slackEventInfo)
+
+        const handler = commandHandlerFactory.createSlackCommandHandler()
+
+        handler.handleCommand()
+      }
     }
+  }
 
-    const subtype = event ? event.subtype : null
+  @Post('/actions')
+  public actions(
+    @ResponseDecorator() res: Response,
+    @RequestDecorator() { body }: Request) {
+    res.status(200).end()
 
-    if (subtype !== SlackEventSubtype.botMessage) {
-      const commandHandlerFactory =
-        new SlackCommandHandlerFactory(slackEventInfo)
+    const { payload } = body as ISlackActionPayload
+    if (payload) {
+      const slackAction: ISlackAction = JSON.parse(payload)
+      const actionHandlerFactory =
+        new SlackActionHandlerFactory(slackAction)
 
-      const handler = commandHandlerFactory.createSlackCommandHandler()
+      const handler = actionHandlerFactory.createSlackActionHandler()
 
-      handler.handleCommand()
+      handler.handleAction()
     }
-
-    return res.sendStatus(200)
   }
 }

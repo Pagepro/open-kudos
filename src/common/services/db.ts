@@ -13,4 +13,8 @@ export default class DbService {
       console.error(`🚫🚫🚫🚫🚫 → ${err.message}`)
     })
   }
+
+  public disconnect() {
+    mongoose.disconnect()
+  }
 }

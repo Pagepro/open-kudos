@@ -6,11 +6,11 @@ export default class BalanceSlackCommandHandler extends
   public async onHandleCommand() {
     this.sendMessage(
       await this.getBalanceInformation(),
-      this.eventInfo
+      this.messageConsumer
     )
   }
 
-  private getBalanceInformation() {
+  public getBalanceInformation() {
     const transferService = new TransferService()
     return transferService.getKudosBalance(
       this.teamId,
