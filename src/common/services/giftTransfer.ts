@@ -1,11 +1,13 @@
 import { IGiftTransferResult } from "../../controllers/definitions/giftTransfer"
 import GiftTransfer, { IGiftTransfer } from "../../models/giftTransfer.model"
 import GiftService from "./gift"
+import LoggerService from "./logger"
 import UserService from "./user"
 
 export default class GiftTransferService {
   private userService = new UserService()
   private giftService = new GiftService()
+  private logger = new LoggerService()
 
   public async transferGift(transfer: IGiftTransfer):
     Promise<IGiftTransferResult> {
@@ -28,11 +30,9 @@ export default class GiftTransferService {
       const { name, cost } = gift
 
       return { name, cost }
-    } catch (ex) {
-      // TODO: Add logger here when implemented
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
-      throw new Error(ex.message)
+    } catch (error) {
+      this.logger.logError(error)
+      throw new Error(error.message)
     }
   }
 
@@ -46,10 +46,8 @@ export default class GiftTransferService {
 
       return gift.amount > 0 && gift.cost <= user.kudosSpendable
 
-    } catch (ex) {
-      // TODO: Add logger here when implemented
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
+    } catch (error) {
+      this.logger.logError(error)
       return false
     }
   }

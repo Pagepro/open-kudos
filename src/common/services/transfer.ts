@@ -1,16 +1,13 @@
 import '../../models/transfer.model'
 import Transfer, { ITransfer } from '../../models/transfer.model'
+import LoggerService from './logger'
 import TranslationsService from './translationsService'
 import UserService from './user'
 
 export default class TransferService {
-  private translationsService: TranslationsService
-  private userService: UserService
-
-  constructor() {
-    this.translationsService = new TranslationsService()
-    this.userService = new UserService()
-  }
+  private translationsService = new TranslationsService()
+  private userService = new UserService()
+  private logger = new LoggerService()
 
   public async transferKudos(transfer: ITransfer) {
     const { teamId, senderId, receiverId, value } = transfer
@@ -35,11 +32,9 @@ export default class TransferService {
         throw new Error(this.translationsService
           .getTranslation('youDontHaveEnoughKudosToTransfer'))
       }
-    } catch (ex) {
-      // TODO: Add logger here when implemented
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
-      throw new Error(ex.message)
+    } catch (error) {
+      this.logger.logError(error)
+      throw new Error(error.message)
     }
   }
 

@@ -51,21 +51,13 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
   }
 
   public async onHandleCommand() {
-    try {
-      const transferService = new TransferService()
-      await transferService.transferKudos(this.transfer)
-      this.sendMessage(
-        this.getCommandResponse(),
-        this.messageConsumer,
-        SlackResponseType.general
-      )
-    } catch (ex) {
-      // TODO: handle log error
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
-      // tslint:disable-next-line:no-console
-      console.log(this.eventInfo)
-    }
+    const transferService = new TransferService()
+    await transferService.transferKudos(this.transfer)
+    this.sendMessage(
+      this.getCommandResponse(),
+      this.messageConsumer,
+      SlackResponseType.general
+    )
   }
 
   public getCommandResponse() {

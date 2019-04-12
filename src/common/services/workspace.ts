@@ -1,7 +1,9 @@
 import '../../models/workspace.model'
 import Workspace, { IWorkspace } from '../../models/workspace.model'
+import LoggerService from './logger'
 
 export default class WorkspaceService {
+  private logger = new LoggerService()
   public async create(workspace: IWorkspace) {
     let operationResult = false
     try {
@@ -11,9 +13,9 @@ export default class WorkspaceService {
         { upsert: true }
       )
       operationResult = true
-    } catch (ex) {
+    } catch (error) {
       operationResult = false
-      // handle error
+      this.logger.logError(error)
     }
     return operationResult
   }
