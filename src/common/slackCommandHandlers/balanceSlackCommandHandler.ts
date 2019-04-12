@@ -12,6 +12,7 @@ export default class BalanceSlackCommandHandler extends
 
   public getBalanceInformation() {
     const transferService = new TransferService()
+
     return transferService.getKudosBalance(
       this.teamId,
       this.senderId

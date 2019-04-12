@@ -4,6 +4,8 @@ import TransferService from "../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
+  private transferService = new TransferService()
+
   get transactionComment() {
     const wordsInCommand = this.eventText.split(" ")
     return wordsInCommand.length > 4
@@ -51,8 +53,8 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
   }
 
   public async onHandleCommand() {
-    const transferService = new TransferService()
-    await transferService.transferKudos(this.transfer)
+
+    await this.transferService.transferKudos(this.transfer)
     this.sendMessage(
       this.getCommandResponse(),
       this.messageConsumer,
@@ -92,6 +94,13 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
           "youTriedToGiveXPointsButThisIsNotValid",
           this.transferKudosCount
         )
+      )
+    }
+
+    if (await this.transferService.isKudosAmountToLow(this.transfer)) {
+      throw new Error(
+        this.translationsService
+          .getTranslation("youDontHaveEnoughKudosToTransfer")
       )
     }
   }

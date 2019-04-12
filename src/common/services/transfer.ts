@@ -18,24 +18,33 @@ export default class TransferService {
         this.userService.getUser(teamId, receiverId)
       ])
 
-      if (sender.kudosGiveable >= value) {
-        sender.kudosGiveable -= value
-        receiver.kudosGranted += value
-        receiver.kudosSpendable += value
-        await Promise.all([
-          sender.save(),
-          receiver.save(),
-          Transfer.create(transfer)
-        ])
-      }
-      else {
-        throw new Error(this.translationsService
-          .getTranslation('youDontHaveEnoughKudosToTransfer'))
+      sender.kudosGiveable -= value
+      receiver.kudosGranted += value
+      receiver.kudosSpendable += value
+
+      await Promise.all([
+        sender.save(),
+        receiver.save(),
+        Transfer.create(transfer)
+      ])
+
+    } catch (error) {
+      this.logger.logError(error)
+    }
+  }
+
+  public async isKudosAmountToLow(transfer: ITransfer) {
+    const { teamId, senderId, value } = transfer
+    try {
+      const sender = await this.userService.getUser(teamId, senderId)
+      if (sender.kudosGiveable < value) {
+        return true
       }
     } catch (error) {
       this.logger.logError(error)
-      throw new Error(error.message)
     }
+
+    return false
   }
 
   public async getKudosBalance(teamId: string, userId: string) {

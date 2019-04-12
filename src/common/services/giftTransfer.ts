@@ -32,7 +32,6 @@ export default class GiftTransferService {
       return { name, cost }
     } catch (error) {
       this.logger.logError(error)
-      throw new Error(error.message)
     }
   }
 

@@ -48,10 +48,9 @@ abstract class BaseSlackActionHandler {
     try {
       await this.validate()
       await this.onHandleAction()
-    } catch (error) {
-      this.logger.logError(error, this.action)
+    } catch ({ message }) {
       this.sendMessage(
-        error.message,
+        message,
         this.messageConsumer,
         SlackResponseType.hidden
       )

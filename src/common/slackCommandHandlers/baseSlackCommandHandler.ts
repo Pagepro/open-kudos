@@ -56,7 +56,6 @@ abstract class BaseSlackCommandHandler {
         this.messageConsumer,
         SlackResponseType.hidden
       )
-      this.logger.logError(error, this.eventInfo)
     }
   }
 
