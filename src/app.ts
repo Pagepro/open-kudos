@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import express from 'express'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
+import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
 import SlackController from './controllers/slackController'
 
@@ -32,6 +33,7 @@ class App {
     attachControllers(this.router, [
       SlackController,
       BotInstallationController,
+      AuthController
     ])
 
     this.expressApp.use('/api', this.router)
