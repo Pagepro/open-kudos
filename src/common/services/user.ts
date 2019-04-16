@@ -57,4 +57,14 @@ export default class UserService {
       $set: { kudosGiveable: 100 }
     })
   }
+
+  public async checkIfUserExist(teamId: string, userId: string) {
+    const user = await this.getUser(teamId, userId)
+    return user ? true : false
+  }
+
+  public async createUser(user: IUser) {
+    const newUser = await User.create(user)
+    return newUser.userId
+  }
 }

@@ -1,17 +1,15 @@
 /* tslint:disable */
 import { expect } from 'chai'
 import TestHelper from '../testHelper'
-import DbService from '../../common/services/db'
 import { ISlackEventInfo } from '../../controllers/definitions/slackController'
 import BalanceCommandHandler from '../../common/slackCommandHandlers/balanceSlackCommandHandler'
-import { slackEventBasicObject, testUserData } from '../testData';
+import { slackEventBasicObject } from '../testData';
 
 const testHelper = new TestHelper<ISlackEventInfo>()
 const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(
   slackEventBasicObject,
   { event: { text: '@kudos balance' } }
 )
-const db = new DbService()
 
 describe('BalanceCommandHandler tests', () => {
   it(`getBalanceInformation should return full information about the users kudos' balance`, async () => {
