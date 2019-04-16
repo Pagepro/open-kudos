@@ -100,7 +100,7 @@ const mugGiftIndex = 1
 const monopolyGiftIndex = 2
 const coffeeGiftIndex = 3
 
-const gifts: IGift[] = [
+const testGifts: IGift[] = [
   {
     amount: 10,
     cost: 10,
@@ -132,13 +132,136 @@ const gifts: IGift[] = [
   }
 ]
 
+const realGifts: IGift[] = [
+  {
+    amount: 10,
+    cost: 100,
+    description: '',
+    name: 'Chocolate / Rafaello / Craft Beer :candy:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 300,
+    description: '',
+    name: 'Thermal mug :cup_with_straw:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 400,
+    description: '',
+    name: 'Powerbank :zap:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 400,
+    description: '',
+    name: 'Mug warmer :fire:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 600,
+    description: '',
+    name: 'Cinema tickets :popcorn:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 800,
+    description: '',
+    name: 'Hair dresser / barber :haircut:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 1400,
+    description: '',
+    name: 'Monopoly Game :game_die:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 2000,
+    description: '',
+    name: 'Laptop bag :handbag:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 2000,
+    description: '',
+    name: 'Apart Bracelet :ring:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 3000,
+    description: '',
+    name: 'Plane cabin bag :airplane_arriving:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 3000,
+    description: '',
+    name: 'Laptop backpack :school_satchel:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 4000,
+    description: '',
+    name: 'Lamborghini ride :police_car:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 4000,
+    description: '',
+    name: 'KAZAR bag :handbag:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 6000,
+    description: '',
+    name: 'NewBalance Shoes :shoe:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 7000,
+    description: '',
+    name: 'Electric skateboard :zap:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 8000,
+    description: '',
+    name: 'Ray Ban Glasses :eyeglasses:',
+    teamId: ''
+  },
+  {
+    amount: 10,
+    cost: 9000,
+    description: '',
+    name: 'Weekend trip :beach_with_umbrella:',
+    teamId: ''
+  }
+]
+
 export {
   testUserData,
   slackEventBasicObject,
   slackActionBasic,
   testReceiverData,
-  gifts,
   testTeamId,
+  testGifts,
+  realGifts
   gameGiftIndex,
   mugGiftIndex,
   monopolyGiftIndex,
