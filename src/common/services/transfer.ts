@@ -37,14 +37,10 @@ export default class TransferService {
     const { teamId, senderId, value } = transfer
     try {
       const sender = await this.userService.getUser(teamId, senderId)
-      if (sender.kudosGiveable < value) {
-        return true
-      }
+      return sender.kudosGiveable < value
     } catch (error) {
       this.logger.logError(error)
     }
-
-    return false
   }
 
   public async getKudosBalance(teamId: string, userId: string) {
