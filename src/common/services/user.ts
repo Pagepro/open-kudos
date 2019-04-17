@@ -12,6 +12,18 @@ export default class UserService {
     return User.create(user)
   }
 
+  public async handleUserIfNotExist(teamId: string, userId: string) {
+    // TODO: Add created user to cache to improve
+    const doesUserExist = await this.checkIfUserExist(teamId, userId)
+    if (!doesUserExist) {
+      await this.createUser({
+        isAdmin: false,
+        teamId,
+        userId
+      } as IUser)
+    }
+  }
+
   public async initUsers(workspace: IWorkspace) {
     this.slackClientService.initWebClient(workspace)
 
@@ -64,7 +76,6 @@ export default class UserService {
   }
 
   public async createUser(user: IUser) {
-    const newUser = await User.create(user)
-    return newUser.userId
+    return User.create(user)
   }
 }

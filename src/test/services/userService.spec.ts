@@ -15,9 +15,9 @@ describe('UserService tests', () => {
 
   it(`method createUser should return new user Id`, async () => {
     const userService = new UserService()
-    const newUserId = await userService.createUser(newUserData)
+    const newUser = await userService.createUser(newUserData)
 
-    expect(newUserId).to.be.a('string').that.is.not.empty
+    expect(newUser.id).to.be.a('string').that.is.not.empty
   })
 
   it(`New user should has 100 givable kudos`, async () => {

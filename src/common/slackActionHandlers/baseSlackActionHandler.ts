@@ -1,14 +1,17 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackAction } from "../../controllers/definitions/slackController"
+import { IUser } from "../../models/user.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
+import UserService from "../services/user"
 
 abstract class BaseSlackActionHandler {
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
   protected logger = new LoggerService()
+  protected userService = new UserService()
 
   constructor(protected action: ISlackAction) { }
 
@@ -46,6 +49,7 @@ abstract class BaseSlackActionHandler {
 
   public async handleAction(): Promise<void> {
     try {
+      await this.userService.handleUserIfNotExist(this.teamId, this.userId)
       await this.validate()
       await this.onHandleAction()
     } catch ({ message }) {

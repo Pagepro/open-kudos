@@ -1,5 +1,6 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
+import { IUser } from "../../models/user.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
@@ -49,7 +50,7 @@ abstract class BaseSlackCommandHandler {
 
   public async handleCommand(): Promise<void> {
     try {
-      await this.validate()
+      await this.userService.handleUserIfNotExist(this.teamId, this.senderId)
       await this.validate()
       await this.onHandleCommand()
     } catch ({ message }) {

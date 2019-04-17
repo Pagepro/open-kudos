@@ -6,8 +6,8 @@ export interface IUser {
   kudosGiveable?: number,
   kudosGranted?: number,
   kudosSpendable?: number,
-  name: string,
-  realName: string,
+  name?: string,
+  realName?: string,
   isAdmin: boolean
 }
 
@@ -34,12 +34,10 @@ const userSchema = new Schema<IUser>({
     type: Number
   },
   name: {
-    required: 'Name is required',
     trim: true,
     type: String,
   },
   realName: {
-    required: 'Real name is required',
     trim: true,
     type: String,
   },
