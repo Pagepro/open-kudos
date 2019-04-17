@@ -5,12 +5,12 @@ import Gift from '../models/gift.model'
 import {
   testUserData,
   testReceiverData,
-  gifts,
+  testGifts,
   testTeamId,
   testBuyerUserData
 } from './testData'
 const db = new DbService()
-const giftsWithTeamId = gifts.map(gift => ({ ...gift, teamId: testTeamId }))
+const giftsWithTeamId = testGifts.map(gift => ({ ...gift, teamId: testTeamId }))
 
 before(async () => {
   db.connect()

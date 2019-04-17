@@ -1,7 +1,7 @@
 import { AttachmentAction, MessageAttachment } from '@slack/client'
 import '../../models/gift.model'
 import Gift from '../../models/gift.model'
-import { gifts } from '../../test/testData'
+import { realGifts } from '../../test/testData'
 import SlackConsts from '../consts/slack'
 import TranslationsService from './translationsService'
 
@@ -16,7 +16,7 @@ export default class GiftService {
     // TODO: for now we display static list of gifts in future gifts will be
     // added from dashboard with valid teamId so initGifts method
     // will be removed
-    const giftsWithTeamId = gifts.map(gift => ({ ...gift, teamId }))
+    const giftsWithTeamId = realGifts.map(gift => ({ ...gift, teamId }))
     await Gift.deleteMany({})
     await Gift.insertMany(giftsWithTeamId)
   }
