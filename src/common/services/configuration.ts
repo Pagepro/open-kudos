@@ -1,17 +1,19 @@
 import cron from 'node-cron'
+import LoggerService from './logger'
 import UserService from './user'
-/* tslint:disable */
+
 export default class ConfigurationService {
   private userService = new UserService()
+  private logger = new LoggerService()
+
   public setResetKudosTask() {
     cron.schedule('0 0 1 * *', async () => {
-      // TODO: Change to logs when logger is added
       try {
-        console.log('Cron task start')
+        this.logger.logInfo('Cron task start')
         await this.userService.resetAllUsersGiveableKudos()
-        console.log('Cron task end successful')
-      } catch ({ message }) {
-        console.log(message)
+        this.logger.logInfo('Cron task end successful')
+      } catch (error) {
+        this.logger.logError(error)
       }
     })
   }

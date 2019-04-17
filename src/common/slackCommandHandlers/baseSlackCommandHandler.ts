@@ -1,6 +1,7 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
+import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
 
@@ -31,6 +32,7 @@ abstract class BaseSlackCommandHandler {
 
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
+  protected logger = new LoggerService()
 
   constructor(protected eventInfo: ISlackEventInfo) { }
 
@@ -48,9 +50,9 @@ abstract class BaseSlackCommandHandler {
       await this.validate()
 
       await this.onHandleCommand()
-    } catch ({ message }) {
+    } catch (error) {
       this.sendMessage(
-        message,
+        error.message,
         this.messageConsumer,
         SlackResponseType.hidden
       )

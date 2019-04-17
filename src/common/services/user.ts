@@ -1,10 +1,13 @@
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
+import LoggerService from './logger'
 import SlackClientService from './slackClient'
 
 export default class UserService {
   private slackClientService = new SlackClientService()
+  private logger = new LoggerService()
+
   public create(user: IUser) {
     return User.create(user)
   }
@@ -34,12 +37,9 @@ export default class UserService {
       }
 
       return true
-    } catch (ex) {
-      // TODO: Add logger here when implemented
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
+    } catch (error) {
+      this.logger.logError(error)
       return false
-      // handle error
     }
   }
 

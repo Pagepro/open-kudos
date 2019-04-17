@@ -1,6 +1,7 @@
 import { IGiftTransfer } from "../../models/giftTransfer.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import GiftTransferService from "../services/giftTransfer"
+import LoggerService from "../services/logger"
 import BaseSlackActionHandler from "./baseSlackActionHandler"
 
 export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
@@ -40,26 +41,18 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
   }
 
   public async onHandleAction(): Promise<void> {
-    try {
-      const { name, cost } = await this.giftTransferService
-        .transferGift(this.giftTransfer)
+    const { name, cost } = await this.giftTransferService
+      .transferGift(this.giftTransfer)
 
-      this.sendMessage(
-        this.translationsService.getTranslation(
-          "youBoughtGift",
-          name,
-          cost
-        ),
-        this.messageConsumer,
-        SlackResponseType.hidden
-      )
-    } catch (ex) {
-      // TODO: handle log error
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
-      // tslint:disable-next-line:no-console
-      console.log(this.action)
-    }
+    this.sendMessage(
+      this.translationsService.getTranslation(
+        "youBoughtGift",
+        name,
+        cost
+      ),
+      this.messageConsumer,
+      SlackResponseType.hidden
+    )
   }
 }
 

@@ -1,12 +1,15 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackAction } from "../../controllers/definitions/slackController"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
+import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
 
 abstract class BaseSlackActionHandler {
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
+  protected logger = new LoggerService()
+
   constructor(protected action: ISlackAction) { }
 
 
