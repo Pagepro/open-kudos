@@ -9,7 +9,7 @@ export interface IGift {
   isAvailable?: boolean
 }
 
-type IGiftDocument = IGift & Document
+export type IGiftDocument = IGift & Document
 
 const giftSchema: Schema<IGift> = new Schema({
   amount: {
