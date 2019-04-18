@@ -27,8 +27,8 @@ export default class SlackController {
       res.send(body).end()
     } else {
       res.sendStatus(200)
-      const subtype = event ? event.subtype : null
 
+      const subtype = event ? event.subtype : null
       if (subtype !== SlackEventSubtype.botMessage) {
         const commandHandlerFactory =
           new SlackCommandHandlerFactory(slackEventInfo)

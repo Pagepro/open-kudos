@@ -49,7 +49,6 @@ abstract class BaseSlackActionHandler {
 
   public async handleAction(): Promise<void> {
     try {
-      await this.userService.handleUserIfNotExist(this.teamId, this.userId)
       await this.validate()
       await this.onHandleAction()
     } catch ({ message }) {

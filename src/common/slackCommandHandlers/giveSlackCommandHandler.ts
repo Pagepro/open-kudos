@@ -1,5 +1,4 @@
 import { ITransfer } from "../../models/transfer.model"
-import { IUser } from "../../models/user.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import TransferService from "../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
@@ -104,10 +103,5 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
           .getTranslation("youDontHaveEnoughKudosToTransfer")
       )
     }
-
-    await this.userService.handleUserIfNotExist(
-      this.teamId,
-      this.validReceiverId
-    )
   }
 }

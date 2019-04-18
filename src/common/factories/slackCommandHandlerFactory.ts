@@ -5,6 +5,7 @@ import DefaultSlackCommandHandler from "../slackCommandHandlers/defaultSlackComm
 import GiftsSlackCommandHandler from "../slackCommandHandlers/giftsSlackCommandHandler"
 import GiveSlackCommandHandler from "../slackCommandHandlers/giveSlackCommandHandler"
 import HelpSlackCommandHandler from "../slackCommandHandlers/helpSlackCommandHandler"
+import MemberJoinedCommandHandler from "../slackCommandHandlers/memberJoinedCommandHandler"
 import { SlackCommandType } from "./definitions/slackCommandHandlerFactory"
 
 
@@ -20,7 +21,9 @@ export default class SlackCommandHandlerFactory {
   }
 
   private get commandType() {
-    const [, command = ''] = this.eventText.split(' ')
+    let [, command = ''] = this.eventText.split(' ')
+    const eventType = this.eventInfo.event.type
+    command = command ? command : eventType
     const commandType = SlackCommandType[
       command.toLowerCase() as keyof typeof SlackCommandType
     ]
@@ -38,6 +41,8 @@ export default class SlackCommandHandlerFactory {
         return new HelpSlackCommandHandler(this.eventInfo)
       case SlackCommandType.gifts:
         return new GiftsSlackCommandHandler(this.eventInfo)
+      case SlackCommandType.member_joined_channel:
+        return new MemberJoinedCommandHandler(this.eventInfo)
       default:
         return new DefaultSlackCommandHandler(this.eventInfo)
     }

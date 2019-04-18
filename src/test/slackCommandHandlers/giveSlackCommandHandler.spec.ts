@@ -6,9 +6,7 @@ import TestHelper from '../../utils/testHelper'
 import {
   slackEventBasicObject,
   testUserData,
-  testReceiverData,
-  newUserForGiveCommandData,
-  newReceiverForGiveCommandData
+  testReceiverData
 } from '../testData'
 import chaiAsPromised from 'chai-as-promised'
 import User from '../../models/user.model'
@@ -55,28 +53,6 @@ const slackEventInfoWithValidData = testHelper.createTestObject(
     {
       user: testUserData.userId,
       text: `<@U061F7AUR> give <@${testReceiverData.userId}> 10 for test purpose`
-    }
-  }
-)
-
-const slackEventInfoWithNewUser = testHelper.createTestObject(
-  slackEventBasicObject,
-  {
-    event:
-    {
-      user: newUserForGiveCommandData.userId,
-      text: `<@U061F7AUR> give <@${testReceiverData.userId}> 10 for being kind for me at first day of my work`
-    }
-  }
-)
-
-const slackEventInfoWithReceiverAddedRecentlyData = testHelper.createTestObject(
-  slackEventBasicObject,
-  {
-    event:
-    {
-      user: testUserData.userId,
-      text: `<@U061F7AUR> give <@${newReceiverForGiveCommandData.userId}> 10 for test purpose`
     }
   }
 )
@@ -133,25 +109,5 @@ describe('GiveCommandHandler tests', function () {
     const message = giveCommandHandler.getCommandResponse()
 
     expect(message).to.be.equal('<@U072A8BOG> just received *10* kudos from <@U061F7AUR> for test purpose.')
-  })
-
-  it('giveCommandHandler should add points even if user was added after the app installation', async () => {
-    const giveCommandHandler = new GiveCommandHandlerToTest(slackEventInfoWithNewUser)
-    await giveCommandHandler.handleCommand()
-    const newUser = await User.findOne({
-      userId: newUserForGiveCommandData.userId,
-      teamId: newUserForGiveCommandData.teamId
-    })
-
-    expect(newUser.id).to.be.a('string').that.is.not.empty
-  })
-
-  it('giveCommandHandler should add points for recently added receiver', async () => {
-    const giveCommandHandler = new GiveCommandHandlerToTest(slackEventInfoWithReceiverAddedRecentlyData)
-    await giveCommandHandler.handleCommand()
-    const allUsers = await User.find({})
-    const receiver = await User.findOne({ userId: newReceiverForGiveCommandData.userId })
-
-    expect(receiver.kudosSpendable).to.be.equal(10)
   })
 })

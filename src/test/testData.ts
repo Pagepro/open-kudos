@@ -95,28 +95,6 @@ const testReceiverData: IUser = {
   userId: receiverUserId
 }
 
-const newUserForGiveCommandData: IUser = {
-  isAdmin: false,
-  kudosGiveable: undefined,
-  kudosGranted: undefined,
-  kudosSpendable: undefined,
-  name: 'new.give',
-  realName: 'GiveUser',
-  teamId: testTeamId,
-  userId: 'U022D2DDD'
-}
-
-const newReceiverForGiveCommandData: IUser = {
-  isAdmin: false,
-  kudosGiveable: undefined,
-  kudosGranted: undefined,
-  kudosSpendable: undefined,
-  name: 'new.receiver',
-  realName: 'ReceiverUser',
-  teamId: testTeamId,
-  userId: 'U033E3EEE'
-}
-
 const newUserData: IUser = {
   isAdmin: false,
   kudosGiveable: undefined,
@@ -272,8 +250,6 @@ export {
   slackActionBasic,
   testReceiverData,
   newUserData,
-  newUserForGiveCommandData,
-  newReceiverForGiveCommandData,
   testTeamId,
   testGifts,
   realGifts,

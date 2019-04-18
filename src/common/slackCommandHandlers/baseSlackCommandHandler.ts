@@ -50,7 +50,6 @@ abstract class BaseSlackCommandHandler {
 
   public async handleCommand(): Promise<void> {
     try {
-      await this.userService.handleUserIfNotExist(this.teamId, this.senderId)
       await this.validate()
       await this.onHandleCommand()
     } catch ({ message }) {

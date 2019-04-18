@@ -53,9 +53,5 @@ const userSchema = new Schema<IUser>({
   }
 })
 
-userSchema.index({
-  teamId: 'text',
-  userId: 'text'
-})
-
+userSchema.index({ teamId: 1, userId: 1 }, { unique: true })
 export default model<IUserDocument>('User', userSchema)
