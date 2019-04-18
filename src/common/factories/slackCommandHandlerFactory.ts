@@ -21,11 +21,11 @@ export default class SlackCommandHandlerFactory {
   }
 
   private get commandType() {
-    let [, command = ''] = this.eventText.split(' ')
+    const [, command = String.empty] = this.eventText.split(' ')
     const eventType = this.eventInfo.event.type
-    command = command ? command : eventType
+    const commandTypeAsString = command || eventType
     const commandType = SlackCommandType[
-      command.toLowerCase() as keyof typeof SlackCommandType
+      commandTypeAsString.toLowerCase() as keyof typeof SlackCommandType
     ]
 
     return commandType
