@@ -95,6 +95,17 @@ const testReceiverData: IUser = {
   userId: receiverUserId
 }
 
+const newUserData: IUser = {
+  isAdmin: false,
+  kudosGiveable: undefined,
+  kudosGranted: undefined,
+  kudosSpendable: undefined,
+  name: 'new.user',
+  realName: 'NewUser',
+  teamId: testTeamId,
+  userId: 'U011C1CCC'
+}
+
 const gameGiftIndex = 0
 const mugGiftIndex = 1
 const monopolyGiftIndex = 2
@@ -238,6 +249,7 @@ export {
   slackEventBasicObject,
   slackActionBasic,
   testReceiverData,
+  newUserData,
   testTeamId,
   testGifts,
   realGifts,

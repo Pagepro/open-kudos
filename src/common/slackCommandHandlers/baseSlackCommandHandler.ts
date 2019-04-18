@@ -1,9 +1,11 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
+import { IUser } from "../../models/user.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
+import UserService from "../services/user"
 
 abstract class BaseSlackCommandHandler {
   get eventText() {
@@ -32,6 +34,7 @@ abstract class BaseSlackCommandHandler {
 
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
+  protected userService = new UserService()
   protected logger = new LoggerService()
 
   constructor(protected eventInfo: ISlackEventInfo) { }
@@ -48,11 +51,10 @@ abstract class BaseSlackCommandHandler {
   public async handleCommand(): Promise<void> {
     try {
       await this.validate()
-
       await this.onHandleCommand()
-    } catch (error) {
+    } catch ({ message }) {
       this.sendMessage(
-        error.message,
+        message,
         this.messageConsumer,
         SlackResponseType.hidden
       )
