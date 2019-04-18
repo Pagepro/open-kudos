@@ -6,7 +6,7 @@ export default {
   forNoReason: 'for no reason',
   getForKudos: "Get for {0} Kudos",
   giftsList: 'There are the list of gifts you can buy',
-  hereYouWillFindAllCommandsThatYouCanUse: 'Here you will find all commands that you can use :)',
+  hereYouWillFindAllCommandsThatYouCanUse: 'Happy to help, below a list of commands that you can currently use:\n\n*@kudos give @person 10 for helping with code review.*\n- This is the main feature of the bot.\n- The message structure: @kudos give @pointsReceiver [number of points] for [reason]\n- You can give some points to somebody for some reason or without reason.\n- Message with points without reason: @kudos give @pointsReceiver 10\n\n*@kudos balance* - this command returns your current balance of points\n\n*@kudos gifts* - this command displays a list of gifts that you can get after exchanging your received points.\n\n*@kudos help* - I guess you already know how it works.',
   iCouldntRecognizeThatAction: "I couldn't recognize that action, please contact the administrator",
   iCouldntRecognizeThatCommandPleaseUseHelp: "I couldn't recognize that command please use help to see the list of commands",
   kudosBalance: `Here is your current balance \n\n*Giveable Balance*\n{0} Kudos\nGiveable balances reset at the beginning of the month. Use 'em or lose 'em\n\n*Spendable Balance*\n{1} Kudos \nSpendable Kudos never expire. Use them to buy cool things in the store`,
