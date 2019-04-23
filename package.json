@@ -5,9 +5,10 @@
   "scripts": {
     "test": "mocha --exit",
     "start": "node -r dotenv/config  ./dist/server.js",
-    "build": "tsc",
+    "build": "npm run get-translations && tsc",
     "watch": "nodemon",
-    "local": "node -r dotenv/config ./localtunnel.js"
+    "local": "node -r dotenv/config ./localtunnel.js",
+    "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js"
   },
   "dependencies": {
     "@decorators/di": "^1.0.2",
@@ -24,7 +25,9 @@
     "mocha-prepare": "^0.1.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.3.0",
+    "query-string": "^6.4.2"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
