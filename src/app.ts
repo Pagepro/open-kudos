@@ -12,8 +12,8 @@ class App {
   public expressApp: express.Application
   private configurationService = new ConfigurationService()
   private dbService = new DbService()
+  private APIRouter: express.Router = express.Router()
   private router: express.Router = express.Router()
-  private landingPageRouter: express.Router = express.Router()
 
   constructor() {
     this.expressApp = express()
@@ -33,17 +33,17 @@ class App {
   }
 
   private configureRoutes(): void {
-    attachControllers(this.landingPageRouter, [
+    attachControllers(this.router, [
       LandingPageController
     ])
 
-    attachControllers(this.router, [
+    attachControllers(this.APIRouter, [
       SlackController,
       BotInstallationController,
     ])
 
-    this.expressApp.use('/', this.landingPageRouter)
-    this.expressApp.use('/api', this.router)
+    this.expressApp.use('/', this.router)
+    this.expressApp.use('/api', this.APIRouter)
   }
 
   private configureCronTasks(): void {
