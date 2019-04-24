@@ -5,10 +5,11 @@
   "scripts": {
     "test": "mocha --exit",
     "start": "node -r dotenv/config  ./dist/server.js",
-    "build": "npm run get-translations && tsc",
+    "build": "npm run copy-assets && npm run get-translations && tsc",
     "watch": "nodemon",
     "local": "node -r dotenv/config ./localtunnel.js",
-    "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js"
+    "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js",
+    "copy-assets": "node copyAssets.js"
   },
   "dependencies": {
     "@decorators/di": "^1.0.2",
@@ -20,6 +21,7 @@
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
     "heroku-logger": "^0.3.3",
     "i18n": "^0.8.3",
     "lodash": "^4.17.11",

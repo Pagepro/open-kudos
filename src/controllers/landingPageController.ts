@@ -10,7 +10,7 @@ import SlackConsts from '../common/consts/slack'
 @Controller('/')
 export default class LandingPageController {
   @Get('/')
-  public async install(
+  public landingPage(
     @RequestDecorator() req: Request,
     @ResponseDecorator() res: Response
   ) {
