@@ -1,6 +1,6 @@
 {
   "name": "open-kudos",
-  "version": "1.0.0",
+  "version": "0.0.0-semantically-released",
   "license": "MIT",
   "scripts": {
     "test": "mocha --exit",
@@ -9,7 +9,8 @@
     "watch": "nodemon",
     "local": "node -r dotenv/config ./localtunnel.js",
     "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js",
-    "copy-assets": "node copyAssets.js"
+    "copy-assets": "node copyAssets.js",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "@decorators/di": "^1.0.2",
@@ -54,6 +55,24 @@
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3",
+    "@semantic-release/github": "^5.2.10",
+    "cz-conventional-changelog": "^2.1.0",
+    "semantic-release": "^15.13.3"
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github"
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
