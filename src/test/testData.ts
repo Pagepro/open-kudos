@@ -1,4 +1,4 @@
-import { ISlackAction, ISlackEventInfo } from "../controllers/definitions/slackController"
+import { ISlackAction, ISlackCommandInfo, ISlackEventInfo } from "../controllers/definitions/slackController"
 import { IGift } from "../models/gift.model"
 import { IUser } from "../models/user.model"
 
@@ -60,6 +60,20 @@ const slackEventBasicObject: ISlackEventInfo = {
   team_id: testTeamId,
   token: 'ZZZZZZWSxiZZZ2yIvs3peJ',
   type: 'event_callback',
+}
+
+const slackCommandBasicObject: ISlackCommandInfo = {
+  channel_id: 'C0LAN2Q65',
+  channel_name: 'test',
+  command: '/kudos',
+  response_url: 'test',
+  team_domain: 'test',
+  team_id: testTeamId,
+  text: '',
+  token: 'testToken',
+  trigger_id: 'test',
+  user_id: testUserId,
+  user_name: testUserName
 }
 
 const testBuyerUserData: IUser = {
@@ -257,5 +271,6 @@ export {
   mugGiftIndex,
   monopolyGiftIndex,
   coffeeGiftIndex,
-  testBuyerUserData
+  testBuyerUserData,
+  slackCommandBasicObject
 }

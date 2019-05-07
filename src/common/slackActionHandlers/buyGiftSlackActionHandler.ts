@@ -51,7 +51,7 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
         cost
       ),
       this.messageConsumer,
-      SlackResponseType.hidden
+      SlackResponseType.Hidden
     )
   }
 }

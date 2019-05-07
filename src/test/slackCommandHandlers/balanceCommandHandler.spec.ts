@@ -1,14 +1,14 @@
 /* tslint:disable */
 import { expect } from 'chai'
 import TestHelper from '../testHelper'
-import { ISlackEventInfo } from '../../controllers/definitions/slackController'
+import { ISlackCommandInfo } from '../../controllers/definitions/slackController'
 import BalanceCommandHandler from '../../common/slackCommandHandlers/balanceSlackCommandHandler'
-import { slackEventBasicObject } from '../testData';
+import { slackCommandBasicObject } from '../testData';
 
-const testHelper = new TestHelper<ISlackEventInfo>()
+const testHelper = new TestHelper<ISlackCommandInfo>()
 const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '@kudos balance' } }
+  slackCommandBasicObject,
+  { text: 'balance' }
 )
 
 describe('BalanceCommandHandler tests', () => {

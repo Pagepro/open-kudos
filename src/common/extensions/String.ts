@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export { }
 declare global {
   // tslint:disable-next-line
@@ -8,6 +9,7 @@ declare global {
   // tslint:disable-next-line
   interface String {
     format(...formatValues: Array<number | string>): string
+    toPascalCase(): string
   }
 }
 const EMPTY_STRING = ''
@@ -21,6 +23,10 @@ const format =
     )
   }
 
+const toPascalCase = function (this: string) {
+  return _.chain(this).camelCase().upperFirst().value()
+}
+
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
@@ -30,5 +36,8 @@ Object.defineProperties(String, {
 Object.defineProperties(String.prototype, {
   format: {
     get: () => format
+  },
+  toPascalCase: {
+    get: () => toPascalCase
   }
 })
