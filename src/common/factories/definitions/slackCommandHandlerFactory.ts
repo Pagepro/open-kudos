@@ -6,6 +6,10 @@ export enum SlackCommandType {
   member_joined_channel = 'member_joined_channel'
 }
 
+export enum SlackEventType {
+  member_joined_channel = 'member_joined_channel'
+}
+
 export enum SlackResponseType {
   hidden = 'hidden',
   general = 'general',

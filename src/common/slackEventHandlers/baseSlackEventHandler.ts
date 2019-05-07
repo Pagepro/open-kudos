@@ -1,5 +1,5 @@
 import { MessageAttachment } from "@slack/client"
-import { IMessageConsumer, ISlackCommandInfo } from "../../controllers/definitions/slackController"
+import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
@@ -7,32 +7,27 @@ import TranslationsService from "../services/translationsService"
 import UserService from "../services/user"
 
 abstract class BaseSlackCommandHandler {
-  get commandText() {
-    const { text } = this.commandInfo
+  get eventText() {
+    const { text } = this.eventInfo.event
 
     return text
   }
 
   get senderId() {
-    const { user_id } = this.commandInfo
+    const { user } = this.eventInfo.event
 
-    return user_id
+    return user
   }
 
   get teamId() {
-    const { team_id } = this.commandInfo
+    const { team_id } = this.eventInfo
 
     return team_id
   }
 
   get messageConsumer() {
-    const { team_id, channel_id, user_id } = this.commandInfo
-    const messageConsumer: IMessageConsumer = {
-      channel: channel_id,
-      teamId: team_id,
-      user: user_id
-    }
-
+    const { team_id, event: { channel, user } } = this.eventInfo
+    const messageConsumer: IMessageConsumer = { teamId: team_id, channel, user }
     return messageConsumer
   }
 
@@ -41,7 +36,7 @@ abstract class BaseSlackCommandHandler {
   protected userService = new UserService()
   protected logger = new LoggerService()
 
-  constructor(protected commandInfo: ISlackCommandInfo) { }
+  constructor(protected eventInfo: ISlackEventInfo) { }
 
   public sendMessage(
     text: string,
@@ -52,10 +47,10 @@ abstract class BaseSlackCommandHandler {
     this.slackClientService.sendMessage(text, consumer, type, attachments)
   }
 
-  public async handleCommand(): Promise<void> {
+  public async handleEvent(): Promise<void> {
     try {
       await this.validate()
-      await this.onHandleCommand()
+      await this.onHandleEvent()
     } catch ({ message }) {
       this.sendMessage(
         message,
@@ -65,7 +60,7 @@ abstract class BaseSlackCommandHandler {
     }
   }
 
-  public abstract onHandleCommand(): void
+  public abstract onHandleEvent(): void
 
   public getCustomMessageConsumer(
     teamId: string,

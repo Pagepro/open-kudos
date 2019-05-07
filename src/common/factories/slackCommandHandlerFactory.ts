@@ -1,4 +1,4 @@
-import { ISlackEventInfo } from "../../controllers/definitions/slackController"
+import { ISlackCommandInfo } from "../../controllers/definitions/slackController"
 import BalanceSlackCommandHandler from "../slackCommandHandlers/balanceSlackCommandHandler"
 import BaseSlackCommandHandler from "../slackCommandHandlers/baseSlackCommandHandler"
 import DefaultSlackCommandHandler from "../slackCommandHandlers/defaultSlackCommandHandler"
@@ -10,20 +10,19 @@ import { SlackCommandType } from "./definitions/slackCommandHandlerFactory"
 
 
 export default class SlackCommandHandlerFactory {
-  constructor(private eventInfo: ISlackEventInfo) { }
+  constructor(private commandInfo: ISlackCommandInfo) { }
 
-  private get eventText() {
+  private get commandText() {
     return Object.tryGetProperty(
-      this.eventInfo,
-      e => e.event.text,
+      this.commandInfo,
+      e => e.text,
       String.empty
     )
   }
 
   private get commandType() {
-    const [, command = String.empty] = this.eventText.split(' ')
-    const eventType = this.eventInfo.event.type
-    const commandTypeAsString = command || eventType
+    const [command = String.empty] = this.commandText.split(' ')
+    const commandTypeAsString = command
     const commandType = SlackCommandType[
       commandTypeAsString.toLowerCase() as keyof typeof SlackCommandType
     ]
@@ -34,17 +33,17 @@ export default class SlackCommandHandlerFactory {
   public createSlackCommandHandler(): BaseSlackCommandHandler {
     switch (this.commandType) {
       case SlackCommandType.give:
-        return new GiveSlackCommandHandler(this.eventInfo)
+        return new GiveSlackCommandHandler(this.commandInfo)
       case SlackCommandType.balance:
-        return new BalanceSlackCommandHandler(this.eventInfo)
+        return new BalanceSlackCommandHandler(this.commandInfo)
       case SlackCommandType.help:
-        return new HelpSlackCommandHandler(this.eventInfo)
+        return new HelpSlackCommandHandler(this.commandInfo)
       case SlackCommandType.gifts:
-        return new GiftsSlackCommandHandler(this.eventInfo)
+        return new GiftsSlackCommandHandler(this.commandInfo)
       case SlackCommandType.member_joined_channel:
-        return new MemberJoinedCommandHandler(this.eventInfo)
+        return new MemberJoinedCommandHandler(this.commandInfo)
       default:
-        return new DefaultSlackCommandHandler(this.eventInfo)
+        return new DefaultSlackCommandHandler(this.commandInfo)
     }
   }
 }
