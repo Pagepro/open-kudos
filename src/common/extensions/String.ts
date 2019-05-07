@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export { }
 declare global {
   // tslint:disable-next-line
@@ -23,16 +24,7 @@ const format =
   }
 
 const toPascalCase = function (this: string) {
-  return `${this}`
-    .replace(new RegExp(/[-_]+/, 'g'), ' ')
-    .replace(new RegExp(/[^\w\s]/, 'g'), '')
-    .replace(
-      new RegExp(/\s+(.)(\w+)/, 'g'),
-      (group1, group2, group3) =>
-        `${group2.toUpperCase() + group3.toLowerCase()}`
-    )
-    .replace(new RegExp(/\s/, 'g'), '')
-    .replace(new RegExp(/\w/), s => s.toUpperCase())
+  return _.chain(this).camelCase().upperFirst().value()
 }
 
 Object.defineProperties(String, {
