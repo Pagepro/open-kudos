@@ -8,6 +8,7 @@ declare global {
   // tslint:disable-next-line
   interface String {
     format(...formatValues: Array<number | string>): string
+    toPascalCase(): string
   }
 }
 const EMPTY_STRING = ''
@@ -21,6 +22,19 @@ const format =
     )
   }
 
+const toPascalCase = function (this: string) {
+  return `${this}`
+    .replace(new RegExp(/[-_]+/, 'g'), ' ')
+    .replace(new RegExp(/[^\w\s]/, 'g'), '')
+    .replace(
+      new RegExp(/\s+(.)(\w+)/, 'g'),
+      (group1, group2, group3) =>
+        `${group2.toUpperCase() + group3.toLowerCase()}`
+    )
+    .replace(new RegExp(/\s/, 'g'), '')
+    .replace(new RegExp(/\w/), s => s.toUpperCase())
+}
+
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
@@ -30,5 +44,8 @@ Object.defineProperties(String, {
 Object.defineProperties(String.prototype, {
   format: {
     get: () => format
+  },
+  toPascalCase: {
+    get: () => toPascalCase
   }
 })

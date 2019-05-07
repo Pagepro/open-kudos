@@ -60,7 +60,7 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
     this.sendMessage(
       this.getCommandResponse(),
       this.messageConsumer,
-      SlackResponseType.general
+      SlackResponseType.General
     )
   }
 

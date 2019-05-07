@@ -8,7 +8,7 @@ export default class DefaultSlackActionHandler extends BaseSlackActionHandler {
         "iCouldntRecognizeThatAction"
       ),
       this.messageConsumer,
-      SlackResponseType.hidden,
+      SlackResponseType.Hidden,
     )
   }
 }

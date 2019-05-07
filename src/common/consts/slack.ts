@@ -10,7 +10,7 @@ export default class SlackConsts {
   }
 
   public static get buyGiftCallback(): string {
-    return SlackActionsCallbacks.buyGift.toString()
+    return SlackActionsCallbacks.BuyGift.toString()
   }
 
   public static get slackInstallLink(): string {

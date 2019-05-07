@@ -69,17 +69,17 @@ export default class SlackClientService {
   public async sendMessage(
     text: string,
     consumer: IMessageConsumer,
-    type: SlackResponseType = SlackResponseType.standard,
+    type: SlackResponseType = SlackResponseType.Standard,
     attachments?: MessageAttachment[],
   ) {
     const { teamId, channel, user } = consumer
     const client = await this.getWebClient(teamId)
     switch (type) {
-      case SlackResponseType.hidden:
+      case SlackResponseType.Hidden:
         client.chat.postEphemeral({ channel, text, user, attachments })
         break
 
-      case SlackResponseType.general:
+      case SlackResponseType.General:
         client.chat.postMessage({
           attachments,
           channel: SlackConsts.mainChannelName,
@@ -87,7 +87,7 @@ export default class SlackClientService {
         })
         break
 
-      case SlackResponseType.standard:
+      case SlackResponseType.Standard:
       default:
         client.chat.postMessage({ channel, text, attachments })
     }

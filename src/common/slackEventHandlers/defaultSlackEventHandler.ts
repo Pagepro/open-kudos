@@ -9,7 +9,7 @@ export default class DefaultSlackEventHandler
         "iCouldntRecognizeThatCommandPleaseUseHelp"
       ),
       this.messageConsumer,
-      SlackResponseType.hidden,
+      SlackResponseType.Hidden,
     )
   }
 }

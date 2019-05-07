@@ -2,7 +2,7 @@ import { ISlackEventInfo } from "../../controllers/definitions/slackController"
 import BaseSlackEventHandler from "../slackEventHandlers/baseSlackEventHandler"
 import DefaultSlackCommandHandler from "../slackEventHandlers/defaultSlackEventHandler"
 import MemberJoinedCommandHandler from "../slackEventHandlers/memberJoinedEventHandler"
-import { SlackCommandType } from "./definitions/slackCommandHandlerFactory"
+import { SlackEventType } from "./definitions/slackCommandHandlerFactory"
 
 
 export default class SlackEventHandlerFactory {
@@ -17,19 +17,17 @@ export default class SlackEventHandlerFactory {
   }
 
   private get eventType() {
-    const [, event = String.empty] = this.eventText.split(' ')
-    const eventType = this.eventInfo.event.type
-    const commandTypeAsString = event || eventType
-    const commandType = SlackCommandType[
-      commandTypeAsString.toLowerCase() as keyof typeof SlackCommandType
+    const eventTypeAsString = this.eventInfo.event.type.toPascalCase()
+    const eventType = SlackEventType[
+      eventTypeAsString as keyof typeof SlackEventType
     ]
 
-    return commandType
+    return eventType
   }
 
   public createSlackCommandHandler(): BaseSlackEventHandler {
     switch (this.eventType) {
-      case SlackCommandType.member_joined_channel:
+      case SlackEventType.MemberJoinedChannel:
         return new MemberJoinedCommandHandler(this.eventInfo)
       default:
         return new DefaultSlackCommandHandler(this.eventInfo)

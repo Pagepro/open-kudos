@@ -8,7 +8,7 @@ export default class BalanceSlackCommandHandler extends
     this.sendMessage(
       await this.getBalanceInformation(),
       this.messageConsumer,
-      SlackResponseType.hidden
+      SlackResponseType.Hidden
     )
   }
 

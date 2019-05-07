@@ -22,9 +22,9 @@ export default class SlackCommandHandlerFactory {
 
   private get commandType() {
     const [command = String.empty] = this.commandText.split(' ')
-    const commandTypeAsString = command
+    const commandTypeAsString = command.toPascalCase()
     const commandType = SlackCommandType[
-      commandTypeAsString.toLowerCase() as keyof typeof SlackCommandType
+      commandTypeAsString as keyof typeof SlackCommandType
     ]
 
     return commandType
@@ -32,16 +32,14 @@ export default class SlackCommandHandlerFactory {
 
   public createSlackCommandHandler(): BaseSlackCommandHandler {
     switch (this.commandType) {
-      case SlackCommandType.give:
+      case SlackCommandType.Give:
         return new GiveSlackCommandHandler(this.commandInfo)
-      case SlackCommandType.balance:
+      case SlackCommandType.Balance:
         return new BalanceSlackCommandHandler(this.commandInfo)
-      case SlackCommandType.help:
+      case SlackCommandType.Help:
         return new HelpSlackCommandHandler(this.commandInfo)
-      case SlackCommandType.gifts:
+      case SlackCommandType.Gifts:
         return new GiftsSlackCommandHandler(this.commandInfo)
-      case SlackCommandType.member_joined_channel:
-        return new MemberJoinedCommandHandler(this.commandInfo)
       default:
         return new DefaultSlackCommandHandler(this.commandInfo)
     }

@@ -9,7 +9,7 @@ export default class GiftsSlackCommandHandler extends
     this.sendMessage(
       this.getGiftsText(),
       this.messageConsumer,
-      SlackResponseType.hidden,
+      SlackResponseType.Hidden,
       await this.getGiftsAsAttachment(this.teamId)
     )
   }

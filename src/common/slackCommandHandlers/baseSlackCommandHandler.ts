@@ -60,7 +60,7 @@ abstract class BaseSlackCommandHandler {
       this.sendMessage(
         message,
         this.messageConsumer,
-        SlackResponseType.hidden
+        SlackResponseType.Hidden
       )
     }
   }

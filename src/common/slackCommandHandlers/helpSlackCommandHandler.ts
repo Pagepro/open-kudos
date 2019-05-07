@@ -10,7 +10,7 @@ export default class HelpSlackCommandHandler extends BaseSlackCommandHandler {
         "hereYouWillFindAllCommandsThatYouCanUse"
       ),
       this.messageConsumer,
-      SlackResponseType.hidden
+      SlackResponseType.Hidden
     )
   }
 }
