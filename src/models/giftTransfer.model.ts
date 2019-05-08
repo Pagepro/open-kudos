@@ -64,6 +64,7 @@ giftTransferSchema.index({
 giftTransferSchema.pre('save', async function () {
   const currentDocument = this as IGiftTransferDocument
   const gift = await Gift.findById(currentDocument.giftId)
+
   currentDocument.giftName = gift.name
   currentDocument.giftDescription = gift.description
   currentDocument.giftCost = gift.cost
