@@ -1,9 +1,9 @@
 export enum Locale {
-  en = 'en'
+  EnGb = 'en-gb'
 }
 
 export interface ITranslationsMapping {
-  [Locale.en]: ILocaleTranslations
+  [Locale.EnGb]: ILocaleTranslations
 }
 
 // We define this interface to make sure that every language implements all of
