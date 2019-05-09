@@ -8,6 +8,7 @@ import { Request, Response } from 'express'
 import SlackActionHandlerFactory from '../../common/factories/slackActionHandlerFactory'
 import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandlerFactory'
 import SlackEventHandlerFactory from '../../common/factories/slackEventHandlerFactory'
+import SubscriptionMiddleware from '../../middleware/subscriptionMiddleware'
 import {
   ISlackAction,
   ISlackActionPayload,
@@ -18,7 +19,7 @@ import {
 
 @Controller('/slack')
 export default class SlackController {
-  @Post('/command')
+  @Post('/command', [SubscriptionMiddleware])
   public command(
     @ResponseDecorator() res: Response,
     @RequestDecorator() { body }: Request) {

@@ -35,7 +35,7 @@ export default class BotInstallationController {
 
       res.end('Workspace created')
     } catch (error) {
-      res.send(error)
+      res.send(error.message)
     }
   }
 
