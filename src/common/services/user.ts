@@ -43,15 +43,14 @@ export default class UserService {
           },
           user,
           {
-            upsert: true
+            setDefaultsOnInsert: true,
+            upsert: true,
+
           }
         )
       }
-
-      return true
     } catch (error) {
       this.logger.logError(error)
-      return false
     }
   }
 
