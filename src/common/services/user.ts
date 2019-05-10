@@ -84,7 +84,7 @@ export default class UserService {
     Promise<MessageAttachment[]> {
     const top5Users = await User
       .find({ teamId })
-      .sort({ kudosGranted: 'asc' })
+      .sort({ kudosGranted: 'desc' })
       .limit(5)
 
     return top5Users.map((user, index) => {
