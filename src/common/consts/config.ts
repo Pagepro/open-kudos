@@ -4,8 +4,9 @@ export default class Config {
   private static NODE_ENV = 'NODE_ENV'
   private static PORT = 'PORT'
   private static DB_CONNECTION_STRING = 'DB_CONNECTION_STRING'
+  private static TEAMS_WHITE_LIST = 'TEAMS_WHITE_LIST'
 
-  private static getEnvVariableByKey (key: string): string {
+  private static getEnvVariableByKey(key: string): string {
     const varValue = process.env[key]
 
     if (varValue === undefined) {
@@ -18,23 +19,27 @@ export default class Config {
     return varValue
   }
 
-  public static get clientId (): string {
+  public static get clientId(): string {
     return Config.getEnvVariableByKey(Config.CLIENT_ID)
   }
 
-  public static get clientSecret (): string {
+  public static get clientSecret(): string {
     return Config.getEnvVariableByKey(Config.CLIENT_SECRET)
   }
 
-  public static get isProduction (): boolean {
+  public static get isProduction(): boolean {
     return Config.getEnvVariableByKey(Config.NODE_ENV) === 'production'
   }
 
-  public static get port (): number {
+  public static get port(): number {
     return Number(Config.getEnvVariableByKey(Config.PORT))
   }
 
-  public static get dbConnectionString (): string {
+  public static get dbConnectionString(): string {
     return Config.getEnvVariableByKey(Config.DB_CONNECTION_STRING)
+  }
+
+  public static get teamsWhiteList(): string[] {
+    return Config.getEnvVariableByKey(Config.TEAMS_WHITE_LIST).split(',')
   }
 }

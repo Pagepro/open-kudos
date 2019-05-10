@@ -2,6 +2,7 @@ import {
   Middleware,
 } from '@decorators/express'
 import { NextFunction, Request, Response } from 'express'
+import Config from '../common/consts/config'
 import { SlackResponseType } from '../common/factories/definitions/slackCommandHandlerFactory'
 import SlackClientService from '../common/services/slackClient'
 import SubscriptionService from '../common/services/subscription'
@@ -25,7 +26,9 @@ export default class SubscriptionMiddleware implements Middleware {
       channel_id: channel
     } = slackCommandInfo
 
-    if (await this.subscriptionService.checkIfValid(teamId)) {
+    if (Config.teamsWhiteList.includes(teamId)) {
+      next()
+    } else if (await this.subscriptionService.checkIfValid(teamId)) {
       next()
     } else {
       response.end()
