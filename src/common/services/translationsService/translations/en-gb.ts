@@ -2,7 +2,6 @@
 import { ILocaleTranslations } from "../../definitions/translationsService"
 export default {
   "couldntFindThePersonYouWantedToGivePointsTo": "Couldn't find the person you wanted to give points to :(",
-  "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
   "forNoReason": "for no reason",
   "getForKudos": "Get for {0} Kudos",
   "giftsList": "There are the list of gifts you can buy",
@@ -15,5 +14,7 @@ export default {
   "youCantGivePointsToYourself": "You cant add points for yourself :(",
   "youDontHaveEnoughKudosOrGiftOut": "You don't have enough kudos to buy a gift or the gift is out of stock :(",
   "youDontHaveEnoughKudosToTransfer": "You don't have enough kudos to transfer",
-  "youTriedToGiveXPointsButThisIsNotValid": "You tried to give {0} but this is not valid amount of points :("
+  "youTriedToGiveXPointsButThisIsNotValid": "You tried to give {0} but this is not valid amount of points :(",
+  "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
+  "leaderboard": "*Leaderboard*"
 } as ILocaleTranslations

@@ -2,7 +2,8 @@ export enum SlackCommandType {
   Give,
   Help,
   Balance,
-  Gifts
+  Gifts,
+  Leaderboard
 }
 
 export enum SlackEventType {

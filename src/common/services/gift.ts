@@ -3,6 +3,7 @@ import '../../models/gift.model'
 import Gift from '../../models/gift.model'
 import { realGifts } from '../../test/testData'
 import SlackConsts from '../consts/slack'
+import Helpers from './helpers'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
@@ -42,7 +43,7 @@ export default class GiftService {
           }
         ] as AttachmentAction[],
         callback_id: SlackConsts.buyGiftCallback,
-        color: this.getRandomHexColor(),
+        color: Helpers.getRandomHexColor(),
         text: gift.description,
         title: gift.name,
       }
@@ -50,10 +51,4 @@ export default class GiftService {
 
     return giftAsAttachment as MessageAttachment[]
   }
-
-  private getRandomHexColor() {
-    return "#" +
-      `${Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, '0')}`
-  }
-
 }

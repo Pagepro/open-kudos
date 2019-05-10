@@ -24,4 +24,5 @@ export interface ILocaleTranslations {
   youBoughtGift: string,
   youDontHaveEnoughKudosOrGiftOut: string,
   demoExpired: string
+  leaderboard: string
 }

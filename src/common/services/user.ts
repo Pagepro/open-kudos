@@ -1,6 +1,8 @@
+import { MessageAttachment } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
+import Helpers from './helpers'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
 
@@ -76,5 +78,18 @@ export default class UserService {
 
   public async createUser(user: IUser) {
     return User.create(user)
+  }
+
+  public async getLeaderboardAttachments(teamId: string):
+    Promise<MessageAttachment[]> {
+    const top5Users = await User
+      .find({ teamId })
+      .sort({ kudosGranted: 'desc' })
+      .limit(5)
+
+    return top5Users.map((user, index) => ({
+      color: Helpers.getRandomHexColor(),
+      title: `${index + 1}. <@${user.userId}> - ${user.kudosGranted}`
+    }))
   }
 }
