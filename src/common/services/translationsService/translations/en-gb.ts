@@ -2,7 +2,6 @@
 import { ILocaleTranslations } from "../../definitions/translationsService"
 export default {
   "couldntFindThePersonYouWantedToGivePointsTo": "Couldn't find the person you wanted to give points to :(",
-  "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
   "forNoReason": "for no reason",
   "getForKudos": "Get for {0} Kudos",
   "giftsList": "There are the list of gifts you can buy",

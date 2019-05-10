@@ -87,11 +87,9 @@ export default class UserService {
       .sort({ kudosGranted: 'desc' })
       .limit(5)
 
-    return top5Users.map((user, index) => {
-      return {
-        color: Helpers.getRandomHexColor(),
-        title: `${index + 1}. <@${user.userId}> - ${user.kudosGranted}`,
-      }
-    })
+    return top5Users.map((user, index) => ({
+      color: Helpers.getRandomHexColor(),
+      title: `${index + 1}. <@${user.userId}> - ${user.kudosGranted}`
+    }))
   }
 }
