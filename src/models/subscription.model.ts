@@ -1,4 +1,5 @@
 import { Document, model, Schema } from 'mongoose'
+import CommonConst from '../common/consts/common'
 
 export interface ISubscription {
   startDate?: Date,
@@ -8,11 +9,11 @@ export interface ISubscription {
 }
 
 type ISubscriptionDocument = ISubscription & Document
-const DEMO_DAYS_PERIOD = 30
+
 const subscriptionSchema: Schema<ISubscriptionDocument> = new Schema({
   endDate: {
     default: () =>
-      new Date().getTime() + DEMO_DAYS_PERIOD * 24 * 60 * 60 * 1000,
+      new Date().getTime() + CommonConst.demoDaysPeriod * 24 * 60 * 60 * 1000,
     type: Date
   },
   startDate: {
@@ -20,7 +21,7 @@ const subscriptionSchema: Schema<ISubscriptionDocument> = new Schema({
     type: Date
   },
   teamId: {
-    required: 'Team id is required',
+    required: true,
     trim: true,
     type: String,
   },

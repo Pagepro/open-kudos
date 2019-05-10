@@ -25,8 +25,10 @@ export default class SubscriptionMiddleware implements Middleware {
       channel_id: channel
     } = slackCommandInfo
 
-    await this.subscriptionService.checkIfValid(teamId) ?
-      next() :
+    if (await this.subscriptionService.checkIfValid(teamId)) {
+      next()
+    } else {
+      response.end()
       this.slackClientService.sendMessage(
         this.translationsService.getTranslation('demoExpired'),
         {
@@ -35,5 +37,6 @@ export default class SubscriptionMiddleware implements Middleware {
           user,
         },
         SlackResponseType.Hidden)
+    }
   }
 }

@@ -33,7 +33,7 @@ export default class BotInstallationController {
         subscriptionService.create(workspace.teamId)
       ])
 
-      res.end('Workspace created')
+      res.end()
     } catch (error) {
       res.send(error.message)
     }
