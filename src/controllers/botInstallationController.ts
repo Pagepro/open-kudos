@@ -8,6 +8,7 @@ import axios from 'axios'
 import { Request, Response } from 'express'
 import Config from '../common/consts/config'
 import SlackConsts from '../common/consts/slack'
+import SubscriptionService from '../common/services/subscription'
 import UserService from '../common/services/user'
 import WorkspaceService from '../common/services/workspace'
 import { IWorkspace } from '../models/workspace.model'
@@ -23,15 +24,18 @@ export default class BotInstallationController {
     const workspace = this.getWorkspaceFromResponse(response)
     const workspaceService = new WorkspaceService()
     const userService = new UserService()
+    const subscriptionService = new SubscriptionService()
 
     try {
-      const workspaceInitiated = workspaceService.create(workspace)
-      const usersInitiated = userService.initUsers(workspace)
-      if (workspaceInitiated && usersInitiated) {
-        res.end('Workspace created')
-      }
+      await Promise.all([
+        workspaceService.create(workspace),
+        userService.initUsers(workspace),
+        subscriptionService.create(workspace.teamId)
+      ])
+
+      res.end()
     } catch (error) {
-      res.send(error)
+      res.send(error.message)
     }
   }
 

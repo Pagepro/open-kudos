@@ -11,11 +11,8 @@ export default class WorkspaceService {
         workspace,
         { upsert: true }
       )
-      return true
     } catch (error) {
       this.logger.logError(error)
     }
-
-    return false
   }
 }

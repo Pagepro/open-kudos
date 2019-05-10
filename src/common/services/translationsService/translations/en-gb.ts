@@ -2,10 +2,11 @@
 import { ILocaleTranslations } from "../../definitions/translationsService"
 export default {
   "couldntFindThePersonYouWantedToGivePointsTo": "Couldn't find the person you wanted to give points to :(",
+  "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
   "forNoReason": "for no reason",
   "getForKudos": "Get for {0} Kudos",
   "giftsList": "There are the list of gifts you can buy",
-  "hereYouWillFindAllCommandsThatYouCanUse": "Happy to help, below a list of commands that you can currently use:\n\n*give @person 10 for helping with code review.*\n- This is the main feature of the bot.\n- The message structure: @kudos give @pointsReceiver [number of points] for [reason]\n- You can give some points to somebody for some reason or without reason.\n- A message with points without reason: @kudos give @pointsReceiver 10\n\n*balance* - this command returns your current balance of points\n\n*gifts* - this command displays a list of gifts that you can get after exchanging your received points.\n\n*help* - I guess you already know how it works.",
+  "hereYouWillFindAllCommandsThatYouCanUse": "Happy to help, below a list of commands that you can currently use:\n\n*give @person 10 for helping with code review.*\n- This is the main feature of the bot.\n- The message structure: give @pointsReceiver [number of points] for [reason]\n- You can give some points to somebody for some reason or without reason.\n- A message with points without reason: give @pointsReceiver 10\n\n*balance* - this command returns your current balance of points\n\n*gifts* - this command displays a list of gifts that you can get after exchanging your received points.\n\n*help* - I guess you already know how it works.",
   "iCouldntRecognizeThatAction": "I couldn't recognize that action, please contact the administrator",
   "iCouldntRecognizeThatCommandPleaseUseHelp": "I couldn't recognize that command please use help to see the list of commands",
   "kudosBalance": "Here is your Kudos balance\n\n*Kudos to Give*\n{0} Kudos\nThese are Kudos you can give to your teammates and are reset at the beginning of the month.\n\n*Kudos to Spend*\n{1} Kudos \nYou receive these Kudos from your teammates and can spend them to buy gifts. They never expire.",

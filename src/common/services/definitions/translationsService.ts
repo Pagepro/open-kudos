@@ -22,5 +22,6 @@ export interface ILocaleTranslations {
   getForKudos: string,
   iCouldntRecognizeThatAction: string,
   youBoughtGift: string,
-  youDontHaveEnoughKudosOrGiftOut: string
+  youDontHaveEnoughKudosOrGiftOut: string,
+  demoExpired: string
 }

@@ -103,9 +103,6 @@ export default class SlackClientService {
         ).map(user => {
           return {
             isAdmin: user.is_admin ? user.is_admin : false,
-            kudosGiveable: 100,
-            kudosGranted: 0,
-            kudosSpendable: 0,
             name: user.name,
             realName: user.profile.real_name,
             teamId: user.team_id,
