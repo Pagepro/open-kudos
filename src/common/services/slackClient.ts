@@ -1,54 +1,18 @@
-import { MessageAttachment, WebAPICallResult, WebClient } from '@slack/client'
+import { MessageAttachment, WebClient } from '@slack/client'
 import { IMessageConsumer } from '../../controllers/definitions/slackController'
 import { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import Workspace from '../../models/workspace.model'
-import SlackConsts from '../consts/slack'
 import { SlackResponseType } from '../factories/definitions/slackCommandHandlerFactory'
+import {
+  IChannelsListResponse,
+  IExtendedWebApiCallResult,
+  IImOpenResponse
+} from './definitions/slackApi'
 
-interface ISlackUserResponse {
-  id: string
-  team_id: string
-  name: string
-  deleted: boolean
-  profile: ISlackProfileResponse
-  is_admin?: boolean
-  is_owner?: boolean
-  is_primary_owner?: boolean
-  is_bot: boolean
-  is_app_user: boolean
-}
-
-interface ISlackProfileResponse {
-  title: string
-  phone: string
-  skype: string
-  real_name: string
-  real_name_normalized: string
-  display_name: string
-  display_name_normalized: string
-  status_text: string
-  status_emoji: string
-  status_expiration: number,
-  avatar_hash: string
-  email: string
-  image_24: string
-  image_32: string
-  image_48: string
-  image_72: string
-  image_192: string
-  image_512: string
-  status_text_canonical: string,
-  team: string
-}
-
-interface IExtendedWebApiCallResult extends WebAPICallResult {
-  members: ISlackUserResponse[]
-}
-
-// TODO: remove statics
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
+  public static generalChannels: IStringTMap<string> = {}
 
   public initWebClient(workspace: IWorkspace) {
     SlackClientService.clients[workspace.teamId] =
@@ -66,28 +30,52 @@ export default class SlackClientService {
     }
   }
 
+  public async  getGeneralChannelId(teamId: string): Promise<string> {
+    if (SlackClientService.generalChannels[teamId]) {
+      return SlackClientService.generalChannels[teamId]
+    } else {
+      try {
+        const client = await this.getWebClient(teamId)
+        const response: IChannelsListResponse = await client.channels.list()
+        const { ok, channels, error } = response
+
+        if (ok) {
+          const { id: generalChannelId } = channels
+            .find(({ is_general }) => is_general)
+          SlackClientService.generalChannels[teamId] = generalChannelId
+          return generalChannelId
+        } else {
+          throw new Error(error)
+        }
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+
   public async sendMessage(
     text: string,
     consumer: IMessageConsumer,
-    type: SlackResponseType = SlackResponseType.standard,
+    type: SlackResponseType = SlackResponseType.Standard,
     attachments?: MessageAttachment[],
   ) {
     const { teamId, channel, user } = consumer
     const client = await this.getWebClient(teamId)
+
     switch (type) {
-      case SlackResponseType.hidden:
+      case SlackResponseType.Hidden:
         client.chat.postEphemeral({ channel, text, user, attachments })
         break
 
-      case SlackResponseType.general:
+      case SlackResponseType.General:
         client.chat.postMessage({
           attachments,
-          channel: SlackConsts.mainChannelName,
+          channel: await this.getGeneralChannelId(teamId),
           text
         })
         break
 
-      case SlackResponseType.standard:
+      case SlackResponseType.Standard:
       default:
         client.chat.postMessage({ channel, text, attachments })
     }
@@ -103,9 +91,6 @@ export default class SlackClientService {
         ).map(user => {
           return {
             isAdmin: user.is_admin ? user.is_admin : false,
-            kudosGiveable: 100,
-            kudosGranted: 0,
-            kudosSpendable: 0,
             name: user.name,
             realName: user.profile.real_name,
             teamId: user.team_id,
@@ -115,5 +100,21 @@ export default class SlackClientService {
     }
 
     return []
+  }
+
+  public async getKudosBotChannelId(teamId: string, userId: string) {
+    try {
+      const client = await this.getWebClient(teamId)
+      const response: IImOpenResponse = await client.im.open({ user: userId })
+      const { ok, channel: { id }, error } = response
+
+      if (ok) {
+        return id
+      } else {
+        throw new Error(error)
+      }
+    } catch (error) {
+      throw error
+    }
   }
 }

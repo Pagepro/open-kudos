@@ -1,15 +1,18 @@
 import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
+import ejs from 'ejs'
 import express from 'express'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import BotInstallationController from './controllers/botInstallationController'
+import LandingPageController from './controllers/landingPageController'
 import SlackController from './controllers/slackController'
 
 class App {
   public expressApp: express.Application
   private configurationService = new ConfigurationService()
   private dbService = new DbService()
+  private APIRouter: express.Router = express.Router()
   private router: express.Router = express.Router()
 
   constructor() {
@@ -19,6 +22,7 @@ class App {
     this.configureRoutes()
     this.configureCronTasks()
     this.connectToDatabase()
+    this.setViewEngine()
   }
 
   private configureMiddlewares(): void {
@@ -30,11 +34,16 @@ class App {
 
   private configureRoutes(): void {
     attachControllers(this.router, [
+      LandingPageController
+    ])
+
+    attachControllers(this.APIRouter, [
       SlackController,
       BotInstallationController,
     ])
 
-    this.expressApp.use('/api', this.router)
+    this.expressApp.use('/', this.router)
+    this.expressApp.use('/api', this.APIRouter)
   }
 
   private configureCronTasks(): void {
@@ -43,6 +52,11 @@ class App {
 
   private connectToDatabase(): void {
     this.dbService.connect()
+  }
+
+  private setViewEngine(): void {
+    this.expressApp.set('views', `${__dirname}/views`)
+    this.expressApp.set('view engine', 'ejs')
   }
 }
 

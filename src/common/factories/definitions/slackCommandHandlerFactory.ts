@@ -1,16 +1,21 @@
 export enum SlackCommandType {
-  give = 'give',
-  help = 'help',
-  balance = 'balance',
-  gifts = 'gifts'
+  Give,
+  Help,
+  Balance,
+  Gifts,
+  Leaderboard
+}
+
+export enum SlackEventType {
+  MemberJoinedChannel
 }
 
 export enum SlackResponseType {
-  hidden = 'hidden',
-  general = 'general',
-  standard = 'standard'
+  Hidden = 'hidden',
+  General = 'general',
+  Standard = 'standard'
 }
 
 export enum SlackActionsCallbacks {
-  buyGift = 'buyGift'
+  BuyGift = 'buyGift'
 }

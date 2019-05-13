@@ -1,38 +1,37 @@
 import { MessageAttachment } from "@slack/client"
-import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
+import { IMessageConsumer, ISlackCommandInfo } from "../../controllers/definitions/slackController"
+import SlackConsts from "../consts/slack"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
+import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
 import TranslationsService from "../services/translationsService"
+import UserService from "../services/user"
 
 abstract class BaseSlackCommandHandler {
-  get eventText() {
-    const { text } = this.eventInfo.event
+  get commandText() {
+    const { text } = this.commandInfo
 
     return text
   }
 
   get senderId() {
-    const { user } = this.eventInfo.event
+    const { user_id } = this.commandInfo
 
-    return user
+    return user_id
   }
 
   get teamId() {
-    const { team_id } = this.eventInfo
+    const { team_id } = this.commandInfo
 
     return team_id
   }
 
-  get messageConsumer() {
-    const { team_id, event: { channel, user } } = this.eventInfo
-    const messageConsumer: IMessageConsumer = { teamId: team_id, channel, user }
-    return messageConsumer
-  }
-
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
+  protected userService = new UserService()
+  protected logger = new LoggerService()
 
-  constructor(protected eventInfo: ISlackEventInfo) { }
+  constructor(protected commandInfo: ISlackCommandInfo) { }
 
   public sendMessage(
     text: string,
@@ -46,13 +45,12 @@ abstract class BaseSlackCommandHandler {
   public async handleCommand(): Promise<void> {
     try {
       await this.validate()
-
       await this.onHandleCommand()
     } catch ({ message }) {
       this.sendMessage(
         message,
-        this.messageConsumer,
-        SlackResponseType.hidden
+        await this.getMessageConsumer(),
+        SlackResponseType.Hidden
       )
     }
   }
@@ -69,6 +67,25 @@ abstract class BaseSlackCommandHandler {
 
   protected async validate(): Promise<void> {
     return
+  }
+
+  protected async getMessageConsumer() {
+    const { team_id, channel_id, channel_name, user_id } = this.commandInfo
+    const channel = channel_name === SlackConsts.directMessageType
+      ? await this.getKudosBotChannelId(team_id, user_id)
+      : channel_id
+
+    const messageConsumer: IMessageConsumer = {
+      channel,
+      teamId: team_id,
+      user: user_id
+    }
+
+    return messageConsumer
+  }
+
+  private async getKudosBotChannelId(teamId, userId) {
+    return await this.slackClientService.getKudosBotChannelId(teamId, userId)
   }
 }
 

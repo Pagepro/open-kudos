@@ -17,7 +17,7 @@ export default class SlackActionHandlerFactory {
   }
 
   private get actionType() {
-    const actionCallbackId = this.actionCallbackId
+    const actionCallbackId = this.actionCallbackId.toPascalCase()
     const actionType = SlackActionsCallbacks[
       actionCallbackId as keyof typeof SlackActionsCallbacks
     ]
@@ -27,7 +27,7 @@ export default class SlackActionHandlerFactory {
 
   public createSlackActionHandler(): BaseSlackActionHandler {
     switch (this.actionType) {
-      case SlackActionsCallbacks.buyGift:
+      case SlackActionsCallbacks.BuyGift:
         return new BuyGiftSlackActionHandler(this.action)
       default:
         return new DefaultSlackActionHandler(this.action)

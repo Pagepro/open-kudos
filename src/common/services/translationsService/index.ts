@@ -1,12 +1,12 @@
 import { ILocaleTranslations, ITranslationsMapping, Locale } from '../definitions/translationsService'
-import en from './translations/en'
+import enGb from './translations/en-gb'
 
 const translationsMapping: ITranslationsMapping = {
-  [Locale.en]: en
+  [Locale.EnGb]: enGb
 }
 
 export default class TranslationsService {
-  constructor(private locale: Locale = Locale.en) {}
+  constructor(private locale: Locale = Locale.EnGb) { }
 
   private get currentLocaleTranslations() {
     return translationsMapping[this.locale]

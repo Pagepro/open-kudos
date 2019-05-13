@@ -1,13 +1,17 @@
 {
   "name": "open-kudos",
-  "version": "1.0.0",
+  "version": "0.0.0-semantically-released",
   "license": "MIT",
   "scripts": {
     "test": "mocha --exit",
     "start": "node -r dotenv/config  ./dist/server.js",
-    "build": "tsc",
+    "build": "npm run copy-assets && npm run get-translations && tsc",
     "watch": "nodemon",
-    "local": "node -r dotenv/config ./localtunnel.js"
+    "local": "node -r dotenv/config ./localtunnel.js",
+    "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js",
+    "copy-assets": "node copyAssets.js",
+    "semantic-release": "semantic-release",
+    "git-cz": "git-cz"
   },
   "dependencies": {
     "@decorators/di": "^1.0.2",
@@ -17,19 +21,26 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "fs-extra": "^7.0.1",
+    "heroku-logger": "^0.3.3",
     "i18n": "^0.8.3",
     "lodash": "^4.17.11",
     "mocha-prepare": "^0.1.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
-    "node-cron": "^2.0.3"
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.3.0",
+    "query-string": "^6.4.2"
   },
   "devDependencies": {
+    "@semantic-release/github": "^5.2.10",
     "@types/body-parser": "^1.17.0",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
     "@types/express": "^4.16.1",
+    "@types/heroku-logger": "^0.1.0",
     "@types/i18n": "^0.8.5",
     "@types/lodash": "^4.14.122",
     "@types/mocha": "^5.2.6",
@@ -38,14 +49,40 @@
     "@types/node-cron": "^2.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chalk": "^2.4.2",
+    "commitizen": "^3.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^2.1.0",
     "localtunnel": "^1.9.1",
     "mocha": "^6.0.0",
     "mongo-unit": "^1.4.4",
     "nodemon": "^1.18.10",
+    "semantic-release": "^15.13.3",
+    "shell-history": "^1.1.0",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3"
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github"
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node preCommit.js"
+    }
   }
 }

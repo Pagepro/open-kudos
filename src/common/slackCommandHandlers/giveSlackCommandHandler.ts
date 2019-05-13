@@ -4,15 +4,19 @@ import TransferService from "../services/transfer"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
+  private transferService = new TransferService()
+
   get transactionComment() {
-    const wordsInCommand = this.eventText.split(" ")
-    return wordsInCommand.length > 4
-      ? `${wordsInCommand.slice(4, wordsInCommand.length).join(" ")}`
+    const wordsInCommand = this.commandText.split(" ")
+    return wordsInCommand.length > 3
+      ? `${wordsInCommand.slice(3, wordsInCommand.length).join(" ")}`
       : this.translationsService.getTranslation("forNoReason")
   }
 
   get receiverId() {
-    const [, , receiverId = String.empty] = this.eventText.split(" ")
+    const [, escapedReceiverId = String.empty] = this.commandText.split(" ")
+    const receiverId = `${escapedReceiverId
+      .substring(0, escapedReceiverId.indexOf('|'))}>`
 
     return receiverId
   }
@@ -22,13 +26,13 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
   }
 
   get transferKudosCount() {
-    const [, , , points = String.empty] = this.eventText.split(" ")
+    const [, , points = String.empty] = this.commandText.split(" ")
 
     return points
   }
 
   get validTransferKudosCount() {
-    const [, , , points = String.empty] = this.eventText.split(" ")
+    const [, , points = String.empty] = this.commandText.split(" ")
     const validPoints = Number(points)
 
     return Number.isInteger(validPoints) && validPoints > 0 && validPoints
@@ -51,21 +55,12 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
   }
 
   public async onHandleCommand() {
-    try {
-      const transferService = new TransferService()
-      await transferService.transferKudos(this.transfer)
-      this.sendMessage(
-        this.getCommandResponse(),
-        this.messageConsumer,
-        SlackResponseType.general
-      )
-    } catch (ex) {
-      // TODO: handle log error
-      // tslint:disable-next-line:no-console
-      console.log(ex.message)
-      // tslint:disable-next-line:no-console
-      console.log(this.eventInfo)
-    }
+    await this.transferService.transferKudos(this.transfer)
+    this.sendMessage(
+      this.getCommandResponse(),
+      await this.getMessageConsumer(),
+      SlackResponseType.General
+    )
   }
 
   public getCommandResponse() {
@@ -100,6 +95,13 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
           "youTriedToGiveXPointsButThisIsNotValid",
           this.transferKudosCount
         )
+      )
+    }
+
+    if (await this.transferService.isKudosAmountToLow(this.transfer)) {
+      throw new Error(
+        this.translationsService
+          .getTranslation("youDontHaveEnoughKudosToTransfer")
       )
     }
   }

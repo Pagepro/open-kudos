@@ -1,9 +1,13 @@
 /* tslint:disable */
 import * as chai from 'chai'
 import GiveCommandHandler from '../../common/slackCommandHandlers/giveSlackCommandHandler'
-import { ISlackEventInfo } from '../../controllers/definitions/slackController'
+import { ISlackCommandInfo } from '../../controllers/definitions/slackController'
 import TestHelper from '../../utils/testHelper'
-import { slackEventBasicObject, testUserData, testReceiverData } from '../testData'
+import {
+  slackCommandBasicObject,
+  testUserData,
+  testReceiverData
+} from '../testData'
 import chaiAsPromised from 'chai-as-promised'
 import User from '../../models/user.model'
 
@@ -15,36 +19,38 @@ class GiveCommandHandlerToTest extends GiveCommandHandler {
 
 chai.use(chaiAsPromised)
 const { expect } = chai
-const testHelper = new TestHelper<ISlackEventInfo>()
+const testHelper = new TestHelper<ISlackCommandInfo>()
 
 const slackEventInfoFromUserWithFullCommand = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '<@U0LAN0Z10> give <@U0LAN0Z99> 10 for test purpose' } }
+  slackCommandBasicObject,
+  { text: 'give <@U0LAN0Z99|test> 10 for test purpose' }
 )
+
 const slackEventInfoFromUserWithoutReasonOfGivignPoints = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '<@U061F7AUR> give <@U0LAN0Z99> 10' } }
+  slackCommandBasicObject,
+  { text: 'give <@U0LAN0Z99|test> 10' }
 )
+
 const slackEventInfoFromUserWithReceiverEqualGiver = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '<@U061F7AUR> give <@U061F7AUR> 10 for test purpose' } }
+  slackCommandBasicObject,
+  { text: 'give <@U061F7AUR|test> 10 for test purpose' }
 )
+
 const slackEventInfoFromUserWithNotValidPointsAmount = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '<@U061F7AUR> give <@U0LAN0Z99> XYZ for test purpose' } }
+  slackCommandBasicObject,
+  { text: 'give <@U0LAN0Z99|test> XYZ for test purpose' }
 )
+
 const slackEventInfoFromUserWithNotValidRecievier = testHelper.createTestObject(
-  slackEventBasicObject,
-  { event: { text: '<@U061F7AUR> give notValidUser 10 for test purpose' } }
+  slackCommandBasicObject,
+  { text: 'give notValidUser 10 for test purpose' }
 )
+
 const slackEventInfoWithValidData = testHelper.createTestObject(
-  slackEventBasicObject,
+  slackCommandBasicObject,
   {
-    event:
-    {
-      user: testUserData.userId,
-      text: `<@U061F7AUR> give <@${testReceiverData.userId}> 10 for test purpose`
-    }
+    user_id: testUserData.userId,
+    text: `give <@${testReceiverData.userId}|test> 10 for test purpose`
   }
 )
 
