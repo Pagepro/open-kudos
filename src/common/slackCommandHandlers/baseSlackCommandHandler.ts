@@ -1,5 +1,6 @@
 import { MessageAttachment } from "@slack/client"
 import { IMessageConsumer, ISlackCommandInfo } from "../../controllers/definitions/slackController"
+import SlackConsts from "../consts/slack"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
@@ -25,17 +26,6 @@ abstract class BaseSlackCommandHandler {
     return team_id
   }
 
-  get messageConsumer() {
-    const { team_id, channel_id, user_id } = this.commandInfo
-    const messageConsumer: IMessageConsumer = {
-      channel: channel_id,
-      teamId: team_id,
-      user: user_id
-    }
-
-    return messageConsumer
-  }
-
   protected translationsService = new TranslationsService()
   protected slackClientService = new SlackClientService()
   protected userService = new UserService()
@@ -59,7 +49,7 @@ abstract class BaseSlackCommandHandler {
     } catch ({ message }) {
       this.sendMessage(
         message,
-        this.messageConsumer,
+        await this.getMessageConsumer(),
         SlackResponseType.Hidden
       )
     }
@@ -77,6 +67,25 @@ abstract class BaseSlackCommandHandler {
 
   protected async validate(): Promise<void> {
     return
+  }
+
+  protected async getMessageConsumer() {
+    const { team_id, channel_id, channel_name, user_id } = this.commandInfo
+    const channel = channel_name === SlackConsts.directMessageType
+      ? await this.getKudosBotChannelId(team_id, user_id)
+      : channel_id
+
+    const messageConsumer: IMessageConsumer = {
+      channel,
+      teamId: team_id,
+      user: user_id
+    }
+
+    return messageConsumer
+  }
+
+  private async getKudosBotChannelId(teamId, userId) {
+    return await this.slackClientService.getKudosBotChannelId(teamId, userId)
   }
 }
 

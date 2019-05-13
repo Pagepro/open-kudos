@@ -7,7 +7,7 @@ export default class BalanceSlackCommandHandler extends
   public async onHandleCommand() {
     this.sendMessage(
       await this.getBalanceInformation(),
-      this.messageConsumer,
+      await this.getMessageConsumer(),
       SlackResponseType.Hidden
     )
   }
