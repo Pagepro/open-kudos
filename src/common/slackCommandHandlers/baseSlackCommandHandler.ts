@@ -49,7 +49,7 @@ abstract class BaseSlackCommandHandler {
     } catch ({ message }) {
       this.sendMessage(
         message,
-        await this.messageConsumer(),
+        await this.getMessageConsumer(),
         SlackResponseType.Hidden
       )
     }
@@ -69,16 +69,14 @@ abstract class BaseSlackCommandHandler {
     return
   }
 
-  protected async messageConsumer() {
-    let { channel_id } = this.commandInfo
-    const { team_id, channel_name, user_id } = this.commandInfo
-
-    if (channel_name === SlackConsts.directMessageType) {
-      channel_id = await this.kudosBotChannelId(team_id, user_id)
-    }
+  protected async getMessageConsumer() {
+    const { team_id, channel_id, channel_name, user_id } = this.commandInfo
+    const channel = channel_name === SlackConsts.directMessageType
+      ? await this.getKudosBotChannelId(team_id, user_id)
+      : channel_id
 
     const messageConsumer: IMessageConsumer = {
-      channel: channel_id,
+      channel,
       teamId: team_id,
       user: user_id
     }
@@ -86,8 +84,8 @@ abstract class BaseSlackCommandHandler {
     return messageConsumer
   }
 
-  private async kudosBotChannelId(teamId, userId) {
-    return await this.slackClientService.kudosBotChannelId(teamId, userId)
+  private async getKudosBotChannelId(teamId, userId) {
+    return await this.slackClientService.getKudosBotChannelId(teamId, userId)
   }
 }
 

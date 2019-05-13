@@ -42,7 +42,7 @@ interface ISlackProfileResponse {
   team: string
 }
 
-type ImOpenResponse = WebAPICallResult & {
+interface IImOpenResponse extends WebAPICallResult {
   channel?: {
     id: string
   }
@@ -52,7 +52,6 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
   members: ISlackUserResponse[]
 }
 
-// TODO: remove statics
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
 
@@ -120,15 +119,16 @@ export default class SlackClientService {
     return []
   }
 
-  public async kudosBotChannelId(teamId: string, userId: string) {
+  public async getKudosBotChannelId(teamId: string, userId: string) {
     try {
       const client = await this.getWebClient(teamId)
-      const response: ImOpenResponse = await client.im.open({ user: userId })
-      const { ok, channel: { id } } = response
+      const response: IImOpenResponse = await client.im.open({ user: userId })
+      const { ok, channel: { id }, error } = response
+
       if (ok) {
         return id
       } else {
-        throw new Error(response.error)
+        throw new Error(error)
       }
     } catch (error) {
       throw error

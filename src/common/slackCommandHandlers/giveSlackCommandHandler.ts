@@ -58,7 +58,7 @@ export default class GiveSlackCommandHandler extends BaseSlackCommandHandler {
     await this.transferService.transferKudos(this.transfer)
     this.sendMessage(
       this.getCommandResponse(),
-      await this.messageConsumer(),
+      await this.getMessageConsumer(),
       SlackResponseType.General
     )
   }

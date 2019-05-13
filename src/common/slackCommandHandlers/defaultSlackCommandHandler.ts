@@ -8,7 +8,7 @@ export default class DefaultSlackCommandHandler
       this.translationsService.getTranslation(
         "iCouldntRecognizeThatCommandPleaseUseHelp"
       ),
-      await this.messageConsumer(),
+      await this.getMessageConsumer(),
       SlackResponseType.Hidden,
     )
   }

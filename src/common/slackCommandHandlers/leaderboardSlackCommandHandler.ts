@@ -7,7 +7,7 @@ export default class LeaderboardSlackCommandHandler extends
   public async onHandleCommand() {
     this.sendMessage(
       this.translationsService.getTranslation("leaderboard"),
-      await this.messageConsumer(),
+      await this.getMessageConsumer(),
       SlackResponseType.Hidden,
       await this.getLeaderboardAttachments(),
     )
