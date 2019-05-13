@@ -42,6 +42,12 @@ interface ISlackProfileResponse {
   team: string
 }
 
+type ImOpenResponse = WebAPICallResult & {
+  channel?: {
+    id: string
+  }
+}
+
 interface IExtendedWebApiCallResult extends WebAPICallResult {
   members: ISlackUserResponse[]
 }
@@ -112,5 +118,20 @@ export default class SlackClientService {
     }
 
     return []
+  }
+
+  public async kudosBotChannelId(teamId: string, userId: string) {
+    try {
+      const client = await this.getWebClient(teamId)
+      const response: ImOpenResponse = await client.im.open({ user: userId })
+      const { ok, channel: { id } } = response
+      if (ok) {
+        return id
+      } else {
+        throw new Error(response.error)
+      }
+    } catch (error) {
+      throw error
+    }
   }
 }

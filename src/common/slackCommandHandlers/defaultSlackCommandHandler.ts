@@ -3,12 +3,12 @@ import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 
 export default class DefaultSlackCommandHandler
   extends BaseSlackCommandHandler {
-  public onHandleCommand(): void {
+  public async onHandleCommand(): Promise<void> {
     this.sendMessage(
       this.translationsService.getTranslation(
         "iCouldntRecognizeThatCommandPleaseUseHelp"
       ),
-      this.messageConsumer,
+      await this.messageConsumer(),
       SlackResponseType.Hidden,
     )
   }

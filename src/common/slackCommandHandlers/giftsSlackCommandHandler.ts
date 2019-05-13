@@ -5,10 +5,9 @@ import BaseSlackCommandHandler from "./baseSlackCommandHandler"
 export default class GiftsSlackCommandHandler extends
   BaseSlackCommandHandler {
   public async onHandleCommand() {
-
     this.sendMessage(
       this.getGiftsText(),
-      this.messageConsumer,
+      await this.messageConsumer(),
       SlackResponseType.Hidden,
       await this.getGiftsAsAttachment(this.teamId)
     )

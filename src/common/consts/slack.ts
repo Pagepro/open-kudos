@@ -13,6 +13,10 @@ export default class SlackConsts {
     return SlackActionsCallbacks.BuyGift.toString()
   }
 
+  public static get directMessageType(): string {
+    return 'directmessage'
+  }
+
   public static get slackInstallLink(): string {
     // tslint:disable-next-line:max-line-length
     return `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=bot,chat:write:bot,channels:read,groups:read`
