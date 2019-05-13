@@ -5,10 +5,6 @@ export default class SlackConsts {
     return 'https://slack.com/api/oauth.access'
   }
 
-  public static get mainChannelName(): string {
-    return 'general'
-  }
-
   public static get buyGiftCallback(): string {
     return SlackActionsCallbacks.BuyGift.toString()
   }

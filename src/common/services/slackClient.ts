@@ -1,59 +1,18 @@
-import { MessageAttachment, WebAPICallResult, WebClient } from '@slack/client'
+import { MessageAttachment, WebClient } from '@slack/client'
 import { IMessageConsumer } from '../../controllers/definitions/slackController'
 import { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import Workspace from '../../models/workspace.model'
-import SlackConsts from '../consts/slack'
 import { SlackResponseType } from '../factories/definitions/slackCommandHandlerFactory'
-
-interface ISlackUserResponse {
-  id: string
-  team_id: string
-  name: string
-  deleted: boolean
-  profile: ISlackProfileResponse
-  is_admin?: boolean
-  is_owner?: boolean
-  is_primary_owner?: boolean
-  is_bot: boolean
-  is_app_user: boolean
-}
-
-interface ISlackProfileResponse {
-  title: string
-  phone: string
-  skype: string
-  real_name: string
-  real_name_normalized: string
-  display_name: string
-  display_name_normalized: string
-  status_text: string
-  status_emoji: string
-  status_expiration: number,
-  avatar_hash: string
-  email: string
-  image_24: string
-  image_32: string
-  image_48: string
-  image_72: string
-  image_192: string
-  image_512: string
-  status_text_canonical: string,
-  team: string
-}
-
-interface IImOpenResponse extends WebAPICallResult {
-  channel?: {
-    id: string
-  }
-}
-
-interface IExtendedWebApiCallResult extends WebAPICallResult {
-  members: ISlackUserResponse[]
-}
+import {
+  IChannelsListResponse,
+  IExtendedWebApiCallResult,
+  IImOpenResponse
+} from './definitions/slackApi'
 
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
+  public static generalChannels: IStringTMap<string> = {}
 
   public initWebClient(workspace: IWorkspace) {
     SlackClientService.clients[workspace.teamId] =
@@ -71,6 +30,29 @@ export default class SlackClientService {
     }
   }
 
+  public async  getGeneralChannelId(teamId: string): Promise<string> {
+    if (SlackClientService.generalChannels[teamId]) {
+      return SlackClientService.generalChannels[teamId]
+    } else {
+      try {
+        const client = await this.getWebClient(teamId)
+        const response: IChannelsListResponse = await client.channels.list()
+        const { ok, channels, error } = response
+
+        if (ok) {
+          const generalChannelId = channels
+            .find(channel => channel.is_general).id
+          SlackClientService.generalChannels[teamId] = generalChannelId
+          return generalChannelId
+        } else {
+          throw new Error(error)
+        }
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+
   public async sendMessage(
     text: string,
     consumer: IMessageConsumer,
@@ -79,6 +61,7 @@ export default class SlackClientService {
   ) {
     const { teamId, channel, user } = consumer
     const client = await this.getWebClient(teamId)
+
     switch (type) {
       case SlackResponseType.Hidden:
         client.chat.postEphemeral({ channel, text, user, attachments })
@@ -87,7 +70,7 @@ export default class SlackClientService {
       case SlackResponseType.General:
         client.chat.postMessage({
           attachments,
-          channel: SlackConsts.mainChannelName,
+          channel: await this.getGeneralChannelId(teamId),
           text
         })
         break
