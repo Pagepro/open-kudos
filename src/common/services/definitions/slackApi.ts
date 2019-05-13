@@ -1,7 +1,10 @@
 import { WebAPICallResult } from "@slack/client"
 
-interface ISlackUserResponse {
+interface IWithId {
   id: string
+}
+
+interface ISlackUserResponse extends IWithId {
   team_id: string
   name: string
   deleted: boolean
@@ -36,10 +39,18 @@ interface ISlackProfileResponse {
   team: string
 }
 
+interface IChannel extends IWithId {
+  name: string,
+  is_channel: boolean,
+  created: number,
+  creator: string,
+  is_archived: boolean,
+  is_general: boolean,
+  name_normalized: string,
+}
+
 interface IImOpenResponse extends WebAPICallResult {
-  channel?: {
-    id: string
-  }
+  channel?: IWithId
 }
 
 interface IExtendedWebApiCallResult extends WebAPICallResult {
@@ -47,16 +58,7 @@ interface IExtendedWebApiCallResult extends WebAPICallResult {
 }
 
 interface IChannelsListResponse extends WebAPICallResult {
-  channels?: [{
-    id: string,
-    name: string,
-    is_channel: boolean,
-    created: number,
-    creator: string,
-    is_archived: boolean,
-    is_general: boolean,
-    name_normalized: string,
-  }]
+  channels?: [IChannel]
 }
 
 export {
