@@ -8,12 +8,18 @@ export interface IUser {
   kudosSpendable?: number,
   name?: string,
   realName?: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  email: string
 }
 
 type IUserDocument = IUser & Document
 
 const userSchema = new Schema<IUser>({
+  email: {
+    required: 'Email is required',
+    trim: true,
+    type: String,
+  },
   isAdmin: {
     default: false,
     type: Boolean
