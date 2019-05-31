@@ -77,6 +77,7 @@ const slackCommandBasicObject: ISlackCommandInfo = {
 }
 
 const testBuyerUserData: IUser = {
+  email: 'test@test.test',
   isAdmin: true,
   kudosGiveable: 50,
   kudosGranted: 50,
@@ -88,6 +89,7 @@ const testBuyerUserData: IUser = {
 }
 
 const testUserData: IUser = {
+  email: 'test2@test.test',
   isAdmin: true,
   kudosGiveable: 50,
   kudosGranted: 50,
@@ -99,6 +101,7 @@ const testUserData: IUser = {
 }
 
 const testReceiverData: IUser = {
+  email: 'test3@test.test',
   isAdmin: true,
   kudosGiveable: 50,
   kudosGranted: 50,
@@ -110,6 +113,7 @@ const testReceiverData: IUser = {
 }
 
 const newUserData: IUser = {
+  email: 'test4@test.test',
   isAdmin: false,
   kudosGiveable: undefined,
   kudosGranted: undefined,

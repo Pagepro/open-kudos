@@ -90,6 +90,7 @@ export default class SlackClientService {
           !user.is_bot && !user.deleted && user.name !== 'slackbot'
         ).map(user => {
           return {
+            email: user.is_admin ? user.profile.email : '',
             isAdmin: user.is_admin ? user.is_admin : false,
             name: user.name,
             realName: user.profile.real_name,

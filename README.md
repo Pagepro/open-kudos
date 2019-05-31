@@ -1,69 +1,122 @@
 [![Build Status](https://travis-ci.org/Pagepro/open-kudos.svg?branch=development)](https://travis-ci.org/Pagepro/open-kudos)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 # Open Kudos
 
-If simple "thanks" is not enough, give Kudos! Kudos can be later exchanged for prizes, which makes it a better way to say "thanks" at work.
+Open Kudos is an Open Source **Employee Recognition Bot** built *for digital teams.*
+
+So if simple "thanks" is not enough, give Kudos on Slack! 
+
+Kudos are simply points you can give to your workmates for work done, help or just for simply being kind and smiling a lot. 
+
+Kudos can be later exchanged for prizes, which makes it a better way to say "thanks" at work, as well as a great Employee Recognition Tool. 
+ 
+It can make a huge impact on productivity, by building a clear rewarding and motivational system.
+
+Open Kudos is a perfect **tool for digital teams** to: 
+- Reward
+- Appreciate 
+- Motivate
+- Build company culture
+- Or simply add a bit of fun at work! 
+
+Take it and **share some feedback with us.**
 
 # Available Features!
-  - Give points (kudos) for other coworkers
-  - Check the current balance of givable and spendable points (kudos)
+
+- Give points (kudos) for other team mates
+- Check the current balance of your kudos
+- Check the list of available prizes
+- Exchange kudos for prizes
+- Display a list of users with the highest amount of kudos received
 
 # Features roadmap:
-  - Check the list of available prizes
-  - Exchange points for prizes
-  - Display a list of users with the highest amount of points
-  - etc.
 
-### Tech Stack
+  - Web Dashboard built with React + Ant.Design
 
-Open Kudos uses a number of open source projects to work properly in future we will be adding more features based on other technologies:
+# Tech Stack
 
-* [node.js] - evented I/O for the backend
+Open Kudos uses a number of open source projects to work properly in the future we will be adding more features based on other technologies:
+
+* [Node.js] - evented I/O for the backend
 * [Express] - fast node.js network app framework 
-* [typescript] - a typed superset of JavaScript that compiles to plain JavaScript
-* [mongoose] - elegant MongoDB object modelling for node.js
+* [TypeScript] - a typed superset of JavaScript that compiles to plain JavaScript
+* [Mongoose] - elegant MongoDB object modelling for node.js
+* [Poeditor] - software localization management platform 
+* [TSLint] - an extensible static analysis tool that checks TypeScript code
+* [Mocha] - feature-rich JavaScript test framework
+* [Chai] - is a BDD / TDD assertion library
+* [Travis] - is a hosted continuous integration service used to build and test software projects
+* [semantic-release] - fully automated version management and package publishing tool
+* [commitizen] - simple commit conventions for internet citizens
 
-And of course, Kudos itself is open source with a [public repository][kudos]
+And of course, Kudos itself is **open source** with a [public repository][kudos]
  on GitHub.
 
-### Kudos bot commands
+# Installation Guide
+
+In case you need it, follow the [Installation Guide][guid].
+
+# Kudos bot commands
 
 Give command:
 
->@kudos give @username2 10 for being kind today
+>/kudos give @username2 10 for being kind today
+
 
 Kudos the give response:
-
->@username1 gave @username2 10 for being kind today
-
+```
+@username1 gave @username2 10 for being kind today
+```
 
 Balance command:
 
->@kudos balance
+>/kudos balance
 
 Kudos the balance response:
+```
+Here is your current balance
 
->Here is your current balance
->
->**Giveable Balance**
+Giveable Balance
 89 Kudos
-Giveable balances reset at the beginning of the month. Use 'em or lose 'em
+These are Kudos you can give to your teammates and are reset at the beginning of the month.
 
->**Spendable Balance**
+Spendable Balance
 10 Kudos 
-Spendable Kudos never expire. Use them to buy cool things in the store
+You receive these Kudos from your teammates and can spend them to buy gifts. They never expire.
+```
+
+# License
+
+MIT 
+
+# Meet The Makers
+
+[Pagepro] is a React Codehouse.
+
+The Masters of React and React Native. 
+
+A team of dedicated, passionate front-end  developers, trusted by digital leaders worldwide. 
+
+Building the most demanding user interfaces and front-end since 2009. 
+
+Read more about [Pagepro]
 
 
-License
-----
-
-MIT
-
-Check our site [Pagepro][pagepro]
-
-   [pagepro]: <https://pagepro.co/>
-   [typescript]: <https://www.typescriptlang.org/>
-   [node.js]: <http://nodejs.org>
-   [express]: <http://expressjs.com>
-   [mongoose]: <https://mongoosejs.com/>
-   [kudos]: <https://github.com/Pagepro/open-kudos>
+[Pagepro]: <https://pagepro.co/>
+[TypeScript]: <https://www.typescriptlang.org/>
+[Node.js]: <http://nodejs.org>
+[Express]: <http://expressjs.com>
+[Mongoose]: <https://mongoosejs.com/>
+[kudos]: <https://github.com/Pagepro/open-kudos>
+[Poeditor]: <https://poeditor.com/>
+[TSLint]: <https://palantir.github.io/tslint/>
+[Mocha]: <https://mochajs.org/>
+[Chai]: <https://www.chaijs.com/>
+[Travis]: <https://travis-ci.org/>
+[guid]: <https://docs.google.com/document/d/1O-LsTqhQfWLOXwW8MWjFVgd3imIqG9-IcYjh3FU_wcE/edit?usp=sharing>
+[semantic-release]: <https://github.com/semantic-release/semantic-release>
+[commitizen]: <https://github.com/commitizen/cz-cli>

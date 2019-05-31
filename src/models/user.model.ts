@@ -8,12 +8,17 @@ export interface IUser {
   kudosSpendable?: number,
   name?: string,
   realName?: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  email?: string
 }
 
 type IUserDocument = IUser & Document
 
 const userSchema = new Schema<IUser>({
+  email: {
+    trim: true,
+    type: String
+  },
   isAdmin: {
     default: false,
     type: Boolean
@@ -35,21 +40,21 @@ const userSchema = new Schema<IUser>({
   },
   name: {
     trim: true,
-    type: String,
+    type: String
   },
   realName: {
     trim: true,
-    type: String,
+    type: String
   },
   teamId: {
     required: 'Slack team id is required',
     trim: true,
-    type: String,
+    type: String
   },
   userId: {
     required: 'Slack user id is required',
     trim: true,
-    type: String,
+    type: String
   }
 })
 
