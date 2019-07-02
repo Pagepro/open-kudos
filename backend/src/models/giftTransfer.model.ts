@@ -1,5 +1,5 @@
 import { Document, model, Schema } from 'mongoose'
-import Gift from '../models/gift.model'
+import Gift from './gift.model'
 
 export interface IGiftTransfer {
   userId: string,

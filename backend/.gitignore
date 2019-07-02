@@ -33,8 +33,8 @@ bower_components
 build/Release
 
 # Dependency directories
-backend/node_modules/
-backend/jspm_packages/
+node_modules/
+jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
@@ -61,7 +61,7 @@ typings/
 .next
 
 # Compiled ts files
-backend/dist/
+dist/
 
 # VScode
 .vscode
@@ -91,5 +91,6 @@ client-dashboard/yarn-error.log*
 # client styles
 client-dashboard/src/scss/*.css
 
+.vscode/
 *.tgz
 *.orig
