@@ -1,25 +1,39 @@
+import { Layout } from 'antd'
 import React from 'react'
-import logo from './logo.svg'
+import { Route, Switch, BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { routes } from './setup/config'
 import './scss/main.css'
+import SidebarLayout from './layout/SidebarLayout'
+import HeaderLayout from './layout/HeaderLayout'
+import GiftPage from './components/gifts/GiftPage'
+import FooterLayout from './layout/FooterLayout'
+import 'antd/dist/antd.css'
+
+const { Content } = Layout
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // <Provider>
+    <BrowserRouter>
+      <Layout className="app-container">
+        <SidebarLayout />
+        <Layout>
+          <HeaderLayout />
+          <Content className="content-container">
+            <Switch>
+              <Route
+                path={routes.giftsManagementPage}
+                exact={true}
+                component={GiftPage}
+              />
+            </Switch>
+          </Content>
+          <FooterLayout />
+        </Layout>
+      </Layout>
+    </BrowserRouter>
+    // </Provider>
   )
 }
 

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "test": "mocha --exit",
-    "start": "node -r dotenv/config  ../dist/server.js",
+    "start": "node -r dotenv/config ./dist/server.js",
     "build": "npm run copy-assets && npm run get-translations && tsc",
     "watch": "nodemon",
     "local": "node -r dotenv/config ./localtunnel.js",
