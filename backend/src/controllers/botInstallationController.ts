@@ -33,10 +33,18 @@ export default class BotInstallationController {
         subscriptionService.create(workspace.teamId)
       ])
 
-      res.render('successInstallation')
+      res.redirect('/installation')
     } catch (error) {
       res.send(error.message)
     }
+  }
+
+  @Get('/slackInstallationLink')
+  public async getSlackInstallationLink(
+    @RequestDecorator() req: Request,
+    @ResponseDecorator() res: Response
+  ) {
+    res.json({ slackInstalHref: SlackConsts.slackInstallLink })
   }
 
   private async getVerificationInformation(req: Request) {

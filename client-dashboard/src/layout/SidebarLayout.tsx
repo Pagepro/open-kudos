@@ -1,7 +1,7 @@
 import { Icon, Layout, Menu } from 'antd'
 import React from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import { routes } from '../setup/config'
+import { dashboardRoutes } from '../setup/config'
 import { pageTitles } from '../setup/messages'
 
 const { Sider } = Layout
@@ -10,12 +10,12 @@ const menuItems = [
   {
     content: pageTitles.gifts,
     iconType: 'apartment',
-    url: routes.giftsManagementPage
+    url: dashboardRoutes.giftsManagementPage
   },
   {
     content: pageTitles.title1,
     iconType: 'apartment',
-    url: routes.settingPage
+    url: dashboardRoutes.settingPage
   }
 ]
 

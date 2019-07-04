@@ -6,7 +6,8 @@ import path from 'path'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import BotInstallationController from './controllers/botInstallationController'
-import LandingPageController from './controllers/landingPageController'
+import DashboardPageController from './controllers/dashboardPageController'
+import LandingPageController from './controllers/landingPageController';
 import SlackController from './controllers/slackController'
 
 class App {
@@ -35,6 +36,7 @@ class App {
 
   private configureRoutes(): void {
     attachControllers(this.router, [
+      DashboardPageController,
       LandingPageController
     ])
 

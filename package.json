@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "sh build.sh",
-    "watch": "sh watch.sh"
+    "watch": "cd backend && yarn run watch",
+    "git-cz": "cd backend && yarn run git-cz"
   },
   "engines": {
     "yarn": "1.x"
