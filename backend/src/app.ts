@@ -2,6 +2,7 @@ import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
 import ejs from 'ejs'
 import express from 'express'
+import path from 'path'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import BotInstallationController from './controllers/botInstallationController'
@@ -42,8 +43,10 @@ class App {
       BotInstallationController,
     ])
 
-    this.expressApp.use('/', this.router)
+    this.expressApp.use(express.static(path.join(__dirname, './frontend')))
     this.expressApp.use('/api', this.APIRouter)
+    this.expressApp.use('*', this.router)
+
   }
 
   private configureCronTasks(): void {

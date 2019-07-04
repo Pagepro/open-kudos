@@ -3,5 +3,5 @@
     "src"
   ],
   "ext": "ts",
-  "exec": "ts-node --project -r dotenv/config ./src/server.ts"
+  "exec": "npm run watch:build && node -r dotenv/config ./dist/server.js"
 }

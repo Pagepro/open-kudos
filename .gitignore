@@ -33,8 +33,10 @@ bower_components
 build/Release
 
 # Dependency directories
+node_modules/
+jspm_packages/
 backend/node_modules/
-backend/jspm_packages/
+client-dashboard/node_modules/
 
 # TypeScript v1 declaration files
 typings/
@@ -61,13 +63,14 @@ typings/
 .next
 
 # Compiled ts files
-backend/dist/
+dist/
+backend/dist
+client-dashboard/build
 
 # VScode
 .vscode
 
 # dependencies
-client-dashboard/node_modules
 client-dashboard/.pnp
 client-dashboard/.pnp.js
 

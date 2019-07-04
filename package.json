@@ -1,0 +1,12 @@
+{
+  "name": "open-kudos",
+  "version": "0.0.0-semantically-released",
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "sh build.sh",
+    "watch": "sh watch.sh"
+  },
+  "engines": {
+    "yarn": "1.x"
+  }
+}

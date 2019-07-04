@@ -1,5 +1,5 @@
 {
-  "name": "open-kudos",
+  "name": "open-kudos-backend",
   "version": "0.0.0-semantically-released",
   "license": "MIT",
   "scripts": {
@@ -7,6 +7,7 @@
     "start": "node -r dotenv/config ./dist/server.js",
     "build": "npm run copy-assets && npm run get-translations && tsc",
     "watch": "nodemon",
+    "watch:build": "npm run copy-assets && tsc",
     "local": "node -r dotenv/config ./localtunnel.js",
     "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js",
     "copy-assets": "node copyAssets.js",
