@@ -8,6 +8,7 @@ import DbService from './common/services/db'
 import BotInstallationController from './controllers/botInstallationController'
 import DashboardPageController from './controllers/dashboardPageController'
 import LandingPageController from './controllers/landingPageController';
+import SettingsController from './controllers/settingsController';
 import SlackController from './controllers/slackController'
 
 class App {
@@ -43,6 +44,7 @@ class App {
     attachControllers(this.APIRouter, [
       SlackController,
       BotInstallationController,
+      SettingsController
     ])
 
     this.expressApp.use(express.static(path.join(__dirname, './frontend')))

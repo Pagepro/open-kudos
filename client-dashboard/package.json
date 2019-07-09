@@ -1,6 +1,5 @@
 {
   "name": "client-dashboard",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.15",

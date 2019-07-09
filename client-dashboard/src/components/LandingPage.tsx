@@ -7,8 +7,8 @@ const LandingPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get('api/installation/slackInstallationLink');
-      setLink(data.slackInstalHref);
+      const { data: { slackInstalHref } } = await axios.get('api/settings');
+      setLink(slackInstalHref);
     };
 
     fetchData();

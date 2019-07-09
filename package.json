@@ -5,9 +5,42 @@
   "scripts": {
     "postinstall": "sh build.sh",
     "watch": "cd backend && yarn run watch",
-    "git-cz": "cd backend && yarn run git-cz"
+    "git-cz": "git-cz",
+    "semantic-release": "semantic-release",
+    "build:backend": "cd ./backend && yarn build",
+    "test:backend": "cd ./backend && yarn test",
+    "build:client": "cd ./client-dashboard && yarn build"
   },
   "engines": {
     "yarn": "1.x"
+  },
+  "devDependencies": {
+    "@semantic-release/github": "^5.4.2",
+    "chalk": "^2.4.2",
+    "commitizen": "^3.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^3.0.0",
+    "semantic-release": "^15.13.18",
+    "shell-history": "^1.1.0"
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/github"
+      ]
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node preCommit.js"
+    }
   }
 }

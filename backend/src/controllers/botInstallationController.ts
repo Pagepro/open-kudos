@@ -39,14 +39,6 @@ export default class BotInstallationController {
     }
   }
 
-  @Get('/slackInstallationLink')
-  public async getSlackInstallationLink(
-    @RequestDecorator() req: Request,
-    @ResponseDecorator() res: Response
-  ) {
-    res.json({ slackInstalHref: SlackConsts.slackInstallLink })
-  }
-
   private async getVerificationInformation(req: Request) {
     const { data } = await axios.get(SlackConsts.slackAuthUrl, {
       params: {

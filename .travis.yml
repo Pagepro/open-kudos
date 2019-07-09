@@ -9,8 +9,8 @@ env:
 jobs:
   include:
   - stage: build
-    script: cd backend && yarn build
+    script: yarn run build:backend
   - stage: test
-    script: cd backend && yarn test
+    script: yarn run test:backend
   - stage: semantic-release
-    script: cd backend && yarn run semantic-release
+    script: yarn run semantic-release
