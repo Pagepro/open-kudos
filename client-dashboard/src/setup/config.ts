@@ -1,6 +1,8 @@
 const routes = {
   root: '/',
   dashboardPage: '/dashboard',
+  auth: '/auth',
+  login: '/login'
 }
 
 const infoRoutes = {
@@ -14,8 +16,13 @@ const dashboardRoutes = {
   settingPage: `${routes.dashboardPage}/settings`
 }
 
+const authRoutes = {
+  authSuccess: `${routes.auth}/success/:accessToken`
+}
+
 export {
   routes,
+  authRoutes,
   infoRoutes,
   dashboardRoutes
 }

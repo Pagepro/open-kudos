@@ -22,6 +22,11 @@ const format =
     )
   }
 
+const firstCharToLowerCase = function (this: string) {
+  const [firstLetter, ...rest] = this.split('')
+  return [firstLetter.toLowerCase(), rest].join('')
+}
+
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
@@ -32,5 +37,11 @@ Object.defineProperties(String, {
 Object.defineProperties(String.prototype, {
   format: {
     get: () => format
+  }
+})
+
+Object.defineProperties(String.prototype, {
+  firstCharToLowerCase: {
+    get: () => firstCharToLowerCase
   }
 })
