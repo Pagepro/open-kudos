@@ -8,7 +8,9 @@ env:
   - secure: njZPO9Yz5oYgB1EskCrDvFQaEB2VXKKEaZ8untWlwacoeeGA8yp/TZkMZfD9aLefe75TpXTJ8RLQdvoo/i7kK+dCBngleoZIS/M8xQR4UqIQSgr/6UxoqzW5aZ0s/uMyunEBhTsttgPIPbbRjjn2eEcqDu0AkmuwQATcktwRR9/3xaUqXjBveMNSvv60is+yH6qgrAbNNHHi2HHWA/48l2UHcZyooE3LSyGF51pUYC6Xt+2kbcRUV2mDTiPKW9sbv5zCP/wF46Y7N68+Nu1klSFJApmEL/snqH2tbRowL1ZLnJ+uk2blHtL+IZKQU1T6fuUY8d/v9NPLEwvtM8ODSVKfxYP1uI986UHvX7Ub6loxJHimUgxR2QmAA/IcPRi7dvi5cKzBpeUU+7gZyv1u8UAfCNWUp5z9aUceYpdGFA0kohRMwv4rFQRrcqprlcW4BkqboF14lKhZgPX8+IX/629lVyE4jnaJXTJJE/EadqseB5Hosi6e5XCdv2TcANlkBVgA+HYQttRSDWXlkNMjmkvwdiPF8pf5ttYvrGfu4k6hFil1qWBgT/MeOoaGU9TWIQHr6XbFMxr0Yb2VNG80fQeRAa7JLGJTTPHMwc9S5nuA6Na4pFE/AFEoe3vOglATvUbq46awxw0KZTrMgqVIdacKVUFMYyKPFpnF5gfb/f4=
 jobs:
   include:
-  - stage: build
+  - stage: build:client
+    script: yarn run build:client
+  - stage: build:backend
     script: yarn run build:backend
   - stage: test
     script: yarn run test:backend
