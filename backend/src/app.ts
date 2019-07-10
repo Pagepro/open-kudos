@@ -9,7 +9,7 @@ import BotInstallationController from './controllers/botInstallationController'
 import DashboardGiftsController from './controllers/dashboardGiftsController'
 import DashboardPageController from './controllers/dashboardPageController'
 import LandingPageController from './controllers/landingPageController'
-import SettingsController from './controllers/settingsController';
+import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
 
 class App {
@@ -45,7 +45,7 @@ class App {
     attachControllers(this.APIRouter, [
       SlackController,
       BotInstallationController,
-      SettingsController
+      SettingsController,
       DashboardGiftsController
     ])
 

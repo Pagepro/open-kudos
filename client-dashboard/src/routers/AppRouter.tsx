@@ -9,15 +9,15 @@ import LoginPage from '../components/LoginPage';
 const AppRouter: React.FC = () =>
   <BrowserRouter>
     <Switch>
-          <Route
-            path={authRoutes.authSuccess}
-            exact={true}
-            component={AuthSuccessPage}
-          />
-          <Route
-            path={routes.login}
-            component={LoginPage}
-          />
+        <Route
+          path={authRoutes.authSuccess}
+          exact={true}
+          component={AuthSuccessPage}
+        />
+        <Route
+          path={routes.login}
+          component={LoginPage}
+        />
       <Route
         path={routes.dashboardPage}
         component={DashboardApp}
