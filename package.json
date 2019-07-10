@@ -7,9 +7,9 @@
     "watch": "cd backend && yarn run watch",
     "git-cz": "git-cz",
     "semantic-release": "semantic-release",
-    "build:backend": "cd ./backend && yarn build",
+    "build:backend": "cd ./backend && yarn && yarn build",
     "test:backend": "cd ./backend && yarn test",
-    "build:client": "cd ./client-dashboard && yarn build"
+    "build:client": "cd ./client-dashboard && yarn && yarn build"
   },
   "engines": {
     "yarn": "1.x"
