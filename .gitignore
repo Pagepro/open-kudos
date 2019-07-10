@@ -35,8 +35,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-backend/node_modules/
-client-dashboard/node_modules/
 
 # TypeScript v1 declaration files
 typings/
@@ -64,7 +62,6 @@ typings/
 
 # Compiled ts files
 dist/
-backend/dist
 client-dashboard/build
 
 # VScode
@@ -81,7 +78,7 @@ client-dashboard/coverage
 client-dashboard/build
 
 # misc
-client-dashboard/.DS_Store
+.DS_Store
 client-dashboard/.env.local
 client-dashboard/.env.development.local
 client-dashboard/.env.test.local
