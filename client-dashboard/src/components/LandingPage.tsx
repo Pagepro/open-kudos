@@ -3,7 +3,7 @@ import landingPageTemplate from '../templates/landingPageTemplate'
 import axios from 'axios'
 
 const LandingPage: React.FC = () => {
-  const [link, setLink] = useState("")
+  const [link, setLink] = useState(String.empty)
 
   useEffect(() => {
     const fetchData = async () => {

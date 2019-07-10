@@ -19,38 +19,36 @@ const menuItems = [
   }
 ]
 
-class SidebarLayout extends React.Component<RouteComponentProps> {
-  public render() {
+const SidebarLayout: React.FC<RouteComponentProps> = (props) => {
 
-    const activeRoute = this.props.location.pathname
+  const activeRoute = props.location.pathname
 
-    return (
-      <Sider
-        width={250}
-        className="sidebar-container"
+  return (
+    <Sider
+      width={250}
+      className="sidebar-container"
+    >
+      <div className="logo-container">
+        <h1>Open Kudos </h1>
+      </div>
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[activeRoute]}
       >
-        <div className="logo-container">
-          <h1>Open Kudos </h1>
-        </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          selectedKeys={[activeRoute]}
-        >
-          {
-            menuItems.map(({ content, iconType, url }) => (
-              <Item key={url}>
-                <Link to={url}>
-                  <Icon type={iconType} />
-                  <span>{content}</span>
-                </Link>
-              </Item>
-            ))
-          }
-        </Menu>
-      </Sider>
-    )
-  }
+        {
+          menuItems.map(({ content, iconType, url }) => (
+            <Item key={url}>
+              <Link to={url}>
+                <Icon type={iconType} />
+                <span>{content}</span>
+              </Link>
+            </Item>
+          ))
+        }
+      </Menu>
+    </Sider>
+  )
 }
 
 export default withRouter(SidebarLayout)

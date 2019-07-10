@@ -4,22 +4,20 @@ import DashboardApp from '../DashboardApp';
 import InfoApp from '../InfoApp';
 import { routes } from '../setup/config';
 
-class AppRouter extends React.Component {
-  public render() {
-    return (
-      <BrowserRouter>
-        <Switch>
-          <Route
-            path={routes.dashboardPage}
-            component={DashboardApp}
-          />
-          <Route
-            component={InfoApp}
-          />
-        </Switch>
-      </BrowserRouter>
-    )
-  }
+const AppRouter: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path={routes.dashboardPage}
+          component={DashboardApp}
+        />
+        <Route
+          component={InfoApp}
+        />
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
 export default AppRouter
