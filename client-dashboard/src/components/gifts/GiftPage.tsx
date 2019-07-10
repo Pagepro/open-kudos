@@ -1,9 +1,9 @@
 import { Divider, PageHeader } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { pageTitles } from '../../setup/messages'
 import axios from 'axios';
 
-const GiftPage: React.FC = () =>
+const GiftPage: React.FC = () => {
   const [gifts, setGifts] = useState([])
 
   useEffect(() => {
@@ -15,11 +15,13 @@ const GiftPage: React.FC = () =>
     fetchGifts();
   }, [])
 
-  <>
-    <PageHeader title={pageTitles.gifts} />
-    <Divider />
-    <p>Gifts content</p>
+  return (
+    <Fragment>
+      <PageHeader title={pageTitles.gifts} />
+      <Divider />
+      <p>Gifts content</p>
       {gifts.map(gift => (<p key={gift}>{gift}</p>))}
-  </>
-
+    </Fragment>
+  )
+}
 export default GiftPage

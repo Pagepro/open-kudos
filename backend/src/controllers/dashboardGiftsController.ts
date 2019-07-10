@@ -14,7 +14,6 @@ export default class DashboardGiftsController {
     @RequestDecorator() req: Request,
     @ResponseDecorator() res: Response
   ) {
-
     res.json({ gifts: ['gift1', 'gift2'] })
   }
 }

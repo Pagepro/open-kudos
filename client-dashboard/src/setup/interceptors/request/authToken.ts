@@ -10,7 +10,7 @@ export default class AuthToken extends RequestInterceptor {
     }
 
     config.headers = config.headers || {}
-    config.headers.Authorization = `Bearer ${getAuthToken()}`
+    config.headers.Authorization = getAuthToken()
 
     return config
   }

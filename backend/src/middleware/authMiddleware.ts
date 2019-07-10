@@ -1,41 +1,43 @@
 import {
   Middleware,
+  Request as RequestDecorator,
+  Response as ResponseDecorator
 } from '@decorators/express'
-import axios from 'axios'
 import { NextFunction, Request, Response } from 'express'
+import AuthService from '../common/services/auth'
+import SlackClientService from '../common/services/slackClient'
 
-interface IAuthTestResponse {
-  ok: boolean
-  url: string
-  team: string
-  user: string
-  team_id: string
-  user_id: string
+interface IRequestUser {
+  user: {
+    team_id: string
+    user: string
+    user_id: string
+  }
 }
 
 export default class AuthMiddleware implements Middleware {
+  private slackClientService = new SlackClientService()
+  private authService = new AuthService()
+
   public async use(
-    request: Request,
-    response: Response,
+    @RequestDecorator() req: Request & IRequestUser,
+    @ResponseDecorator() res: Response,
     next: NextFunction
   ): Promise<void> {
-    const { authorization } = request.headers
-    const authResponse = await axios.post<IAuthTestResponse>(
-      'https://slack.com/api/auth.test', {}, {
-        headers: { authorization }
-      })
+    const { authorization } = req.headers
+    const { ok, team_id, user_id, user } =
+      await this.authService.checkAuth(authorization)
 
-    if (authResponse.data.ok) {
-      request.body = {
-        user: {
-          team_id: authResponse.data.team_id,
-          user_id: authResponse.data.user_id,
-          username: authResponse.data.user,
-        }
+    if (ok) {
+      req.user = {
+        team_id,
+        user,
+        user_id
       }
+
       return next()
     }
 
-    response.status(401).send("unauthorized")
+    res.status(401).send("unauthorized")
   }
 }

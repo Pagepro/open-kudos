@@ -19,6 +19,11 @@ export default class SlackClientService {
       new WebClient(workspace.botAccessToken)
   }
 
+  public async checkAuth(token: string) {
+    const client = new WebClient()
+    return await client.auth.test({ token })
+  }
+
   public async  getWebClient(teamId: string): Promise<WebClient> {
     if (SlackClientService.clients[teamId]) {
       return SlackClientService.clients[teamId]
