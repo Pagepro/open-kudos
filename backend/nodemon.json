@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "src"
+  ],
+  "ext": "ts",
+  "exec": "tsc && node -r dotenv/config ./dist/server.js"
+}

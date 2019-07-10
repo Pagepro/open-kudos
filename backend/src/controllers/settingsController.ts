@@ -7,13 +7,13 @@ import {
 import { Request, Response } from 'express'
 import SlackConsts from '../common/consts/slack'
 
-@Controller('/')
-export default class LandingPageController {
+@Controller('/settings')
+export default class SettingsController {
   @Get('/')
-  public landingPage(
+  public dashboardPage(
     @RequestDecorator() req: Request,
     @ResponseDecorator() res: Response
   ) {
-    res.render('index', { slackInstalHref: SlackConsts.slackInstallLink })
+    res.json({ slackInstalHref: SlackConsts.slackInstallLink })
   }
 }
