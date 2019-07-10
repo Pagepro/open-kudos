@@ -3,7 +3,7 @@
   "version": "0.0.0-semantically-released",
   "license": "MIT",
   "scripts": {
-    "postinstall": "sh build.sh",
+    "build": "chmod +x ./build.sh && ./build.sh",
     "watch": "cd backend && yarn run watch",
     "git-cz": "git-cz",
     "semantic-release": "semantic-release",
