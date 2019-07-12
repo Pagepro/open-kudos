@@ -14,6 +14,11 @@ export default class SettingsController {
     @RequestDecorator() req: Request,
     @ResponseDecorator() res: Response
   ) {
-    res.json({ slackInstalHref: SlackConsts.slackInstallLink })
+    res.json(
+      {
+        slackClientId: SlackConsts.slackClientId,
+        slackInstalHref: SlackConsts.slackInstallLink
+      }
+    )
   }
 }

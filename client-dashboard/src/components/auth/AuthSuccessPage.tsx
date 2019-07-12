@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { routes } from '../../setup/config';
-import { common } from '../../setup/const/common';
+import { common } from '../../setup/const';
 
 interface IAccessTokenParams {
   accessToken: string

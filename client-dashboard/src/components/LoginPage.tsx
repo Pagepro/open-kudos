@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { slackClientId } } = await axios.get('api/installation/slackClientId')
+      const { data: { slackClientId } } = await axios.get('api/settings');
       setClientId(slackClientId)
     };
 

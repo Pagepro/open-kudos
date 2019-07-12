@@ -1,6 +1,7 @@
-import { common } from "../const/common";
+import { common } from "../const";
 
 export const getAuthToken = () => {
-  const accessToken = localStorage.getItem(common.accessTokenKey);
-  return accessToken || ""
+  const accessToken = localStorage.getItem(common.accessTokenKey)
+
+  return accessToken || String.empty
 }

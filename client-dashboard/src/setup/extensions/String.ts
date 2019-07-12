@@ -8,6 +8,7 @@ declare global {
 
   interface String {
     format(...formatValues: (number | string)[]): string
+    firstCharToLowerCase(): string
   }
 }
 

@@ -1,13 +1,24 @@
+import { WebAPICallResult } from '@slack/client/dist/WebClient'
 import axios from 'axios'
-import SlackClientService from "./slackClient"
+import SlackConsts from '../consts/slack'
+import SlackClientService from './slackClient'
 
-interface IAuthTestResponse {
+interface IAuthCommon {
   ok: boolean
+  team_id: string
+  user_id: string
+}
+
+interface IAuthTestResponse extends IAuthCommon {
   url: string
   team: string
   user: string
-  team_id: string
-  user_id: string
+}
+
+interface IAuthAccessResponse extends IAuthCommon {
+  access_token: string
+  scope: string
+  team_name: string
 }
 
 export default class AuthService {
@@ -18,18 +29,20 @@ export default class AuthService {
   }
 
   public async checkAuth(token: string) {
-    return await this.slackClientService
-      .checkAuth(token) as IAuthTestResponse
+    return await this.slackClientService.checkAuth(token) as IAuthTestResponse
   }
 
   public async login(code: string) {
-    return await axios.get('https://slack.com/api/oauth.access', {
-      params: {
-        client_id: process.env.CLIENT_ID,
-        client_secret: process.env.CLIENT_SECRET,
-        code,
-        redirect_uri: process.env.SLACK_AUTH_REDIRECT_URI
-      }
-    })
+    const response = await axios
+      .get<IAuthAccessResponse>(SlackConsts.slackAuthUrl, {
+        params: {
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          code,
+          redirect_uri: process.env.SLACK_AUTH_REDIRECT_URI
+        }
+      })
+
+    return response.data
   }
 }
