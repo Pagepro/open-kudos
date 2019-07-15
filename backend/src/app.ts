@@ -1,14 +1,15 @@
 import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
-import ejs from 'ejs'
 import express from 'express'
 import path from 'path'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
+import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
+import DashboardGiftsController from './controllers/dashboardGiftsController'
 import DashboardPageController from './controllers/dashboardPageController'
-import LandingPageController from './controllers/landingPageController';
-import SettingsController from './controllers/settingsController';
+import LandingPageController from './controllers/landingPageController'
+import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
 
 class App {
@@ -16,6 +17,7 @@ class App {
   private configurationService = new ConfigurationService()
   private dbService = new DbService()
   private APIRouter: express.Router = express.Router()
+  private authRouter: express.Router = express.Router()
   private router: express.Router = express.Router()
 
   constructor() {
@@ -25,7 +27,6 @@ class App {
     this.configureRoutes()
     this.configureCronTasks()
     this.connectToDatabase()
-    this.setViewEngine()
   }
 
   private configureMiddlewares(): void {
@@ -44,13 +45,18 @@ class App {
     attachControllers(this.APIRouter, [
       SlackController,
       BotInstallationController,
-      SettingsController
+      SettingsController,
+      DashboardGiftsController
+    ])
+
+    attachControllers(this.authRouter, [
+      AuthController
     ])
 
     this.expressApp.use(express.static(path.join(__dirname, './frontend')))
     this.expressApp.use('/api', this.APIRouter)
+    this.expressApp.use('/auth', this.authRouter)
     this.expressApp.use('*', this.router)
-
   }
 
   private configureCronTasks(): void {
@@ -59,11 +65,6 @@ class App {
 
   private connectToDatabase(): void {
     this.dbService.connect()
-  }
-
-  private setViewEngine(): void {
-    this.expressApp.set('views', `${__dirname}/views`)
-    this.expressApp.set('view engine', 'ejs')
   }
 }
 

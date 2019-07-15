@@ -8,6 +8,7 @@ declare global {
 
   interface String {
     format(...formatValues: (number | string)[]): string
+    firstCharToLowerCase(): string
   }
 }
 
@@ -22,6 +23,12 @@ const format =
     )
   }
 
+const firstCharToLowerCase = function (this: string) {
+  const [firstLetter, ...rest] = this.split('')
+  return [firstLetter.toLowerCase(), rest].join('')
+}
+
+// eslint-disable-next-line
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
@@ -32,5 +39,12 @@ Object.defineProperties(String, {
 Object.defineProperties(String.prototype, {
   format: {
     get: () => format
+  }
+})
+
+// eslint-disable-next-line
+Object.defineProperties(String.prototype, {
+  firstCharToLowerCase: {
+    get: () => firstCharToLowerCase
   }
 })

@@ -17,4 +17,8 @@ export default class SlackConsts {
     // tslint:disable-next-line:max-line-length
     return `https://slack.com/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=bot,channels:read,chat:write:bot,groups:read,users:read,commands`
   }
+
+  public static get slackClientId(): string {
+    return process.env.CLIENT_ID
+  }
 }

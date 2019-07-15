@@ -20,7 +20,6 @@ const menuItems = [
 ]
 
 const SidebarLayout: React.FC<RouteComponentProps> = (props) => {
-
   const activeRoute = props.location.pathname
 
   return (
