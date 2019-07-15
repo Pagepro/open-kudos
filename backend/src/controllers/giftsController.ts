@@ -21,16 +21,12 @@ export default class GiftsController {
     @QueryParam('take') limit: number = 10,
     @ResponseDecorator() res: Response
   ) {
-    try {
-      const teamId = req.user.team_id
-      const paginatedGifts = await this.giftService.getAllPaginated(
-        teamId,
-        Number(limit),
-        Number(offset)
-      )
-      res.json(paginatedGifts)
-    } catch (error) {
-      res.status(500).send(error.message)
-    }
+    const teamId = req.user.team_id
+    const paginatedGifts = await this.giftService.getAllPaginated(
+      teamId,
+      Number(limit),
+      Number(offset)
+    )
+    res.json(paginatedGifts)
   }
 }

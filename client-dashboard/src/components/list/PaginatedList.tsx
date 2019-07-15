@@ -1,5 +1,5 @@
 import { notification, Table } from 'antd'
-import { TableProps } from 'antd/lib/table'
+import { PaginationConfig, TableProps } from 'antd/lib/table'
 import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { IPaginatedListProps, IPaginatedResponse, IWithKey } from './models'
@@ -19,7 +19,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   })
 
   const fetchGifts = useCallback(async (skip, take) => {
-    setTableSettings(tSettings =>({
+    setTableSettings(tSettings => ({
       ...tSettings,
       loading: true
     }))
@@ -28,8 +28,8 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     try {
       const { data } = await axios.get<IPaginatedResponse<T>>(
         endpoint, {
-        params: { skip, take }
-      })
+          params: { skip, take }
+        })
       items = data.docs
       totalItems = data.total
     } catch (error) {
@@ -49,11 +49,12 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     }
   }, [endpoint])
 
-  const handleTableChange = useCallback((pagination) => {
-    const skip = (pagination.current - 1) * pagination.pageSize
-      fetchGifts(skip, pagination.pageSize)
-    }, [fetchGifts]
-  )
+  const handleTableChange = useCallback((pagination: PaginationConfig) => {
+    const limit = pagination.pageSize || 0
+    const current = pagination.current || 1
+    const skip = (current - 1) * limit
+    fetchGifts(skip, limit)
+  }, [fetchGifts])
 
   useEffect(() => {
     fetchGifts(0, pageSize)
