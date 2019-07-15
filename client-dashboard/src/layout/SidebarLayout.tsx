@@ -4,27 +4,27 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { dashboardRoutes } from '../setup/config'
 import { pageTitles } from '../setup/messages'
 
-interface MenuItem {
+interface IMenuItem {
   content: string,
   url: string,
   iconType?: string,
-  children?: MenuItem[]
+  children?: IMenuItem[]
 }
 
 const { Sider } = Layout
 const { Item, SubMenu } = Menu
-const menuItems: MenuItem[] = [
+const menuItems: IMenuItem[] = [
   {
-    content: pageTitles.gifts,
-    iconType: 'gift',
-    url: dashboardRoutes.giftsManagementPage,
     children: [
       {
         content: pageTitles.list,
         iconType: 'unordered-list',
         url: dashboardRoutes.giftsManagementPage
       }
-    ]
+    ],
+    content: pageTitles.gifts,
+    iconType: 'gift',
+    url: dashboardRoutes.giftsManagementPage
   },
   {
     content: pageTitles.title1,
@@ -33,7 +33,7 @@ const menuItems: MenuItem[] = [
   }
 ]
 
-const renderSubMenu = (menuItem: MenuItem) => {
+const renderSubMenu = (menuItem: IMenuItem) => {
   const { content, iconType, url, children } = menuItem
   if (children && children.length > 0) {
     return (
