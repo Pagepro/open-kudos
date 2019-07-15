@@ -25,9 +25,9 @@ const columns: ColumnProps<IGift>[] = [
     key: 'action',
     render: () => (
       <span>
-        <a href="#">Edit</a>
+        <span>Edit</span>
         <Divider type="vertical" />
-        <a href="#" className="text-danger">Delete</a>
+        <span className="text-danger">Delete</span>
       </span>
     ),
   }
