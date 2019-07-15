@@ -7,7 +7,7 @@
     "build": "npm run get-translations && tsc",
     "watch": "nodemon",
     "watch:build": "tsc",
-    "local": "node -r dotenv/config ./localtunnel.js",
+    "localtunnel": "node -r dotenv/config ./localtunnel.js",
     "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js"
   },
   "dependencies": {
