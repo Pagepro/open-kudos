@@ -6,21 +6,14 @@ import {
 import { NextFunction, Request, Response } from 'express'
 import AuthService from '../common/services/auth'
 import SlackClientService from '../common/services/slackClient'
-
-interface IRequestUser {
-  user: {
-    team_id: string
-    user: string
-    user_id: string
-  }
-}
+import { IUserEnhancedRequest } from './definitions/authMiddleware'
 
 export default class AuthMiddleware implements Middleware {
   private slackClientService = new SlackClientService()
   private authService = new AuthService()
 
   public async use(
-    @RequestDecorator() req: Request & IRequestUser,
+    @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response,
     next: NextFunction
   ): Promise<void> {

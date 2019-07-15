@@ -17,7 +17,7 @@ export default class AuthController {
     @ResponseDecorator() res: Response
   ) {
     try {
-      const slackCode = req.query.code
+      const { code: slackCode } = req.query
       const { ok, access_token } = await this.authService.login(slackCode)
 
       if (ok) {
