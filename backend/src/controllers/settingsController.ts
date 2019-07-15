@@ -17,7 +17,8 @@ export default class SettingsController {
     res.json(
       {
         slackClientId: SlackConsts.slackClientId,
-        slackInstalHref: SlackConsts.slackInstallLink
+        slackInstalHref: SlackConsts.slackInstallLink,
+        slackLoginHref: SlackConsts.slackLoginLink
       }
     )
   }
