@@ -6,7 +6,7 @@ import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
-import DashboardGiftsController from './controllers/dashboardGiftsController'
+import GiftsController from './controllers/giftsController'
 import DashboardPageController from './controllers/dashboardPageController'
 import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController'
@@ -46,7 +46,7 @@ class App {
       SlackController,
       BotInstallationController,
       SettingsController,
-      DashboardGiftsController
+      GiftsController
     ])
 
     attachControllers(this.authRouter, [

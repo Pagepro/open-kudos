@@ -5,9 +5,12 @@ import { realGifts } from '../../test/testData'
 import SlackConsts from '../consts/slack'
 import Helpers from './helpers'
 import TranslationsService from './translationsService'
+import LoggerService from './logger'
+import { PaginateOptions } from 'mongoose'
 
 export default class GiftService {
   private translationsService: TranslationsService
+  private logger: LoggerService
 
   constructor() {
     this.translationsService = new TranslationsService()
@@ -50,5 +53,15 @@ export default class GiftService {
     })
 
     return giftAsAttachment as MessageAttachment[]
+  }
+
+  public async getAllPaginated(query?: Object, options?: PaginateOptions) {
+    try {
+      const gifts = await Gift.paginate(query, options)
+      return gifts
+    } catch (error) {
+      this.logger.logError(error)
+      throw new Error('Internal server error')
+    }
   }
 }
