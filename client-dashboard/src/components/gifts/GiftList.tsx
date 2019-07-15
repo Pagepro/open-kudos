@@ -27,7 +27,7 @@ const columns: ColumnProps<IGift>[] = [
       <span>
         <a href="#">Edit</a>
         <Divider type="vertical" />
-        <a href="#">Delete</a>
+        <a href="#" className="text-danger">Delete</a>
       </span>
     ),
   }
