@@ -1,8 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { infoRoutes } from './setup/config'
 import LandingPage from './components/LandingPage'
 import SuccessInstallationPage from './components/SuccessInstallationPage'
+import { infoRoutes } from './setup/config'
 
 const InfoApp: React.FC = () => {
   return (

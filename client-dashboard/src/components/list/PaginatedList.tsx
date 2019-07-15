@@ -1,19 +1,20 @@
-import React, { useCallback, useState, useEffect } from 'react'
-import axios from 'axios'
-import { Table, notification } from 'antd'
+import { notification, Table } from 'antd'
 import { TableProps } from 'antd/lib/table'
+import axios from 'axios'
+import React, { useCallback, useEffect, useState } from 'react'
 import { IPaginatedListProps, IPaginatedResponse, IWithKey } from './models'
 
-const PaginatedList = function <T extends IWithKey>(props: IPaginatedListProps<T>) {
+const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
 
   const { endpoint, pageSize, columns } = props
+  const rowKey = '_id'
 
   const [tableSettings, setTableSettings] = useState<TableProps<T>>({
-    loading: false,
     dataSource: [],
+    loading: false,
     pagination: {
-      total: 0,
-      pageSize: pageSize
+      pageSize,
+      total: 0
     }
   })
 
@@ -32,7 +33,7 @@ const PaginatedList = function <T extends IWithKey>(props: IPaginatedListProps<T
       items = data.docs
       totalItems = data.total
     } catch (error) {
-      notification['error']({
+      notification.error({
         message: 'Something went wrong',
       })
     } finally {
@@ -53,17 +54,17 @@ const PaginatedList = function <T extends IWithKey>(props: IPaginatedListProps<T
       fetchGifts(skip, pagination.pageSize)
     }, [fetchGifts]
   )
-    
+
   useEffect(() => {
     fetchGifts(0, pageSize)
   }, [fetchGifts, pageSize])
-      
+
   return (
     <Table<T>
       {...tableSettings}
       columns={columns}
       onChange={handleTableChange}
-      rowKey={record => record['_id']}
+      rowKey={record => record[rowKey]}
     />
   )
 }

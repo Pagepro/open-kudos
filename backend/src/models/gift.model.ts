@@ -1,4 +1,4 @@
-import { Document, model, Schema, PaginateModel } from 'mongoose'
+import { Document, model, PaginateModel, Schema } from 'mongoose'
 import mongoosePaginate from 'mongoose-paginate'
 
 export interface IGift {
@@ -11,7 +11,7 @@ export interface IGift {
 }
 
 export type IGiftDocument = IGift & Document
-interface GiftModel<T extends Document> extends PaginateModel<T> {}
+interface IGiftModel<T extends Document> extends PaginateModel<T> {}
 
 const giftSchema: Schema<IGift> = new Schema({
   amount: {
@@ -50,6 +50,9 @@ giftSchema.index({
 
 giftSchema.plugin(mongoosePaginate)
 
-let GiftModel: GiftModel<IGiftDocument> = model<IGiftDocument>('Gift', giftSchema) as GiftModel<IGiftDocument>
+const GiftModel: IGiftModel<IGiftDocument> = model<IGiftDocument>(
+  'Gift',
+  giftSchema
+) as IGiftModel<IGiftDocument>
 
 export default GiftModel

@@ -1,13 +1,13 @@
 import {
   Controller,
   Get,
+  Query as QueryParam,
   Request as RequestDecorator,
-  Response as ResponseDecorator,
-  Query as QueryParam
+  Response as ResponseDecorator
 } from '@decorators/express'
-import { Request, Response } from 'express'
-import AuthMiddleware from '../middleware/authMiddleware'
+import { Response } from 'express'
 import GiftService from '../common/services/gift'
+import AuthMiddleware from '../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../middleware/definitions/authMiddleware'
 
 @Controller('/gifts', [AuthMiddleware])
@@ -22,16 +22,12 @@ export default class GiftsController {
     @ResponseDecorator() res: Response
   ) {
     try {
-      const paginatedGifts = await this.giftService.getAllPaginated({
-        isAvailable: true,
-        teamId: req.user.team_id
-      }, {
-        limit: +limit,
-        offset: +offset,
-        sort: {
-          cost: 1
-        }
-      })
+      const teamId = req.user.team_id
+      const paginatedGifts = await this.giftService.getAllPaginated(
+        teamId,
+        Number(limit),
+        Number(offset)
+      )
       res.json(paginatedGifts)
     } catch (error) {
       res.status(500).send(error.message)

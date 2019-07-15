@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import App from './App'
 import './scss/main.css'
 import './setup/extensions'
-import App from './App'
 import registerInterceptors from './setup/interceptors'
 
 registerInterceptors()

@@ -1,27 +1,26 @@
-import React from 'react'
 import { Divider } from 'antd'
-import { TableProps, ColumnProps } from 'antd/lib/table'
-import { IGift } from './models'
+import { ColumnProps, TableProps } from 'antd/lib/table'
+import React from 'react'
 import PaginatedList from '../list/PaginatedList'
+import { IGift } from './models'
 
-const columns: ColumnProps<IGift>[] = [
+const columns: Array<ColumnProps<IGift>> = [
   {
+    dataIndex: 'name',
     key: 'name',
-    title: 'Name',
-    dataIndex: 'name'
+    title: 'Name'
   },
   {
+    dataIndex: 'description',
     key: 'description',
-    title: 'Description',
-    dataIndex: 'description'
+    title: 'Description'
   },
   {
+    dataIndex: 'cost',
     key: 'cost',
-    title: 'Cost',
-    dataIndex: 'cost'
+    title: 'Cost'
   },
   {
-    title: 'Options',
     key: 'action',
     render: () => (
       <span>
@@ -30,6 +29,7 @@ const columns: ColumnProps<IGift>[] = [
         <span className="text-danger">Delete</span>
       </span>
     ),
+    title: 'Options'
   }
 ]
 

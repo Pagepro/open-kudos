@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react'
 import { Divider, PageHeader } from 'antd'
+import React, { Fragment } from 'react'
 import { pageTitles } from '../../setup/messages'
 import { GiftList } from './GiftList'
 

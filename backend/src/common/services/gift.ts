@@ -5,12 +5,9 @@ import { realGifts } from '../../test/testData'
 import SlackConsts from '../consts/slack'
 import Helpers from './helpers'
 import TranslationsService from './translationsService'
-import LoggerService from './logger'
-import { PaginateOptions } from 'mongoose'
 
 export default class GiftService {
   private translationsService: TranslationsService
-  private logger: LoggerService
 
   constructor() {
     this.translationsService = new TranslationsService()
@@ -20,7 +17,7 @@ export default class GiftService {
     // TODO: for now we display static list of gifts in future gifts will be
     // added from dashboard with valid teamId so initGifts method
     // will be removed
-    const giftsWithTeamId = realGifts.map(gift => ({ ...gift, teamId }))
+    const giftsWithTeamId = realGifts.map((gift) => ({ ...gift, teamId }))
     await Gift.deleteMany({})
     await Gift.insertMany(giftsWithTeamId)
   }
@@ -32,13 +29,13 @@ export default class GiftService {
   public async getAllGiftsAsAttachment(teamId: string) {
     await this.initGifts(teamId)
     const allGifts = await Gift.find({ teamId })
-    const giftAsAttachment = allGifts.map(gift => {
+    const giftAsAttachment = allGifts.map((gift) => {
       return {
         actions: [
           {
             name: gift.name,
             text: this.translationsService.getTranslation(
-              "getForKudos",
+              'getForKudos',
               gift.cost
             ),
             type: 'button',
@@ -48,20 +45,30 @@ export default class GiftService {
         callback_id: SlackConsts.buyGiftCallback,
         color: Helpers.getRandomHexColor(),
         text: gift.description,
-        title: gift.name,
+        title: gift.name
       }
     })
 
     return giftAsAttachment as MessageAttachment[]
   }
 
-  public async getAllPaginated(query?: Object, options?: PaginateOptions) {
-    try {
-      const gifts = await Gift.paginate(query, options)
-      return gifts
-    } catch (error) {
-      this.logger.logError(error)
-      throw new Error('Internal server error')
-    }
+  public async getAllPaginated(
+    teamId: string,
+    limit?: number,
+    offset?: number
+  ) {
+    return await Gift.paginate(
+      {
+        isAvailable: true,
+        teamId
+      },
+      {
+        limit,
+        offset,
+        sort: {
+          cost: 1
+        }
+      }
+    )
   }
 }
