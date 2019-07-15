@@ -2,6 +2,7 @@ import { attachControllers } from '@decorators/express'
 import * as bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
+import Config from './common/consts/config'
 import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import AuthController from './controllers/authController'
@@ -11,6 +12,7 @@ import DashboardPageController from './controllers/dashboardPageController'
 import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
+import TestController from './controllers/testController'
 
 class App {
   public expressApp: express.Application
@@ -46,7 +48,8 @@ class App {
       SlackController,
       BotInstallationController,
       SettingsController,
-      GiftsController
+      GiftsController,
+      ...(Config.isProduction ? [] : [TestController])
     ])
 
     attachControllers(this.authRouter, [
