@@ -2,22 +2,20 @@ import { TableProps } from 'antd/lib/table'
 import { IAction } from '../models/IAction'
 import ActionTypes from './actionTypes'
 
-const paginatedListInitialState: TableProps<any> = {
-  dataSource: [],
-  loading: false,
-  pagination: {
-    pageSize: 0,
-    total: 0
+const paginatedListInitialState = <T>(): TableProps<T> => {
+  return {
+    dataSource: [],
+    loading: false,
+    pagination: {
+      pageSize: 0,
+      total: 0
+    }
   }
 }
 
-type PaginatedListReducer = React.Reducer<TableProps<any>, IAction<any>>
-
-const paginatedListReducer: PaginatedListReducer = <T extends {}>(
-  state: TableProps<T>,
-  action: IAction<T>
-) => {
+const paginatedListReducer = <T>() => (state = paginatedListInitialState<T>(), action: IAction<T>) => {
   const { type, payload } = action
+
   switch(type) {
     case ActionTypes.FETCH_DATA_REQUEST:
       return {
@@ -25,7 +23,8 @@ const paginatedListReducer: PaginatedListReducer = <T extends {}>(
         loading: true
       }
     case ActionTypes.FETCH_DATA_SUCCESS:
-      const { dataSource, total } = payload !
+      const { dataSource, total } = payload!
+
       return {
         ...state,
         dataSource,
@@ -46,7 +45,7 @@ const paginatedListReducer: PaginatedListReducer = <T extends {}>(
         }
       }
     default:
-      return paginatedListInitialState
+      return paginatedListInitialState<T>()
   }
 }
 

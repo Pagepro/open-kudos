@@ -39,8 +39,8 @@ const renderSubMenu = (menuItem: IMenuItem) => {
     return (
       <SubMenu key={url} title={
         <span>
-        {iconType && <Icon type={iconType} />}
-        {content}
+          {iconType && <Icon type={iconType} />}
+          {content}
         </span>
       }
       >
@@ -48,6 +48,7 @@ const renderSubMenu = (menuItem: IMenuItem) => {
       </SubMenu>
     )
   }
+
   return (
     <Item key={url}>
       <Link to={url}>

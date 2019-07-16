@@ -17,7 +17,8 @@ export default class GiftService {
     // TODO: for now we display static list of gifts in future gifts will be
     // added from dashboard with valid teamId so initGifts method
     // will be removed
-    const giftsWithTeamId = realGifts.map((gift) => ({ ...gift, teamId }))
+    const giftsWithTeamId = realGifts.map(gift => ({ ...gift, teamId }))
+
     await Gift.deleteMany({})
     await Gift.insertMany(giftsWithTeamId)
   }
@@ -28,24 +29,30 @@ export default class GiftService {
 
   public async getAllGiftsAsAttachment(teamId: string) {
     await this.initGifts(teamId)
+
     const allGifts = await Gift.find({ teamId })
-    const giftAsAttachment = allGifts.map((gift) => {
+    const giftAsAttachment = allGifts.map(({
+      name,
+      description,
+      id,
+      cost
+    }) => {
       return {
         actions: [
           {
-            name: gift.name,
+            name,
             text: this.translationsService.getTranslation(
               'getForKudos',
-              gift.cost
+              cost
             ),
             type: 'button',
-            value: gift.id
+            value: id
           }
         ] as AttachmentAction[],
         callback_id: SlackConsts.buyGiftCallback,
         color: Helpers.getRandomHexColor(),
-        text: gift.description,
-        title: gift.name
+        text: description,
+        title: name
       }
     })
 

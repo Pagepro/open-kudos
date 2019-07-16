@@ -8,14 +8,15 @@ import reducer, { paginatedListInitialState } from './reducer'
 
 
 const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
-
   const { endpoint, pageSize, columns } = props
   const rowKey = '_id'
 
-  const [state, dispatch] = useReducer(reducer, paginatedListInitialState)
+  const [state, dispatch] = useReducer(
+    reducer<T>(),
+    paginatedListInitialState<T>()
+  )
 
   const fetchGifts = useCallback(async (skip: number, take: number) => {
-
     dispatch({
       type: ActionTypes.FETCH_DATA_REQUEST
     })
@@ -24,13 +25,13 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
       const { data: { docs, total } } = await axios.get<IPaginatedResponse<T>>(
         endpoint, {
           params: { skip, take }
-        })
+        }
+      )
 
       dispatch({
         payload: { dataSource: docs, total },
         type: ActionTypes.FETCH_DATA_SUCCESS
       })
-
     } catch (error) {
       dispatch({
         type: ActionTypes.FETCH_DATA_FAIL
@@ -46,6 +47,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     const limit = pagination.pageSize || 0
     const current = pagination.current || 1
     const skip = (current - 1) * limit
+
     fetchGifts(skip, limit)
   }, [fetchGifts])
 
@@ -58,7 +60,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
       {...state}
       columns={columns}
       onChange={handleTableChange}
-      rowKey={record => record[rowKey]}
+      rowKey={(record: T) => record[rowKey]}
     />
   )
 }
