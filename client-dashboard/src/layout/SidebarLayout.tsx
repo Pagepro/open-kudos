@@ -4,12 +4,26 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { dashboardRoutes } from '../setup/config'
 import { pageTitles } from '../setup/messages'
 
+interface IMenuItem {
+  content: string,
+  url: string,
+  iconType?: string,
+  children?: IMenuItem[]
+}
+
 const { Sider } = Layout
-const { Item } = Menu
-const menuItems = [
+const { Item, SubMenu } = Menu
+const menuItems: IMenuItem[] = [
   {
+    children: [
+      {
+        content: pageTitles.list,
+        iconType: 'unordered-list',
+        url: dashboardRoutes.giftsManagementPage
+      }
+    ],
     content: pageTitles.gifts,
-    iconType: 'apartment',
+    iconType: 'gift',
     url: dashboardRoutes.giftsManagementPage
   },
   {
@@ -18,6 +32,32 @@ const menuItems = [
     url: dashboardRoutes.settingPage
   }
 ]
+
+const renderSubMenu = (menuItem: IMenuItem) => {
+  const { content, iconType, url, children } = menuItem
+  if (children && children.length > 0) {
+    return (
+      <SubMenu key={url} title={
+        <span>
+          {iconType && <Icon type={iconType} />}
+          {content}
+        </span>
+      }
+      >
+        {children.map(renderSubMenu)}
+      </SubMenu>
+    )
+  }
+
+  return (
+    <Item key={url}>
+      <Link to={url}>
+        <Icon type={iconType} />
+        <span>{content}</span>
+      </Link>
+    </Item>
+  )
+}
 
 const SidebarLayout: React.FC<RouteComponentProps> = (props) => {
   const activeRoute = props.location.pathname
@@ -36,14 +76,7 @@ const SidebarLayout: React.FC<RouteComponentProps> = (props) => {
         selectedKeys={[activeRoute]}
       >
         {
-          menuItems.map(({ content, iconType, url }) => (
-            <Item key={url}>
-              <Link to={url}>
-                <Icon type={iconType} />
-                <span>{content}</span>
-              </Link>
-            </Item>
-          ))
+          menuItems.map(item => renderSubMenu(item))
         }
       </Menu>
     </Sider>

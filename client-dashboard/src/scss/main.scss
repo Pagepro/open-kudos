@@ -1,2 +1,10 @@
 @import './variables';
 @import './layout';
+
+.text-danger {
+    color: $danger-color;
+}
+
+a.text-danger:hover {
+    color: darken($danger-color, 20%)
+}

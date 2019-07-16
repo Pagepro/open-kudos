@@ -18,6 +18,7 @@ export default class GiftService {
     // added from dashboard with valid teamId so initGifts method
     // will be removed
     const giftsWithTeamId = realGifts.map(gift => ({ ...gift, teamId }))
+
     await Gift.deleteMany({})
     await Gift.insertMany(giftsWithTeamId)
   }
@@ -28,27 +29,53 @@ export default class GiftService {
 
   public async getAllGiftsAsAttachment(teamId: string) {
     await this.initGifts(teamId)
+
     const allGifts = await Gift.find({ teamId })
-    const giftAsAttachment = allGifts.map(gift => {
+    const giftAsAttachment = allGifts.map(({
+      name,
+      description,
+      id,
+      cost
+    }) => {
       return {
         actions: [
           {
-            name: gift.name,
+            name,
             text: this.translationsService.getTranslation(
-              "getForKudos",
-              gift.cost
+              'getForKudos',
+              cost
             ),
             type: 'button',
-            value: gift.id
+            value: id
           }
         ] as AttachmentAction[],
         callback_id: SlackConsts.buyGiftCallback,
         color: Helpers.getRandomHexColor(),
-        text: gift.description,
-        title: gift.name,
+        text: description,
+        title: name
       }
     })
 
     return giftAsAttachment as MessageAttachment[]
+  }
+
+  public async getAllPaginated(
+    teamId: string,
+    limit?: number,
+    offset?: number
+  ) {
+    return await Gift.paginate(
+      {
+        isAvailable: true,
+        teamId
+      },
+      {
+        limit,
+        offset,
+        sort: {
+          cost: 1
+        }
+      }
+    )
   }
 }

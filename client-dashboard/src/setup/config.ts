@@ -1,19 +1,19 @@
 const routes = {
-  root: '/',
-  dashboardPage: '/dashboard',
   auth: '/auth',
-  login: '/login'
+  dashboardPage: '/dashboard',
+  login: '/login',
+  root: '/'
 }
 
 const infoRoutes = {
-  landingPage: routes.root,
-  installationPage: `/installation`
+  installationPage: `/installation`,
+  landingPage: routes.root
 }
 
 const dashboardRoutes = {
   giftsManagementPage: `${routes.dashboardPage}/gifts`,
-  usersManagementPage: `${routes.dashboardPage}/users`,
-  settingPage: `${routes.dashboardPage}/settings`
+  settingPage: `${routes.dashboardPage}/settings`,
+  usersManagementPage: `${routes.dashboardPage}/users`
 }
 
 const authRoutes = {

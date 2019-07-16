@@ -7,8 +7,8 @@ import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
-import DashboardGiftsController from './controllers/dashboardGiftsController'
 import DashboardPageController from './controllers/dashboardPageController'
+import GiftsController from './controllers/giftsController'
 import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
@@ -48,7 +48,7 @@ class App {
       SlackController,
       BotInstallationController,
       SettingsController,
-      DashboardGiftsController,
+      GiftsController,
       ...(Config.isProduction ? [] : [TestController])
     ])
 
