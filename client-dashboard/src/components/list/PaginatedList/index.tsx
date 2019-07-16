@@ -4,7 +4,7 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useReducer } from 'react'
 import { IPaginatedListProps, IPaginatedResponse, IWithKey } from '../models'
 import ActionTypes from './actionTypes'
-import reducer, { paginatedListInitialState } from './reducer'
+import createReducer, { paginatedListInitialState } from './reducer'
 
 
 const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
@@ -12,7 +12,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   const rowKey = '_id'
 
   const [state, dispatch] = useReducer(
-    reducer<T>(),
+    createReducer<T>(),
     paginatedListInitialState<T>()
   )
 

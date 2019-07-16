@@ -1,5 +1,6 @@
 import { TableProps } from 'antd/lib/table'
-import { IAction } from '../models/IAction'
+import { IAction } from '../../../common/models/IAction'
+import { IListActionPayload } from '../models/IListActionPayload'
 import ActionTypes from './actionTypes'
 
 const paginatedListInitialState = <T>(): TableProps<T> => {
@@ -13,7 +14,10 @@ const paginatedListInitialState = <T>(): TableProps<T> => {
   }
 }
 
-const paginatedListReducer = <T>() => (state = paginatedListInitialState<T>(), action: IAction<T>) => {
+const createPaginatedListReducer = <T>() => (
+  state = paginatedListInitialState<T>(),
+  action: IAction<IListActionPayload<T>>
+) => {
   const { type, payload } = action
 
   switch(type) {
@@ -53,4 +57,4 @@ export {
   paginatedListInitialState
 }
 
-export default paginatedListReducer
+export default createPaginatedListReducer
