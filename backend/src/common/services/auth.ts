@@ -1,5 +1,6 @@
 import { WebAPICallResult } from '@slack/client/dist/WebClient'
 import axios from 'axios'
+import Config from '../consts/config';
 import SlackConsts from '../consts/slack'
 import SlackClientService from './slackClient'
 
@@ -36,10 +37,10 @@ export default class AuthService {
     const response = await axios
       .get<IAuthAccessResponse>(SlackConsts.slackAuthUrl, {
         params: {
-          client_id: process.env.CLIENT_ID,
-          client_secret: process.env.CLIENT_SECRET,
+          client_id: Config.clientId,
+          client_secret: Config.clientSecret,
           code,
-          redirect_uri: process.env.SLACK_AUTH_REDIRECT_URI
+          redirect_uri: Config.authRedirectUrl
         }
       })
 

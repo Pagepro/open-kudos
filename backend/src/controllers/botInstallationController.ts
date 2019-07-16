@@ -45,6 +45,7 @@ export default class BotInstallationController {
         client_id: Config.clientId,
         client_secret: Config.clientSecret,
         code: req.query.code,
+        redirect_uri: Config.installRedirectUrl
       }
     })
 

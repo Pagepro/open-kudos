@@ -3,19 +3,19 @@ import loginPageTemplate from '../templates/loadingPageTemplate'
 import axios from 'axios'
 
 const LoginPage: React.FC = () => {
-  const [clientId, setClientId] = useState("")
+  const [loginHref, setLoginHref] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: { slackClientId } } = await axios.get('api/settings');
-      setClientId(slackClientId)
+      const { data: { slackLoginHref } } = await axios.get('api/settings');
+      setLoginHref(slackLoginHref)
     };
 
     fetchData();
   }, []);
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: loginPageTemplate.format(clientId) }} />
+    <div dangerouslySetInnerHTML={{ __html: loginPageTemplate.format(loginHref) }} />
   )
 }
 

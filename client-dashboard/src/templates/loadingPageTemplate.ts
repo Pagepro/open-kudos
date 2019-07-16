@@ -48,7 +48,7 @@ const loadingPageTemplate = `<!DOCTYPE html>
               </h1>
           </div>
           <div class="buttonContainer">
-                 <a href="https://slack.com/oauth/authorize?scope=identify&amp;client_id={0}">
+                 <a href="{0}">
                    <img src="https://api.slack.com/img/sign_in_with_slack.png" />
                  </a>
           </div>
