@@ -5,11 +5,9 @@ import {
 } from '@decorators/express'
 import { NextFunction, Request, Response } from 'express'
 import AuthService from '../common/services/auth'
-import SlackClientService from '../common/services/slackClient'
 import { IUserEnhancedRequest } from './definitions/authMiddleware'
 
 export default class AuthMiddleware implements Middleware {
-  private slackClientService = new SlackClientService()
   private authService = new AuthService()
 
   public async use(

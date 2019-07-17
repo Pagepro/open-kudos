@@ -13,6 +13,7 @@ import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
+import UserController from './controllers/userController'
 
 class App {
   public expressApp: express.Application
@@ -49,6 +50,7 @@ class App {
       BotInstallationController,
       SettingsController,
       GiftsController,
+      UserController,
       ...(Config.isProduction ? [] : [TestController])
     ])
 

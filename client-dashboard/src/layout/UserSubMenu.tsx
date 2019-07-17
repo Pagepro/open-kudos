@@ -1,8 +1,14 @@
-import { Menu } from 'antd'
-import React from 'react'
-import { common } from '../setup/const';
-import { Redirect } from 'react-router';
-import { routes } from '../setup/config';
+import { Menu, Icon } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { common } from '../setup/const'
+import { Redirect } from 'react-router'
+import { routes } from '../setup/config'
+import axios from 'axios'
+import TitleIcon from './TitleIcon';
+
+interface IUserName {
+  user: string
+}
 
 const { SubMenu, Item } = Menu
 
@@ -13,16 +19,36 @@ const logout = () => {
 }
 
 const UserSubMenu: React.FC = () => {
+  const [user, setUser] = useState("")
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const { data: { user } } = await axios.get<IUserName>('/api/users/me')
+      setUser(user)
+    };
+
+    fetchUserName();
+  }, [])
+
   return (
     <Menu
       theme='dark'
       mode='inline'
+      className='user-menu-container'
     >
       <SubMenu
-        title='username'
+        title={
+          <TitleIcon
+            iconName='user'
+            title={user}
+          />
+        }
       >
-        <Item>
-          <span onClick={logout}>Logout</span>
+        <Item onClick={logout}>
+          <span>
+            <Icon type="logout" />
+            Logout
+          </span>
         </Item>
       </SubMenu>
     </Menu>

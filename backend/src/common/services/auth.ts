@@ -1,6 +1,5 @@
-import { WebAPICallResult } from '@slack/client/dist/WebClient'
 import axios from 'axios'
-import Config from '../consts/config';
+import Config from '../consts/config'
 import SlackConsts from '../consts/slack'
 import SlackClientService from './slackClient'
 

@@ -7,7 +7,8 @@ import { SlackResponseType } from '../factories/definitions/slackCommandHandlerF
 import {
   IChannelsListResponse,
   IExtendedWebApiCallResult,
-  IImOpenResponse
+  IImOpenResponse,
+  ISlackUserResponse
 } from './definitions/slackApi'
 
 export default class SlackClientService {
