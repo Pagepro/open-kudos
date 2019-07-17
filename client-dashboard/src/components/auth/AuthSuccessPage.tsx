@@ -3,7 +3,7 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
 import { routes } from '../../setup/config'
 import { useDispatch } from 'react-redux'
-import { addToken } from './actions';
+import { login } from './actions';
 
 interface IAccessTokenParams {
   accessToken: string
@@ -14,7 +14,7 @@ const AuthSuccessPage: React.FC<RouteComponentProps<IAccessTokenParams>> = (prop
   const dispatch = useDispatch()
 
   useEffect(() => {
-    addToken(accessToken)(dispatch)
+    login(accessToken)(dispatch)
   })
 
   return (

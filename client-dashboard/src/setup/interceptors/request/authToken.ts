@@ -1,5 +1,5 @@
 import { RequestInterceptor, IInterceptorConfig } from '../interceptor'
-import { getAuthToken } from '../utiles';
+import { getAuthToken } from '../utils';
 
 export default class AuthToken extends RequestInterceptor {
   static INTERCEPTOR_KEY = 'authToken'

@@ -1,6 +1,6 @@
 import { AnyAction } from "redux"
 import { tokenActions } from "../../setup/actions";
-import { getAuthToken } from "../../setup/interceptors/utiles"
+import { getAuthToken } from "../../setup/interceptors/utils"
 
 const defaultState = getAuthToken()
 

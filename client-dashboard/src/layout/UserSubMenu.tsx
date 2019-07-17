@@ -1,10 +1,9 @@
 import { Menu, Icon } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { common } from '../setup/const'
-import { Redirect } from 'react-router'
-import { routes } from '../setup/config'
+import React, { useEffect, useState, useCallback } from 'react'
 import axios from 'axios'
-import TitleIcon from './TitleIcon';
+import TitleIcon from './TitleIcon'
+import { useDispatch } from 'react-redux'
+import { logout as logoutAction } from '../components/auth/actions'
 
 interface IUserName {
   user: string
@@ -12,14 +11,13 @@ interface IUserName {
 
 const { SubMenu, Item } = Menu
 
-const logout = () => {
-  console.log('logout')
-  localStorage.removeItem(common.accessTokenKey)
-  return <Redirect to={routes.login} />
-}
-
 const UserSubMenu: React.FC = () => {
   const [user, setUser] = useState("")
+  const dispatch = useDispatch()
+
+  const logout = useCallback(() => {
+    logoutAction()(dispatch)
+  }, [dispatch])
 
   useEffect(() => {
     const fetchUserName = async () => {

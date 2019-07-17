@@ -9,3 +9,7 @@ export const getAuthToken = () => {
 export const setAuthToken = (token: string) => {
   localStorage.setItem(common.accessTokenKey, token)
 }
+
+export const clearAuthToken = () => {
+  localStorage.removeItem(common.accessTokenKey)
+}

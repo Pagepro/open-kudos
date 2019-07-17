@@ -1,14 +1,22 @@
 import { Dispatch } from 'redux'
-import { common } from '../../setup/const'
 import { tokenActions } from '../../setup/actions'
-import { setAuthToken } from '../../setup/interceptors/utiles';
+import { setAuthToken, clearAuthToken } from '../../setup/interceptors/utils'
 
-export const addToken = (token: string) =>
+export const login = (token: string) =>
   (dispatch: Dispatch<any>) => {
     setAuthToken(token)
 
     dispatch({
       payload: token,
       type: tokenActions.addToken
+    })
+  }
+
+export const logout = () =>
+  (dispatch: Dispatch<any>) => {
+    clearAuthToken()
+
+    dispatch({
+      type: tokenActions.removeToken
     })
   }
