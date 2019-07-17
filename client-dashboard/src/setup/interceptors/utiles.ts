@@ -5,3 +5,7 @@ export const getAuthToken = () => {
 
   return accessToken || String.empty
 }
+
+export const setAuthToken = (token: string) => {
+  localStorage.setItem(common.accessTokenKey, token)
+}

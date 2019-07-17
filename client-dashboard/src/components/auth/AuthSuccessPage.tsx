@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import { Redirect } from 'react-router-dom'
-import { routes } from '../../setup/config';
-import { common } from '../../setup/const';
+import { routes } from '../../setup/config'
+import { useDispatch } from 'react-redux'
+import { addToken } from './actions';
 
 interface IAccessTokenParams {
   accessToken: string
@@ -10,8 +11,11 @@ interface IAccessTokenParams {
 
 const AuthSuccessPage: React.FC<RouteComponentProps<IAccessTokenParams>> = (props) => {
   const { accessToken } = props.match.params
+  const dispatch = useDispatch()
 
-  localStorage.setItem(common.accessTokenKey, accessToken);
+  useEffect(() => {
+    addToken(accessToken)(dispatch)
+  })
 
   return (
     <Redirect to={routes.dashboardPage} />

@@ -8,12 +8,16 @@ import HeaderLayout from './layout/HeaderLayout'
 import SidebarLayout from './layout/SidebarLayout'
 import './scss/main.css'
 import { dashboardRoutes } from './setup/config'
-import { getAuthToken } from './setup/interceptors/utiles'
+import 'antd/dist/antd.css'
+import DashboardPage from './components/dashboard/DashboardPage'
+import SettingsPage from './components/settings/SettingsPage'
+import { useSelector } from 'react-redux'
+import { IGlobalState } from './setup/reducers'
 
 const { Content } = Layout
 
 const DashboardApp: React.FC = () => {
-  const token = getAuthToken()
+  const token = useSelector<IGlobalState, string>(({ token }) => token)
 
   return (
     token ?
@@ -24,9 +28,19 @@ const DashboardApp: React.FC = () => {
           <Content className="content-container">
             <Switch>
               <Route
+                path={dashboardRoutes.dashboardPage}
+                exact={true}
+                component={DashboardPage}
+              />
+              <Route
                 path={dashboardRoutes.giftsManagementPage}
                 exact={true}
                 component={GiftPage}
+              />
+              <Route
+                path={dashboardRoutes.settingPage}
+                exact={true}
+                component={SettingsPage}
               />
             </Switch>
           </Content>
