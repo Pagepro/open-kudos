@@ -21,6 +21,12 @@ interface IAuthAccessResponse extends IAuthCommon {
   team_name: string
 }
 
+interface IRevokeResponse {
+  ok: boolean
+  revoked?: boolean
+  error?: string
+}
+
 export default class AuthService {
   private slackClientService: SlackClientService
 
@@ -44,5 +50,9 @@ export default class AuthService {
       })
 
     return response.data
+  }
+
+  public async logout(token: string) {
+    return await this.slackClientService.revoke(token) as IRevokeResponse
   }
 }

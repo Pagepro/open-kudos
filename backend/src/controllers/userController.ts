@@ -15,12 +15,7 @@ export default class UserController {
     @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response
   ) {
-    try {
-      const { user } = req.user
-      res.json({ user })
-
-    } catch (error) {
-      res.status(500)
-    }
+    const { user } = req.user
+    res.json({ user })
   }
 }

@@ -5,6 +5,4 @@ declare global {
   interface IMappedObject<T> {
     [key: string]: T
   }
-
-  type getStateSignature = () => IGlobalState
 }

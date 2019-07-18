@@ -1,9 +1,9 @@
-import { Menu, Icon } from 'antd'
-import React, { useEffect, useState, useCallback } from 'react'
+import { Icon, Menu } from 'antd'
 import axios from 'axios'
-import TitleIcon from './TitleIcon'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logout as logoutAction } from '../components/auth/actions'
+import TitleIcon from './TitleIcon'
 
 interface IUserName {
   user: string
@@ -15,7 +15,7 @@ const UserSubMenu: React.FC = () => {
   const [user, setUser] = useState("")
   const dispatch = useDispatch()
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     logoutAction()(dispatch)
   }, [dispatch])
 
@@ -23,9 +23,9 @@ const UserSubMenu: React.FC = () => {
     const fetchUserName = async () => {
       const { data: { user } } = await axios.get<IUserName>('/api/users/me')
       setUser(user)
-    };
+    }
 
-    fetchUserName();
+    fetchUserName()
   }, [])
 
   return (
