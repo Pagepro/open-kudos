@@ -8,7 +8,7 @@ import createReducer, { paginatedListInitialState } from './reducer'
 
 
 const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
-  const { endpoint, pageSize, columns } = props
+  const { endpoint, pageSize, columns, getAPIRef } = props
   const rowKey = '_id'
 
   const [state, dispatch] = useReducer(
@@ -16,7 +16,11 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     paginatedListInitialState<T>()
   )
 
-  const fetchGifts = useCallback(async (skip: number, take: number) => {
+  const fetchGifts = useCallback(async (
+    skip: number,
+    take: number = 10,
+    current: number = 1
+  ) => {
     dispatch({
       type: ActionTypes.FETCH_DATA_REQUEST
     })
@@ -29,7 +33,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
       )
 
       dispatch({
-        payload: { dataSource: docs, total },
+        payload: { dataSource: docs, total, current },
         type: ActionTypes.FETCH_DATA_SUCCESS
       })
     } catch (error) {
@@ -44,16 +48,33 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   }, [endpoint])
 
   const handleTableChange = useCallback((pagination: PaginationConfig) => {
-    const limit = pagination.pageSize || 0
+    const limit = pagination.pageSize || 10
     const current = pagination.current || 1
     const skip = (current - 1) * limit
 
-    fetchGifts(skip, limit)
+    fetchGifts(skip, limit, current)
   }, [fetchGifts])
 
   useEffect(() => {
     fetchGifts(0, pageSize || 10)
   }, [fetchGifts, pageSize])
+
+
+  if (getAPIRef) {
+    getAPIRef.current = {
+
+      refetchData: () => {
+        const { pagination } = state
+        if (pagination) {
+          const current = pagination.current || 1
+          const skip = (current - 1) * (pageSize || 10)
+          fetchGifts(skip, pageSize, current)
+        } else {
+          fetchGifts(0, pageSize || 10)
+        }
+      }
+    }
+  }
 
   return (
     <Table<T>

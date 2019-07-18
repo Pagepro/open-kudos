@@ -5,6 +5,19 @@
     color: $danger-color;
 }
 
-a.text-danger:hover {
-    color: darken($danger-color, 20%)
+a.text-danger:hover,
+button.text-danger:hover,
+button.text-danger:focus,
+button.text-danger:active {
+    color: darken($danger-color, 20%);
+}
+
+.px-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.py-0 {
+    padding-top: 0;
+    padding-bottom: 0;
 }
