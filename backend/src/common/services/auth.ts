@@ -1,6 +1,5 @@
-import { WebAPICallResult } from '@slack/client/dist/WebClient'
 import axios from 'axios'
-import Config from '../consts/config';
+import Config from '../consts/config'
 import SlackConsts from '../consts/slack'
 import SlackClientService from './slackClient'
 
@@ -20,6 +19,12 @@ interface IAuthAccessResponse extends IAuthCommon {
   access_token: string
   scope: string
   team_name: string
+}
+
+interface IRevokeResponse {
+  ok: boolean
+  revoked?: boolean
+  error?: string
 }
 
 export default class AuthService {
@@ -45,5 +50,9 @@ export default class AuthService {
       })
 
     return response.data
+  }
+
+  public async logout(token: string) {
+    return await this.slackClientService.revoke(token) as IRevokeResponse
   }
 }

@@ -4,7 +4,7 @@ interface IWithId {
   id: string
 }
 
-interface ISlackUserResponse extends IWithId {
+interface ISlackUserResponse extends IWithId, WebAPICallResult {
   team_id: string
   name: string
   deleted: boolean
@@ -64,5 +64,6 @@ interface IChannelsListResponse extends WebAPICallResult {
 export {
   IImOpenResponse,
   IExtendedWebApiCallResult,
-  IChannelsListResponse
+  IChannelsListResponse,
+  ISlackUserResponse
 }

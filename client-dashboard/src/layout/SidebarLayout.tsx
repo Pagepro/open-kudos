@@ -15,6 +15,11 @@ const { Sider } = Layout
 const { Item, SubMenu } = Menu
 const menuItems: IMenuItem[] = [
   {
+    content: pageTitles.dashboard,
+    iconType: 'dashboard',
+    url: dashboardRoutes.dashboardPage
+  },
+  {
     children: [
       {
         content: pageTitles.list,
@@ -27,8 +32,8 @@ const menuItems: IMenuItem[] = [
     url: dashboardRoutes.giftsManagementPage
   },
   {
-    content: pageTitles.title1,
-    iconType: 'apartment',
+    content: pageTitles.settings,
+    iconType: 'setting',
     url: dashboardRoutes.settingPage
   }
 ]
