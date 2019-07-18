@@ -10,13 +10,14 @@ export const schemaValidatorFatory = (schema: Schema) => {
       res: Response,
       next: NextFunction
     ): Promise<void> {
-
       const validationChains = checkSchema(schema)
 
       for (const validationChain of validationChains) {
         await validationChain.run(req)
       }
+
       const errors = validationResult(req)
+
       if (!errors.isEmpty()) {
         res.status(400).json(errors.array())
       } else {

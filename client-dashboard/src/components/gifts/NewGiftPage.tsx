@@ -9,13 +9,10 @@ import { pageTitles } from '../../setup/messages'
 import GiftForm from './GiftForm'
 import { IGift } from './models'
 
-
 const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
-
   const [loading, setLoading] = useState(false)
 
   const onFormSubmit = useCallback(async (gift: IGift) => {
-
     const { name, cost, description } = gift
     const endpoint = `/api/gifts`
     setLoading(true)
@@ -28,6 +25,7 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
           name
         }
       )
+
       setLoading(false)
       history.push(dashboardRoutes.giftsManagementPage)
       notification.success({

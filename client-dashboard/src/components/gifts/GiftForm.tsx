@@ -6,7 +6,6 @@ import { composeValidators, minValue, required } from '../../common/helpers/vali
 import './GiftForm.scss'
 import { IFormFieldProps, IFormInputProps, IGiftFormProps } from './models'
 
-
 /* tslint:disable: object-literal-sort-keys */
 const labelColSize = {
   xs: 24,
@@ -21,7 +20,6 @@ const inputColSize = {
   xxl: 8,
 }
 /* tslint:enable: object-literal-sort-keys */
-
 
 const FormField = ({ meta, label, children }: IFormFieldProps) => {
   return (

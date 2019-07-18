@@ -19,3 +19,25 @@ export const NewGiftSchema: Schema = {
     }
   }
 }
+
+export const PaginationSchema: Schema = {
+  offset: {
+    in: 'query',
+    isInt: {
+      options: {
+        min: 0
+      }
+    },
+    optional: true
+  },
+  take: {
+    in: 'query',
+    isInt: {
+      options: {
+        max: 50,
+        min: 0
+      }
+    },
+    optional: true
+  }
+}

@@ -13,23 +13,23 @@ import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
 import { schemaValidatorFatory } from '../../middleware/schemaValidationMiddleware'
 import { INewGift } from './models'
-import { NewGiftSchema } from './schemas'
+import { NewGiftSchema, PaginationSchema } from './schemas'
 
 @Controller('/gifts', [AuthMiddleware])
 export default class GiftsController {
   private giftService = new GiftService()
 
-  @Get('/')
+  @Get('/', [schemaValidatorFatory(PaginationSchema)])
   public async getAllGifts(
     @RequestDecorator() req: IUserEnhancedRequest,
     @QueryParam('skip') offset: number = 0,
-    @QueryParam('take') limit: number = 10,
+    @QueryParam('take') take: number = 10,
     @ResponseDecorator() res: Response
   ) {
     const teamId = req.user.team_id
     const paginatedGifts = await this.giftService.getAllPaginated(
       teamId,
-      Number(limit),
+      Number(take),
       Number(offset)
     )
     res.json(paginatedGifts)
