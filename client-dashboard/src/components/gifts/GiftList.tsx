@@ -40,7 +40,7 @@ export const GiftList: React.FC<TableProps<IGift>> = () => {
     })
   }, [removeGift])
 
-  const renderListItemOptions = useCallback((text: any, record: IGift) => {
+  const renderListItemOptions = useCallback((_, record: IGift) => {
     return (
       <div>
         <span>Edit</span>

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Post,
   Query as QueryParam,
@@ -54,4 +55,15 @@ export default class GiftsController {
     res.json(newGift)
   }
 
+  @Delete('/:id', [AuthMiddleware])
+  public async deleteGift(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @ResponseDecorator() res: Response
+  ) {
+    const { id } = req.params
+
+    await this.giftService.deleteGift(id)
+
+    res.status(204).send()
+  }
 }

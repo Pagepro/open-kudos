@@ -62,12 +62,13 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
 
   if (getAPIRef) {
     getAPIRef.current = {
-
       refetchData: () => {
         const { pagination } = state
+
         if (pagination) {
           const current = pagination.current || 1
           const skip = (current - 1) * (pageSize || 10)
+
           fetchGifts(skip, pageSize, current)
         } else {
           fetchGifts(0, pageSize || 10)
