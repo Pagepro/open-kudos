@@ -78,4 +78,20 @@ export default class GiftService {
       }
     )
   }
+
+  public async addGift (
+    teamId: string,
+    name: string,
+    cost: number,
+    description? : string
+  ) {
+    return await new Gift({
+      cost,
+      description: description || null,
+      isAvailable: true,
+      name,
+      teamId
+    }).save()
+  }
+
 }
