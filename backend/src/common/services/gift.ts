@@ -94,7 +94,7 @@ export default class GiftService {
     }).save()
   }
 
-  public async deleteGift(giftId: number) {
+  public async deleteGift(giftId: string) {
     return await Gift.findByIdAndDelete(giftId)
   }
 }

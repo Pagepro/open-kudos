@@ -57,16 +57,15 @@ export default class GiftsController {
 
   @Delete('/:id', [AuthMiddleware])
   public async deleteGift(
-    @RequestDecorator() req: IUserEnhancedRequest,
+    @QueryParam('id') id: string,
     @ResponseDecorator() res: Response
   ) {
-    const { id } = req.params
     const deletedGift = await this.giftService.deleteGift(id)
 
     if (!deletedGift) {
-      res.status(400).send()
-    } else {
-      res.status(204).send()
+      return res.status(404).send()
     }
+
+    res.status(204).send()
   }
 }
