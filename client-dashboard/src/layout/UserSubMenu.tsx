@@ -12,7 +12,7 @@ interface IUserName {
 const { SubMenu, Item } = Menu
 
 const UserSubMenu: React.FC = () => {
-  const [user, setUser] = useState("")
+  const [user, setUser] = useState(String.empty)
   const dispatch = useDispatch()
 
   const logout = useCallback(async () => {
