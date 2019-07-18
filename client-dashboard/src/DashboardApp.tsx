@@ -12,6 +12,7 @@ import SidebarLayout from './layout/SidebarLayout'
 import './scss/main.css'
 import { dashboardRoutes } from './setup/config'
 import { IGlobalState } from './setup/reducers'
+import EditGiftPage from './components/gifts/EditGiftPage';
 
 const { Content } = Layout
 
@@ -45,6 +46,11 @@ const DashboardApp: React.FC = () => {
                 path={dashboardRoutes.newGiftPage}
                 exact={true}
                 component={NewGiftPage}
+              />
+              <Route
+                path={dashboardRoutes.editGiftPage}
+                exact={true}
+                component={EditGiftPage}
               />
             </Switch>
           </Content>

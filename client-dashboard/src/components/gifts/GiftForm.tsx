@@ -38,22 +38,20 @@ const FormField = ({ meta, label, children }: IFormFieldProps) => (
 const renderInput = ({
   input,
   meta,
-  defaultValue,
   label
 }: IFormInputProps) => (
   <FormField meta={meta} label={label}>
-    <Input {...input} defaultValue={defaultValue} />
+    <Input {...input} />
   </FormField>
 )
 
 const renderTextArea = ({
   input,
   meta,
-  defaultValue,
   label
 }: IFormInputProps) => (
   <FormField meta={meta} label={label}>
-    <TextArea {...input} defaultValue={defaultValue} />
+    <TextArea {...input} />
   </FormField>
 )
 
@@ -69,17 +67,15 @@ const GiftForm = ({
     onSubmit={onSubmit}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
-        <Field name='name' validate={required<string>()}>
+        <Field name='name' validate={required<string>()} defaultValue={name}>
           {({ input, meta }) => renderInput({
-            defaultValue: name,
             input,
             label: 'Name',
             meta
           })}
         </Field>
-        <Field name='description'>
+        <Field name='description' defaultValue={description}>
           {({ input, meta }) => renderTextArea({
-            defaultValue: description,
             input,
             label: 'Description',
             meta
@@ -89,9 +85,9 @@ const GiftForm = ({
           name='cost'
           type='number'
           validate={composeValidators(required(), minValue(1))}
+          defaultValue={cost}
         >
           {({ input, meta }) => renderInput({
-            defaultValue: cost,
             input,
             label: 'Cost',
             meta

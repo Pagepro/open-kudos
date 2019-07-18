@@ -5,7 +5,8 @@ import {
   Post,
   Query as QueryParam,
   Request as RequestDecorator,
-  Response as ResponseDecorator
+  Response as ResponseDecorator,
+  Patch
 } from '@decorators/express'
 import { Response } from 'express'
 import GiftService from '../../common/services/gift'
@@ -34,6 +35,32 @@ export default class GiftsController {
     )
 
     res.json(paginatedGifts)
+  }
+
+  @Get('/:id')
+  public async getGift(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @ResponseDecorator() res: Response
+  ) {
+    const { id } = req.params
+    res.json(await this.giftService.getGift(id))
+  }
+
+  @Patch('/:id', [schemaValidatorFatory(NewGiftSchema)])
+  public async patchGift(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @Body() body: INewGift,
+    @ResponseDecorator() res: Response
+  ) {
+    const { name, cost, description } = body
+    const { id } = req.params
+    const editedGift = await this.giftService.patchGift(
+      id,
+      name,
+      cost,
+      description
+    )
+    res.json(editedGift)
   }
 
   @Post('/', [schemaValidatorFatory(NewGiftSchema)])

@@ -1,8 +1,9 @@
-import { Divider } from 'antd'
+import { Button, Divider } from 'antd'
 import { ColumnProps, TableProps } from 'antd/lib/table'
 import React from 'react'
 import PaginatedList from '../list/PaginatedList'
 import { IGift } from './models'
+import { Link } from 'react-router-dom';
 
 const columns: Array<ColumnProps<IGift>> = [
   {
@@ -22,9 +23,13 @@ const columns: Array<ColumnProps<IGift>> = [
   },
   {
     key: 'action',
-    render: () => (
+    render: (text: any, record: IGift) => (
       <span>
-        <span>Edit</span>
+        <Button type='link'>
+          <Link to={`gifts/${record._id}`}>
+            Edit
+          </Link>
+        </Button>
         <Divider type="vertical" />
         <span className="text-danger">Delete</span>
       </span>
