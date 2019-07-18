@@ -1,21 +1,22 @@
 import { Layout } from 'antd'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
+import DashboardPage from './components/dashboard/DashboardPage'
 import GiftPage from './components/gifts/GiftPage'
+import NewGiftPage from './components/gifts/NewGiftPage'
+import SettingsPage from './components/settings/SettingsPage'
 import FooterLayout from './layout/FooterLayout'
 import HeaderLayout from './layout/HeaderLayout'
 import SidebarLayout from './layout/SidebarLayout'
 import './scss/main.css'
 import { dashboardRoutes } from './setup/config'
-import DashboardPage from './components/dashboard/DashboardPage'
-import SettingsPage from './components/settings/SettingsPage'
-import { useSelector } from 'react-redux'
 import { IGlobalState } from './setup/reducers'
 
 const { Content } = Layout
 
 const DashboardApp: React.FC = () => {
-  const token = useSelector<IGlobalState, string>(({ token }) => token)
+  const token = useSelector<IGlobalState, string>(state => state.token)
 
   return (
     token ?
@@ -39,6 +40,11 @@ const DashboardApp: React.FC = () => {
                 path={dashboardRoutes.settingPage}
                 exact={true}
                 component={SettingsPage}
+              />
+              <Route
+                path={dashboardRoutes.newGiftPage}
+                exact={true}
+                component={NewGiftPage}
               />
             </Switch>
           </Content>

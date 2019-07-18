@@ -1,6 +1,8 @@
 export const pageTitles = {
+  dashboard: 'Dashboard',
   gifts: 'Gifts',
   list: 'List',
-  dashboard: 'Dashboard',
-  settings: 'Settings'
+  newGift: 'New gift',
+  settings: 'Settings',
+  title1: 'Title1'
 }
