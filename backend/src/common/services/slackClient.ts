@@ -14,6 +14,7 @@ import {
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
   public static generalChannels: IStringTMap<string> = {}
+  public static authClient = new WebClient()
 
   public initWebClient(workspace: IWorkspace) {
     SlackClientService.clients[workspace.teamId] =
@@ -21,13 +22,12 @@ export default class SlackClientService {
   }
 
   public async checkAuth(token: string) {
-    const client = new WebClient()
-    return await client.auth.test({ token })
+    return await SlackClientService.authClient.auth.test({ token })
   }
 
   public async revoke(token: string) {
-    const client = new WebClient()
-    return await client.auth.revoke({ token, test: false })
+    return await SlackClientService.authClient.auth
+      .revoke({ token, test: false })
   }
 
   public async  getWebClient(teamId: string): Promise<WebClient> {
