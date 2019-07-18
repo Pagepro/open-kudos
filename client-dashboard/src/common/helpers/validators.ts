@@ -1,6 +1,6 @@
 import { FieldValidator } from 'final-form'
 
-const required: FieldValidator<any> = (value: any) =>
+const createRequiredValidator = <T>(): FieldValidator<T> => (value: any) =>
   value ? undefined : 'Field is required'
 
 const mustBeNumber: FieldValidator<number> = (value: number) =>
@@ -11,12 +11,16 @@ const minValue = (min: number) => (value: number) =>
     ? undefined
     : `Should be greater than ${min - 1}`
 
-const composeValidators: FieldValidator<any> = (...validators: any) => (
-  value: any
+
+
+const composeValidators = <T>(...validators: Array<FieldValidator<T>>) => (
+  value: T,
+  allValues: object,
 ) =>
   validators.reduce(
-    (error: any, validator: any) => error || validator(value),
-    undefined
+    (error, validator) =>
+      error || validator(value, allValues),
+    ''
   )
 
-export { required, mustBeNumber, minValue, composeValidators }
+export { createRequiredValidator, mustBeNumber, minValue, composeValidators }

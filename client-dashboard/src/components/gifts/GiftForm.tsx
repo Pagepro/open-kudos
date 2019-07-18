@@ -2,7 +2,7 @@ import { Button, Col, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
-import { composeValidators, minValue, required } from '../../common/helpers/validators'
+import { composeValidators, createRequiredValidator, minValue } from '../../common/helpers/validators'
 import './GiftForm.scss'
 import { IFormFieldProps, IFormInputProps, IGiftFormProps } from './models'
 
@@ -78,7 +78,7 @@ const GiftForm = (props: IGiftFormProps) => {
       onSubmit={onSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <Field name='name' validate={required}>
+          <Field name='name' validate={createRequiredValidator<string>()}>
             {({ input, meta }) => renderInput({
               defaultValue: name,
               input,
@@ -97,7 +97,7 @@ const GiftForm = (props: IGiftFormProps) => {
           <Field
             name='cost'
             type='number'
-            validate={composeValidators(required, minValue(1))}
+            validate={composeValidators(createRequiredValidator(), minValue(1))}
           >
             {({ input, meta }) => renderInput({
               defaultValue: cost,
