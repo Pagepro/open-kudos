@@ -95,8 +95,6 @@ export default class GiftService {
   }
 
   public async deleteGift(giftId: number) {
-    return await Gift.deleteOne({
-      _id: giftId
-    })
+    return await Gift.findByIdAndDelete(giftId)
   }
 }

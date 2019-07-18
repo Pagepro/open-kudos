@@ -61,9 +61,12 @@ export default class GiftsController {
     @ResponseDecorator() res: Response
   ) {
     const { id } = req.params
+    const deletedGift = await this.giftService.deleteGift(id)
 
-    await this.giftService.deleteGift(id)
-
-    res.status(204).send()
+    if (!deletedGift) {
+      res.status(400).send()
+    } else {
+      res.status(204).send()
+    }
   }
 }

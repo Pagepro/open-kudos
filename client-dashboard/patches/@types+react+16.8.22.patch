@@ -4,10 +4,10 @@ index 3f992f6..a531de1 100644
 +++ b/node_modules/@types/react/index.d.ts
 @@ -78,7 +78,7 @@ declare namespace React {
      type Key = string | number;
- 
+
      interface RefObject<T> {
 -        readonly current: T | null;
 +        current: T | null;
      }
- 
+
      type Ref<T> = { bivarianceHack(instance: T | null): void }["bivarianceHack"] | RefObject<T> | null;
