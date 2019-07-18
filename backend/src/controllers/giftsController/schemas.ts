@@ -20,7 +20,7 @@ export const NewGiftSchema: Schema = {
   }
 }
 
-export const PaginationSchema: Schema = {
+export const GiftsPaginationSchema: Schema = {
   offset: {
     in: 'query',
     isInt: {

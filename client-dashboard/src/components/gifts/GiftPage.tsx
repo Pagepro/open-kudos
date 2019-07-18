@@ -6,24 +6,21 @@ import { pageTitles } from '../../setup/messages'
 import { GiftList } from './GiftList'
 
 
-const GiftPage: React.FC = () => {
+const GiftPage: React.FC = () => (
+  <Fragment>
+    <PageHeader
+      title={pageTitles.gifts}
+      extra={[
+        <Button key='add-gift'>
+          <Link to={dashboardRoutes.newGiftPage}>
+            Add new
+          </Link>
+        </Button>
+      ]}
+    />
+    <Divider />
+    <GiftList />
+  </Fragment>
+)
 
-
-  return (
-    <Fragment>
-      <PageHeader
-        title={pageTitles.gifts}
-        extra={[
-          <Button key='add-gift'>
-            <Link to={dashboardRoutes.newGiftPage}>
-              Add new
-            </Link>
-          </Button>
-        ]}
-      />
-      <Divider />
-      <GiftList />
-    </Fragment>
-  )
-}
 export default GiftPage

@@ -14,7 +14,8 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
 
   const onFormSubmit = useCallback(async (gift: IGift) => {
     const { name, cost, description } = gift
-    const endpoint = `/api/gifts`
+    const endpoint = '/api/gifts'
+
     setLoading(true)
 
     try {
@@ -33,7 +34,9 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
       })
     } catch (err) {
       setLoading(false)
+
       const errors: IPostRequestError[] = err.response.data
+
       return errors.reduce(
         (obj: SubmissionErrors, item: IPostRequestError) => {
           obj[item.param] = item.msg

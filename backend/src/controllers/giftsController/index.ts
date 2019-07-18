@@ -13,13 +13,13 @@ import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
 import { schemaValidatorFatory } from '../../middleware/schemaValidationMiddleware'
 import { INewGift } from './models'
-import { NewGiftSchema, PaginationSchema } from './schemas'
+import { GiftsPaginationSchema, NewGiftSchema } from './schemas'
 
 @Controller('/gifts', [AuthMiddleware])
 export default class GiftsController {
   private giftService = new GiftService()
 
-  @Get('/', [schemaValidatorFatory(PaginationSchema)])
+  @Get('/', [schemaValidatorFatory(GiftsPaginationSchema)])
   public async getAllGifts(
     @RequestDecorator() req: IUserEnhancedRequest,
     @QueryParam('skip') offset: number = 0,
@@ -32,6 +32,7 @@ export default class GiftsController {
       Number(take),
       Number(offset)
     )
+
     res.json(paginatedGifts)
   }
 
@@ -49,6 +50,7 @@ export default class GiftsController {
       cost,
       description
     )
+
     res.json(newGift)
   }
 

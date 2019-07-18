@@ -12,9 +12,9 @@ export const schemaValidatorFatory = (schema: Schema) => {
     ): Promise<void> {
       const validationChains = checkSchema(schema)
 
-      for (const validationChain of validationChains) {
-        await validationChain.run(req)
-      }
+      await Promise.all(validationChains.map(
+        validationChain => validationChain.run(req)
+      ))
 
       const errors = validationResult(req)
 
