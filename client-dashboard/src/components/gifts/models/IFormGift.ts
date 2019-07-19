@@ -1,5 +1,5 @@
 export interface IFormGift {
-  cost?: number,
+  cost: number,
   description?: string,
-  name?: string,
+  name: string,
 }

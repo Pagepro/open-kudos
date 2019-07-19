@@ -82,7 +82,7 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
           loading={loading && gift != null}
           onCancel={onCancel}
           onSubmit={onFormSubmit}
-          {...gift}
+          initialValues={gift}
         />
       </Spin>
     </Fragment>
