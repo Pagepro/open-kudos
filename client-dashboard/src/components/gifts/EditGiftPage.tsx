@@ -75,7 +75,7 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
 
   return (
     <Fragment>
-      <PageHeader title={pageTitles.editGift} />
+      <PageHeader title={`${pageTitles.editGift} ${gift ? gift.name : ''}`} />
       <Divider />
       <Spin spinning={loading && !gift}>
         <GiftForm
