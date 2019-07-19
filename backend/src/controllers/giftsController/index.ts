@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Params,
   Post,
   Query as QueryParam,
   Request as RequestDecorator,
@@ -57,10 +58,12 @@ export default class GiftsController {
 
   @Delete('/:id', [AuthMiddleware])
   public async deleteGift(
-    @QueryParam('id') id: string,
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @Params('id') id: string,
     @ResponseDecorator() res: Response
   ) {
-    const deletedGift = await this.giftService.deleteGift(id)
+    const teamId = req.user.team_id
+    const deletedGift = await this.giftService.deleteGift(id, teamId)
 
     if (!deletedGift) {
       return res.status(404).send()
