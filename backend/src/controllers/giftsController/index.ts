@@ -4,10 +4,11 @@ import {
   Delete,
   Get,
   Params,
+  Patch,
   Post,
   Query as QueryParam,
   Request as RequestDecorator,
-  Response as ResponseDecorator
+  Response as ResponseDecorator,
 } from '@decorators/express'
 import { Response } from 'express'
 import GiftService from '../../common/services/gift'
@@ -36,6 +37,46 @@ export default class GiftsController {
     )
 
     res.json(paginatedGifts)
+  }
+
+  @Get('/:id')
+  public async getGift(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @Params('id') id: string,
+    @ResponseDecorator() res: Response
+  ) {
+    const teamId = req.user.team_id
+    const gift = await this.giftService.getGift(id, teamId)
+
+    if (!gift) {
+      return res.status(404).send()
+    }
+
+    res.json(gift)
+  }
+
+  @Patch('/:id', [schemaValidatorFatory(NewGiftSchema)])
+  public async patchGift(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @Params('id') id: string,
+    @Body() body: INewGift,
+    @ResponseDecorator() res: Response
+  ) {
+    const { name, cost, description } = body
+    const teamId = req.user.team_id
+    const editedGift = await this.giftService.patchGift(
+      id,
+      teamId,
+      name,
+      cost,
+      description
+    )
+
+    if (!editedGift) {
+      return res.status(404).send()
+    }
+
+    res.json(editedGift)
   }
 
   @Post('/', [schemaValidatorFatory(NewGiftSchema)])

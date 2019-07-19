@@ -2,6 +2,7 @@ import { Button, Divider, Modal, notification } from 'antd'
 import { ColumnProps, TableProps } from 'antd/lib/table'
 import axios from 'axios'
 import React, { useCallback, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { IPaginatedListAPI } from '../list/models/IPaginatedListAPI'
 import PaginatedList from '../list/PaginatedList'
 import { IGift } from './models'
@@ -43,7 +44,11 @@ export const GiftList: React.FC<TableProps<IGift>> = () => {
   const renderListItemOptions = useCallback((_, record: IGift) => {
     return (
       <div>
-        <span>Edit</span>
+        <Button type='link' className="px-0">
+          <Link to={`gifts/${record._id}`}>
+            Edit
+          </Link>
+        </Button>
         <Divider type="vertical" />
         <Button
           type='link'

@@ -10,8 +10,10 @@ export const NewGiftSchema: Schema = {
     }
   },
   description: {
+    optional: {
+      nullable: true
+    },
     isString: true,
-    optional: true,
   },
   name: {
     isString: {

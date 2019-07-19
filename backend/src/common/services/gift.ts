@@ -1,7 +1,6 @@
 import { AttachmentAction, MessageAttachment } from '@slack/client'
 import '../../models/gift.model'
 import Gift from '../../models/gift.model'
-import { realGifts } from '../../test/testData'
 import SlackConsts from '../consts/slack'
 import Helpers from './helpers'
 import TranslationsService from './translationsService'
@@ -13,23 +12,11 @@ export default class GiftService {
     this.translationsService = new TranslationsService()
   }
 
-  public async initGifts(teamId: string) {
-    // TODO: for now we display static list of gifts in future gifts will be
-    // added from dashboard with valid teamId so initGifts method
-    // will be removed
-    const giftsWithTeamId = realGifts.map(gift => ({ ...gift, teamId }))
-
-    await Gift.deleteMany({})
-    await Gift.insertMany(giftsWithTeamId)
-  }
-
   public getGiftById(teamId: string, giftId: string) {
     return Gift.findOne({ teamId, _id: giftId })
   }
 
   public async getAllGiftsAsAttachment(teamId: string) {
-    await this.initGifts(teamId)
-
     const allGifts = await Gift.find({ teamId })
     const giftAsAttachment = allGifts.map(({
       name,
@@ -77,6 +64,32 @@ export default class GiftService {
         }
       }
     )
+  }
+
+  public async getGift (id: string, teamId: string) {
+    return await Gift.findOne({
+      _id: id,
+      teamId
+    })
+  }
+
+  public async patchGift (
+    id: string,
+    teamId: string,
+    name: string,
+    cost: number,
+    description? : string
+  ) {
+    return await Gift.findOneAndUpdate({
+      _id: id,
+      teamId
+    }, {
+      cost,
+      description: description || null,
+      name,
+    }, {
+      new: true
+    })
   }
 
   public async addGift (
