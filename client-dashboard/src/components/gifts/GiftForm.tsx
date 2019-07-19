@@ -59,22 +59,21 @@ const GiftForm = ({
   onSubmit,
   onCancel,
   loading,
-  name,
-  description,
-  cost,
+  initialValues
 }: IGiftFormProps) => (
   <Form
     onSubmit={onSubmit}
+    initialValues={initialValues}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
-        <Field name='name' validate={required<string>()} initialValue={name}>
+        <Field name='name' validate={required<string>()}>
           {({ input, meta }) => renderInput({
             input,
             label: 'Name',
             meta
           })}
         </Field>
-        <Field name='description' initialValue={description}>
+        <Field name='description'>
           {({ input, meta }) => renderTextArea({
             input,
             label: 'Description',
@@ -85,7 +84,6 @@ const GiftForm = ({
           name='cost'
           type='number'
           validate={composeValidators(required(), minValue(1))}
-          initialValue={cost}
         >
           {({ input, meta }) => renderInput({
             input,
