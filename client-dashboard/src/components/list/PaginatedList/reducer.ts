@@ -8,6 +8,7 @@ const paginatedListInitialState = <T>(): TableProps<T> => {
     dataSource: [],
     loading: false,
     pagination: {
+      current: 1,
       pageSize: 0,
       total: 0
     }
@@ -27,7 +28,7 @@ const createPaginatedListReducer = <T>() => (
         loading: true
       }
     case ActionTypes.FETCH_DATA_SUCCESS:
-      const { dataSource, total } = payload!
+      const { dataSource, total, current } = payload!
 
       return {
         ...state,
@@ -35,6 +36,7 @@ const createPaginatedListReducer = <T>() => (
         loading: false,
         pagination: {
           ...state.pagination,
+          current,
           total
         }
       }
@@ -45,6 +47,7 @@ const createPaginatedListReducer = <T>() => (
         loading: false,
         pagination: {
           ...state.pagination,
+          current: 0,
           total: 0
         }
       }

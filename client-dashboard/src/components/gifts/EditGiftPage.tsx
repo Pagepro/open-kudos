@@ -88,4 +88,5 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
     </Fragment>
   )
 }
+
 export default EditGiftPage
