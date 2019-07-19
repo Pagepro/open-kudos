@@ -67,14 +67,14 @@ const GiftForm = ({
     onSubmit={onSubmit}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
-        <Field name='name' validate={required<string>()} defaultValue={name}>
+        <Field name='name' validate={required<string>()} initialValue={name}>
           {({ input, meta }) => renderInput({
             input,
             label: 'Name',
             meta
           })}
         </Field>
-        <Field name='description' defaultValue={description}>
+        <Field name='description' initialValue={description}>
           {({ input, meta }) => renderTextArea({
             input,
             label: 'Description',
@@ -85,7 +85,7 @@ const GiftForm = ({
           name='cost'
           type='number'
           validate={composeValidators(required(), minValue(1))}
-          defaultValue={cost}
+          initialValue={cost}
         >
           {({ input, meta }) => renderInput({
             input,

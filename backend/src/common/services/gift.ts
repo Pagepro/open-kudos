@@ -66,13 +66,6 @@ export default class GiftService {
     )
   }
 
-  public async getGift (id: string, teamId: string) {
-    return await Gift.findOne({
-      _id: id,
-      teamId
-    })
-  }
-
   public async patchGift (
     id: string,
     teamId: string,
