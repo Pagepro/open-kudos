@@ -7,6 +7,7 @@ import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
+import ChannelsController from './controllers/channelsController';
 import DashboardPageController from './controllers/dashboardPageController'
 import GiftsController from './controllers/giftsController'
 import LandingPageController from './controllers/landingPageController'
@@ -51,6 +52,7 @@ class App {
       SettingsController,
       GiftsController,
       UserController,
+      ChannelsController,
       ...(Config.isProduction ? [] : [TestController])
     ])
 

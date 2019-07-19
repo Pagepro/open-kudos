@@ -129,4 +129,25 @@ export default class SlackClientService {
       throw error
     }
   }
+
+  public async getAllPublicChannelsNames(teamId: string) {
+    try {
+      const client = await this.getWebClient(teamId)
+      const response: IChannelsListResponse = await client.channels.list(
+        {
+          exclude_archived: true,
+          exclude_members: true
+        }
+      )
+      const { ok, channels, error } = response
+
+      if (ok) {
+        return channels.map(({ id, name }) => ({ id, name }))
+      } else {
+        throw new Error(error)
+      }
+    } catch (error) {
+      throw error
+    }
+  }
 }
