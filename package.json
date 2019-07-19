@@ -5,7 +5,7 @@
   "scripts": {
     "build": "chmod +x ./build.sh && ./build.sh",
     "watch": "cd backend && yarn run watch",
-    "git-cz": "git-cz",
+    "git-cz": "cross-env IS_GIT_CZ=true git-cz",
     "semantic-release": "semantic-release",
     "build:backend": "cd ./backend && yarn && yarn build",
     "test:backend": "cd ./backend && yarn && yarn test",
@@ -18,10 +18,10 @@
     "@semantic-release/github": "^5.4.2",
     "chalk": "^2.4.2",
     "commitizen": "^3.1.1",
+    "cross-env": "^5.2.0",
     "cz-conventional-changelog": "^2.1.0",
     "husky": "^3.0.0",
-    "semantic-release": "^15.13.18",
-    "shell-history": "^1.1.0"
+    "semantic-release": "^15.13.18"
   },
   "release": {
     "branch": "master",
