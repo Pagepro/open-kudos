@@ -6,7 +6,8 @@ export interface IWorkspace {
   teamId: string,
   accessToken: string,
   botUserId: string,
-  botAccessToken: string
+  botAccessToken: string,
+  botResponseChannelId?: string
 }
 
 type IWorkspaceDocument = IWorkspace & Document
@@ -28,6 +29,10 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     type: String,
     unique: true,
   },
+  botResponseChannelId: {
+    trim: true,
+    type: String
+  },
   botUserId: {
     required: 'botUserId is required',
     trim: true,
@@ -43,7 +48,7 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     required: 'Team name is required',
     trim: true,
     type: String
-  },
+  }
 })
 
 export default model<IWorkspaceDocument>('Workspace', workspaceSchema)

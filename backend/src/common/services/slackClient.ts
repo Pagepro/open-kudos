@@ -13,7 +13,7 @@ import {
 
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
-  public static generalChannels: IStringTMap<string> = {}
+  public static botResponseChannelsIds: IStringTMap<string> = {}
   public static authClient = new WebClient()
 
   public initWebClient(workspace: IWorkspace) {
@@ -42,8 +42,8 @@ export default class SlackClientService {
   }
 
   public async  getGeneralChannelId(teamId: string): Promise<string> {
-    if (SlackClientService.generalChannels[teamId]) {
-      return SlackClientService.generalChannels[teamId]
+    if (SlackClientService.botResponseChannelsIds[teamId]) {
+      return SlackClientService.botResponseChannelsIds[teamId]
     } else {
       try {
         const client = await this.getWebClient(teamId)
@@ -53,7 +53,7 @@ export default class SlackClientService {
         if (ok) {
           const { id: generalChannelId } = channels
             .find(({ is_general }) => is_general)
-          SlackClientService.generalChannels[teamId] = generalChannelId
+          SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
           return generalChannelId
         } else {
           throw new Error(error)
@@ -61,6 +61,15 @@ export default class SlackClientService {
       } catch (error) {
         throw error
       }
+    }
+  }
+
+  public async getResponseBotChannelId(teamId: string): Promise<string> {
+    const responseChannelId = SlackClientService.botResponseChannelsIds[teamId]
+    if (responseChannelId) {
+      return responseChannelId
+    } else {
+      return await this.getGeneralChannelId(teamId)
     }
   }
 
@@ -149,5 +158,9 @@ export default class SlackClientService {
     } catch (error) {
       throw error
     }
+  }
+
+  public setBotResponseChannel(teamId: string, channelId: string) {
+    SlackClientService.botResponseChannelsIds[teamId] = channelId
   }
 }
