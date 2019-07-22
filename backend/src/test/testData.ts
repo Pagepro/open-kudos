@@ -82,8 +82,6 @@ const testBuyerUserData: IUser = {
   kudosGiveable: 50,
   kudosGranted: 50,
   kudosSpendable: 200,
-  name: 'buyer',
-  realName: 'testBuyer',
   teamId: testTeamId,
   userId: testBuyerUserId
 }
@@ -94,8 +92,6 @@ const testUserData: IUser = {
   kudosGiveable: 50,
   kudosGranted: 50,
   kudosSpendable: 20,
-  name: testUserName,
-  realName: 'testUser',
   teamId: testTeamId,
   userId: testUserId
 }
@@ -106,8 +102,6 @@ const testReceiverData: IUser = {
   kudosGiveable: 50,
   kudosGranted: 50,
   kudosSpendable: 20,
-  name: 'receiver.receiver',
-  realName: 'receiverUser',
   teamId: testTeamId,
   userId: receiverUserId
 }
@@ -118,8 +112,6 @@ const newUserData: IUser = {
   kudosGiveable: undefined,
   kudosGranted: undefined,
   kudosSpendable: undefined,
-  name: 'new.user',
-  realName: 'NewUser',
   teamId: testTeamId,
   userId: 'U011C1CCC'
 }

@@ -36,6 +36,7 @@ export default class UserService {
 
       for (const user of usersToInit) {
         const { teamId, userId } = user
+
         await User.findOneAndUpdate(
           {
             $and: [
@@ -43,11 +44,15 @@ export default class UserService {
               { userId }
             ]
           },
-          user,
+          {
+            email: user.email,
+            isAdmin: user.isAdmin,
+            teamId: user.teamId,
+            userId: user.userId
+          },
           {
             setDefaultsOnInsert: true,
             upsert: true,
-
           }
         )
       }

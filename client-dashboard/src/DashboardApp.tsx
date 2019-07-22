@@ -3,6 +3,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import DashboardPage from './components/dashboard/DashboardPage'
+import GiftRequestsPage from './components/gift-requests/GiftRequestsPage'
+import EditGiftPage from './components/gifts/EditGiftPage'
 import GiftPage from './components/gifts/GiftPage'
 import NewGiftPage from './components/gifts/NewGiftPage'
 import SettingsPage from './components/settings/SettingsPage'
@@ -12,7 +14,6 @@ import SidebarLayout from './layout/SidebarLayout'
 import './scss/main.css'
 import { dashboardRoutes } from './setup/config'
 import { IGlobalState } from './setup/reducers'
-import EditGiftPage from './components/gifts/EditGiftPage';
 
 const { Content } = Layout
 
@@ -31,6 +32,11 @@ const DashboardApp: React.FC = () => {
                 path={dashboardRoutes.dashboardPage}
                 exact={true}
                 component={DashboardPage}
+              />
+              <Route
+                path={dashboardRoutes.giftRequestsPage}
+                exact={true}
+                component={GiftRequestsPage}
               />
               <Route
                 path={dashboardRoutes.giftsManagementPage}

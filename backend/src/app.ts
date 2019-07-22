@@ -9,6 +9,7 @@ import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
 import DashboardPageController from './controllers/dashboardPageController'
 import GiftsController from './controllers/giftsController'
+import GiftTransfersController from './controllers/giftTransfersController'
 import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController'
 import SlackController from './controllers/slackController'
@@ -49,6 +50,7 @@ class App {
       SlackController,
       BotInstallationController,
       SettingsController,
+      GiftTransfersController,
       GiftsController,
       UserController,
       ...(Config.isProduction ? [] : [TestController])

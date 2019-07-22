@@ -27,7 +27,7 @@
     "mocha-prepare": "^0.1.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
-    "mongoose-paginate": "^5.0.3",
+    "mongoose-aggregate-paginate-v2": "^1.0.2",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.3.0",
     "query-string": "^6.4.2"
@@ -43,7 +43,6 @@
     "@types/mocha": "^5.2.6",
     "@types/mongodb": "^3.1.19",
     "@types/mongoose": "^5.3.21",
-    "@types/mongoose-paginate": "^5.0.6",
     "@types/node-cron": "^2.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

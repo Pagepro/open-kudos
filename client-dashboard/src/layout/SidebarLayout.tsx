@@ -25,6 +25,11 @@ const menuItems: IMenuItem[] = [
         content: pageTitles.list,
         iconType: 'unordered-list',
         url: dashboardRoutes.giftsManagementPage
+      },
+      {
+        content: pageTitles.requests,
+        iconType: 'ordered-list',
+        url: dashboardRoutes.giftRequestsPage
       }
     ],
     content: pageTitles.gifts,

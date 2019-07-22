@@ -17,23 +17,30 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   )
 
   const fetchGifts = useCallback(async (
-    skip: number,
-    take: number = 10,
-    current: number = 1
+    limit: number = 10,
+    page: number = 1
   ) => {
     dispatch({
       type: ActionTypes.FETCH_DATA_REQUEST
     })
 
     try {
-      const { data: { docs, total } } = await axios.get<IPaginatedResponse<T>>(
-        endpoint, {
-          params: { skip, take }
+      const {
+        data: {
+          docs,
+          totalDocs
         }
-      )
+      } = await axios.get<IPaginatedResponse<T>>(endpoint, {
+          params: { limit, page }
+      })
 
       dispatch({
-        payload: { dataSource: docs, total, current },
+        payload: {
+          current: page,
+          dataSource: docs,
+          pageSize: limit,
+          total: totalDocs
+        },
         type: ActionTypes.FETCH_DATA_SUCCESS
       })
     } catch (error) {
@@ -50,13 +57,12 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   const handleTableChange = useCallback((pagination: PaginationConfig) => {
     const limit = pagination.pageSize || 10
     const current = pagination.current || 1
-    const skip = (current - 1) * limit
 
-    fetchGifts(skip, limit, current)
+    fetchGifts(limit, current)
   }, [fetchGifts])
 
   useEffect(() => {
-    fetchGifts(0, pageSize || 10)
+    fetchGifts(pageSize || 10, 1)
   }, [fetchGifts, pageSize])
 
 
@@ -67,9 +73,8 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
 
         if (pagination) {
           const current = pagination.current || 1
-          const skip = (current - 1) * (pageSize || 10)
 
-          fetchGifts(skip, pageSize, current)
+          fetchGifts(pageSize, current)
         } else {
           fetchGifts(0, pageSize || 10)
         }
