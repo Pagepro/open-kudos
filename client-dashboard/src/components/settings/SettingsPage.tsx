@@ -1,9 +1,7 @@
 import { Divider, notification, PageHeader, Spin } from 'antd'
 import axios from 'axios'
-import { SubmissionErrors } from 'final-form'
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IPostRequestError } from '../../common/models'
 import { pageTitles } from '../../setup/messages'
 import { IGlobalState } from '../../setup/reducers'
 import { getChannels, IChannel } from './actions'
@@ -47,7 +45,7 @@ const SettingsPage: React.FC = () => {
   useEffect(() => {
     getChannels()(dispatch)
     getBotResponseChannelId()
-  }, [])
+  }, [dispatch])
 
   const allChannels =
     useSelector<IGlobalState, IChannel[]>(({ channels }) => channels)
