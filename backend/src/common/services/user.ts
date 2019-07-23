@@ -65,6 +65,13 @@ export default class UserService {
     })
   }
 
+  public async getAdmin(teamId: string) {
+    return await User.findOne({
+      isAdmin: true,
+      teamId
+    })
+  }
+
   public resetAllUsersGiveableKudos() {
     return User.updateMany({}, {
       $set: { kudosGiveable: 100 }

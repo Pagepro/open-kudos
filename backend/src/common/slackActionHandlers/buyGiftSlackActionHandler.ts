@@ -1,3 +1,4 @@
+import { IMessageConsumer } from "../../controllers/definitions/slackController"
 import { IGiftTransfer } from "../../models/giftTransfer.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import GiftTransferService from "../services/giftTransfer"
@@ -53,6 +54,29 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
       this.messageConsumer,
       SlackResponseType.Hidden
     )
+
+    const admin = await this.userService.getAdmin(this.teamId)
+    if (admin) {
+      const { userId } = admin
+      const channelId = await this.slackClientService.getKudosBotChannelId(
+        this.teamId,
+        userId
+      )
+      const messageConsumer: IMessageConsumer = {
+        channel: channelId,
+        teamId: this.teamId,
+        user: userId,
+      }
+      this.sendMessage(
+        this.translationsService.getTranslation(
+          "notifyAdminNewGiftPurchase",
+          this.userId,
+          name,
+          cost
+        ),
+        messageConsumer,
+        SlackResponseType.Hidden
+      )
+    }
   }
 }
-
