@@ -7,6 +7,11 @@ import LoggerService from './logger'
 import SettingService from './settings'
 import SlackClientService from './slackClient'
 
+export interface IKudosAmountForWorkspace {
+  teamId: string
+  monthlyKudosAmount: number
+}
+
 export default class WorkspaceService {
   private logger = new LoggerService()
   private settingService = new SettingService()
@@ -26,6 +31,20 @@ export default class WorkspaceService {
     } catch (error) {
       this.logger.logError(error)
     }
+  }
+
+  public async getAllTeamsKudosMonthlyAmount() {
+    return await Workspace
+      .find({})
+      .select({
+        monthlyKudosAmount: 1,
+        teamId: 1
+      }) as IKudosAmountForWorkspace[]
+  }
+
+  public async getKudosMonthlyAmount(teamId: string): Promise<number> {
+    const workspace = await Workspace.findOne({ teamId })
+    return workspace.monthlyKudosAmount || 100
   }
 
   public async updateSetting(teamId: string, settings: ISettings) {

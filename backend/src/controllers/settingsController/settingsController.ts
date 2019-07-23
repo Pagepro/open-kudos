@@ -19,16 +19,24 @@ export default class SettingsController {
   private settingsService = new SettingsService()
   private workspaceService = new WorkspaceService()
 
-  @Get('/botResponseChannel', [AuthMiddleware])
+  @Get('/bot', [AuthMiddleware])
   public async getBotResponseChannelId(
     @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response
   ) {
     const { team_id } = req.user
-    const channelId = await this.workspaceService
-      .getResponseBotChannelId(team_id)
+    const [
+      botResponseChannelId,
+      monthlyKudosAmount
+    ] = await Promise.all([
+      this.workspaceService.getResponseBotChannelId(team_id),
+      this.workspaceService.getKudosMonthlyAmount(team_id)
+    ])
 
-    res.json({ botResponseChannelId: channelId })
+    res.json({
+      botResponseChannelId,
+      monthlyKudosAmount
+    })
   }
 
   @Get('/')
@@ -51,7 +59,12 @@ export default class SettingsController {
     @ResponseDecorator() res: Response
   ) {
     const { team_id } = req.user
-    this.workspaceService.updateSetting(team_id, req.body)
-    res.status(200).send()
+    try {
+      this.workspaceService.updateSetting(team_id, req.body)
+      res.status(200).send()
+    } catch (error) {
+      res.status(500).send('Something went wrong')
+    }
+
   }
 }

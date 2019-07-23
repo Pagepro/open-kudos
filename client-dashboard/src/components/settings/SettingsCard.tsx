@@ -3,7 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
+  .ant-card {
     width:300px;
+    float:left;
+    margin-right: 5px;
+    margin-bottom: 24px;
+    .ant-input-number {
+      width: 100% !important;
+    }
 `
 interface IProps {
   title: string
