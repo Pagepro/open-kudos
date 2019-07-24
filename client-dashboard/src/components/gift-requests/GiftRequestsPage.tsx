@@ -29,7 +29,8 @@ const GiftRequestsPage: React.FC = () => {
     } catch(error) {
       notification.error({message: 'Something went wrong'})
     }
-  }, [endpoint])
+  // eslint-disable-next-line
+  }, [])
 
   const columns: Array<ColumnProps<IGiftTransfer>> = [
     {

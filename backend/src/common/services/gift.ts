@@ -51,12 +51,13 @@ export default class GiftService {
     limit?: number,
     page?: number
   ) {
-
     const aggregate = Gift.aggregate()
+
     aggregate.match({
       isAvailable: true,
       teamId
     })
+
     return await Gift.aggregatePaginate(aggregate, {
       limit,
       page,

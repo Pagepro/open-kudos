@@ -16,7 +16,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     paginatedListInitialState<T>()
   )
 
-  const fetchGifts = useCallback(async (
+  const fetchData = useCallback(async (
     limit: number = 10,
     page: number = 1
   ) => {
@@ -58,12 +58,12 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     const limit = pagination.pageSize || 10
     const current = pagination.current || 1
 
-    fetchGifts(limit, current)
-  }, [fetchGifts])
+    fetchData(limit, current)
+  }, [fetchData])
 
   useEffect(() => {
-    fetchGifts(pageSize || 10, 1)
-  }, [fetchGifts, pageSize])
+    fetchData(pageSize || 10, 1)
+  }, [fetchData, pageSize])
 
 
   if (getAPIRef) {
@@ -74,9 +74,9 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
         if (pagination) {
           const current = pagination.current || 1
 
-          fetchGifts(pageSize, current)
+          fetchData(pageSize, current)
         } else {
-          fetchGifts(0, pageSize || 10)
+          fetchData(0, pageSize || 10)
         }
       }
     }

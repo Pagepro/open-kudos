@@ -95,6 +95,7 @@ export default class SlackClientService {
   public async getWorkspaceMembers(teamId: string, onlyActive = true) {
     const client = await this.getWebClient(teamId)
     const webApiResult = await client.users.list() as IExtendedWebApiCallResult
+
     if (webApiResult.ok) {
       return webApiResult.members
       .filter(user =>

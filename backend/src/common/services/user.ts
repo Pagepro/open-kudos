@@ -35,7 +35,7 @@ export default class UserService {
       )
 
       for (const user of usersToInit) {
-        const { teamId, userId } = user
+        const { email, isAdmin, teamId, userId } = user
 
         await User.findOneAndUpdate(
           {
@@ -45,10 +45,10 @@ export default class UserService {
             ]
           },
           {
-            email: user.email,
-            isAdmin: user.isAdmin,
-            teamId: user.teamId,
-            userId: user.userId
+            email,
+            isAdmin,
+            teamId,
+            userId
           },
           {
             setDefaultsOnInsert: true,
