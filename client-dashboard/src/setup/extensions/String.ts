@@ -29,18 +29,21 @@ const firstCharToLowerCase = function (this: string) {
   return [firstLetter.toLowerCase(), rest].join('')
 }
 
+// eslint-disable-next-line
 Object.defineProperties(String, {
   empty: {
     get: () => EMPTY_STRING
   }
 })
 
+// eslint-disable-next-line
 Object.defineProperties(String.prototype, {
   format: {
     get: () => format
   }
 })
 
+// eslint-disable-next-line
 Object.defineProperties(String.prototype, {
   firstCharToLowerCase: {
     get: () => firstCharToLowerCase
