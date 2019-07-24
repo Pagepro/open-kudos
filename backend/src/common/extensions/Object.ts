@@ -1,7 +1,7 @@
 export {}
 
 declare global {
-  // tslint:disable-next-line
+  // tslint:disable-next-line: interface-name
   interface ObjectConstructor {
     empty: {}
     tryGetProperty: <T, V>(
@@ -13,7 +13,7 @@ declare global {
 
 const emptyObject = {}
 
-// tslint:disable-next-line:only-arrow-functions
+// tslint:disable-next-line: only-arrow-functions
 const tryGetProperty = function<T, V>(
   obj: T,
   propertyAccessor: (obj: T) => V | undefined,
