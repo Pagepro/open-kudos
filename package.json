@@ -12,7 +12,8 @@
     "build:client": "cd ./client-dashboard && yarn && yarn build"
   },
   "engines": {
-    "yarn": "1.x"
+    "yarn": "1.x",
+    "node": "12.x"
   },
   "devDependencies": {
     "@semantic-release/github": "^5.4.2",
