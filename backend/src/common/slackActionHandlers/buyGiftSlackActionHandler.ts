@@ -56,6 +56,7 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
     )
 
     const admin = await this.userService.getAdmin(this.teamId)
+
     if (admin) {
       const { userId } = admin
       const channelId = await this.slackClientService.getKudosBotChannelId(
@@ -67,6 +68,7 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
         teamId: this.teamId,
         user: userId,
       }
+
       this.sendMessage(
         this.translationsService.getTranslation(
           "notifyAdminNewGiftPurchase",
