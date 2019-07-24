@@ -1,7 +1,7 @@
 import { Button, Divider } from 'antd'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
-import { settingsCardsTitles } from '../../setup/messages';
+import { settingsCardsTitles } from '../../setup/messages'
 import SelectFinal, { IOption } from '../fields/SelectFinal'
 import SettingsCard from './SettingsCard'
 
@@ -15,7 +15,7 @@ const SettingsForm = (props: IProps) => (
   <Form
     onSubmit={props.onSubmit}
     initialValues={{
-      channelId: props.botResponseChannelId
+      botResponseChannelId: props.botResponseChannelId
     }}
     render={({ handleSubmit }) => (
       <form onSubmit={handleSubmit}>
@@ -23,7 +23,7 @@ const SettingsForm = (props: IProps) => (
           title={settingsCardsTitles.answerChannels}
         >
           <Field
-            name="channelId"
+            name="botResponseChannelId"
             component={SelectFinal({
               options: props.allChannels
             })}

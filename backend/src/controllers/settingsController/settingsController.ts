@@ -9,6 +9,7 @@ import { Request, Response } from 'express'
 import SlackConsts from '../../common/consts/slack'
 import SettingsService from '../../common/services/settings'
 import SlackClientService from '../../common/services/slackClient'
+import WorkspaceService from '../../common/services/workspace'
 import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
 
@@ -16,6 +17,7 @@ import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddlewar
 export default class SettingsController {
   private slackClientService = new SlackClientService()
   private settingsService = new SettingsService()
+  private workspaceService = new WorkspaceService()
 
   @Get('/botResponseChannel', [AuthMiddleware])
   public async getBotResponseChannelId(
@@ -23,7 +25,7 @@ export default class SettingsController {
     @ResponseDecorator() res: Response
   ) {
     const { team_id } = req.user
-    const channelId = await this.slackClientService
+    const channelId = await this.workspaceService
       .getResponseBotChannelId(team_id)
 
     res.json({ botResponseChannelId: channelId })
@@ -49,8 +51,7 @@ export default class SettingsController {
     @ResponseDecorator() res: Response
   ) {
     const { team_id } = req.user
-    this.settingsService.save(team_id, req.body)
-
+    this.workspaceService.updateSetting(team_id, req.body)
     res.status(200).send()
   }
 }

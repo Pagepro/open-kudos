@@ -1,4 +1,5 @@
 import { Document, model, Schema } from 'mongoose'
+import { ISettingDocument } from './setting.model'
 
 export interface IWorkspace {
   teamName: string,
@@ -7,7 +8,7 @@ export interface IWorkspace {
   accessToken: string,
   botUserId: string,
   botAccessToken: string,
-  botResponseChannelId?: string
+  settings?: ISettingDocument[]
 }
 
 type IWorkspaceDocument = IWorkspace & Document
@@ -29,16 +30,13 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     type: String,
     unique: true,
   },
-  botResponseChannelId: {
-    trim: true,
-    type: String
-  },
   botUserId: {
     required: 'botUserId is required',
     trim: true,
     type: String,
     unique: true,
   },
+  settings: [{ type: Schema.Types.ObjectId, ref: 'Setting' }],
   teamId: {
     required: 'Team id team id is required',
     trim: true,

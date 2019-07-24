@@ -16,12 +16,12 @@ const SettingsPage: React.FC = () => {
   const dispatch = useDispatch()
 
   const onSubmit = useCallback(async (settings: ISettings) => {
-    const { channelId } = settings
+    const { botResponseChannelId } = settings
 
     setLoading(true)
 
     try {
-      await axios.post<ISettings>(endpoint, { channelId })
+      await axios.post<ISettings>(endpoint, { botResponseChannelId })
       setLoading(false)
       notification.success({
         message: 'Settings have been saved'

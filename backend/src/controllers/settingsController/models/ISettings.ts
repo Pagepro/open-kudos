@@ -1,3 +1,7 @@
 export default interface ISettings {
-  channelId: string
+  botResponseChannelId: string
+}
+
+export enum SettingsEnum {
+  BotResponseChannelId = 'botResponseChannelId'
 }

@@ -7,8 +7,7 @@ import { SlackResponseType } from '../factories/definitions/slackCommandHandlerF
 import {
   IChannelsListResponse,
   IExtendedWebApiCallResult,
-  IImOpenResponse,
-  ISlackUserResponse
+  IImOpenResponse
 } from './definitions/slackApi'
 
 export default class SlackClientService {
@@ -61,15 +60,6 @@ export default class SlackClientService {
       } catch (error) {
         throw error
       }
-    }
-  }
-
-  public async getResponseBotChannelId(teamId: string): Promise<string> {
-    const responseChannelId = SlackClientService.botResponseChannelsIds[teamId]
-    if (responseChannelId) {
-      return responseChannelId
-    } else {
-      return await this.getGeneralChannelId(teamId)
     }
   }
 
