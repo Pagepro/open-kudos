@@ -7,3 +7,7 @@ export const pageTitles = {
   settings: 'Settings',
   title1: 'Title1'
 }
+
+export const settingsCardsTitles = {
+  answerChannels: 'Kudos bot will answer on:'
+}

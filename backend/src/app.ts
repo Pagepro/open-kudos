@@ -7,10 +7,11 @@ import ConfigurationService from './common/services/configuration'
 import DbService from './common/services/db'
 import AuthController from './controllers/authController'
 import BotInstallationController from './controllers/botInstallationController'
+import ChannelsController from './controllers/channelsController'
 import DashboardPageController from './controllers/dashboardPageController'
 import GiftsController from './controllers/giftsController'
 import LandingPageController from './controllers/landingPageController'
-import SettingsController from './controllers/settingsController'
+import SettingsController from './controllers/settingsController/settingsController'
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
 import UserController from './controllers/userController'
@@ -51,6 +52,7 @@ class App {
       SettingsController,
       GiftsController,
       UserController,
+      ChannelsController,
       ...(Config.isProduction ? [] : [TestController])
     ])
 
