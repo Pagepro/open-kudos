@@ -2,6 +2,7 @@ import { Button, Divider } from 'antd'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
 import { settingsCardsTitles } from '../../setup/messages'
+import InputNumber from '../fields/InputNumber'
 import Select, { IOption } from '../fields/Select'
 import SettingsCard from './SettingsCard'
 
@@ -41,7 +42,7 @@ const SettingsForm = ({
           >
             <Field
               name="monthlyKudosAmount"
-              component={InputNumberFinal}
+              component={InputNumber}
             />
           </SettingsCard>
           <Divider />

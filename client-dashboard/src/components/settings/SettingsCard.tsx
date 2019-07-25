@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledCard = styled(Card)`
-  .ant-card {
     width:300px;
     float:left;
     margin-right: 5px;
