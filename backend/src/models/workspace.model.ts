@@ -9,7 +9,6 @@ export interface IWorkspace {
   botUserId: string,
   botAccessToken: string,
   settings?: ISettingDocument[]
-  monthlyKudosAmount?: number
 }
 
 type IWorkspaceDocument = IWorkspace & Document
@@ -37,11 +36,9 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     type: String,
     unique: true,
   },
-  monthlyKudosAmount: {
-    default: 100,
-    type: Number
-  },
-  settings: [{ type: Schema.Types.ObjectId, ref: 'Setting' }],
+  settings: [
+    { type: Schema.Types.ObjectId, ref: 'Setting' }
+  ],
   teamId: {
     required: 'Team id team id is required',
     trim: true,

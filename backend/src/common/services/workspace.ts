@@ -34,17 +34,29 @@ export default class WorkspaceService {
   }
 
   public async getAllTeamsKudosMonthlyAmount() {
-    return await Workspace
+    const allWorkspaces = await Workspace
       .find({})
-      .select({
-        monthlyKudosAmount: 1,
-        teamId: 1
-      }) as IKudosAmountForWorkspace[]
+      .populate('settings')
+
+    const monthlyKudosAmountForTeam = allWorkspaces
+      .map(workspace => {
+        const teamId = workspace.teamId
+        const settingMonthlyKudosAmount =
+          workspace
+            .settings
+            .find(({ key }) => key === SettingsEnum.MonthlyKudosAmount)
+
+        const monthlyKudosAmount = settingMonthlyKudosAmount.value || 100
+        return { teamId, monthlyKudosAmount }
+      })
+
+    return monthlyKudosAmountForTeam as IKudosAmountForWorkspace[]
   }
 
   public async getKudosMonthlyAmount(teamId: string): Promise<number> {
-    const workspace = await Workspace.findOne({ teamId })
-    return workspace.monthlyKudosAmount || 100
+    const kudosAmount =
+      await this.getWorkspaceSetting(teamId, SettingsEnum.MonthlyKudosAmount)
+    return Number(kudosAmount) || 100
   }
 
   public async updateSetting(teamId: string, settings: ISettings) {
@@ -92,6 +104,7 @@ export default class WorkspaceService {
     const workspace = await Workspace.findOne({ teamId }).populate('settings')
     const { settings } = workspace
     const workspaceSetting = settings.find(({ key }) => key === settingKey)
+
     return workspaceSetting.value || ''
   }
 
