@@ -105,7 +105,7 @@ export default class WorkspaceService {
     const { settings } = workspace
     const workspaceSetting = settings.find(({ key }) => key === settingKey)
 
-    return workspaceSetting.value || ''
+    return workspaceSetting.value || String.empty
   }
 
 }
