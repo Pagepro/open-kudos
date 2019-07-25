@@ -53,6 +53,7 @@ export default class SlackClientService {
           const { id: generalChannelId } = channels
             .find(({ is_general }) => is_general)
           SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
+
           return generalChannelId
         } else {
           throw new Error(error)

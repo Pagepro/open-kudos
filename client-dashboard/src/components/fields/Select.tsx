@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select as AntdSelect } from 'antd'
 import { SelectProps } from 'antd/lib/select'
 import React from 'react'
 import { FieldRenderProps } from 'react-final-form'
@@ -14,20 +14,20 @@ interface IOwnProps {
 
 type IProps = SelectProps<string> & IOwnProps
 
-const SelectFinal = ({ options, ...selectProps }: IProps): React.SFC<
+const Select = ({ options, ...selectProps }: IProps): React.SFC<
   FieldRenderProps<string, HTMLSelectElement>
 > => ({ input }) => (
-  <Select<string>
+  <AntdSelect<string>
     {...selectProps}
     value={input.value}
     onChange={input.onChange}
   >
     {options.map(({ value, label }) => (
-      <Select.Option key={value} value={value}>
+      <AntdSelect.Option key={value} value={value}>
         {label}
-      </Select.Option>
+      </AntdSelect.Option>
     ))}
-  </Select>
+  </AntdSelect>
 )
 
-export default SelectFinal
+export default Select

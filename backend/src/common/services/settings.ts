@@ -1,8 +1,6 @@
 import { SettingsEnum } from "../../controllers/settingsController/models/ISettings"
 import Setting, { ISetting, ISettingDocument } from "../../models/setting.model"
 
-
-
 export default class SettingsService {
   public static getDefaultSettingsIds(settings: ISettingDocument[]) {
     return settings.map(({ _id }) => _id)
@@ -11,7 +9,7 @@ export default class SettingsService {
   private defaultSettings: ISetting[] = [
     {
       key: SettingsEnum.BotResponseChannelId,
-      value: ''
+      value: String.empty
     }
   ]
 

@@ -2,10 +2,8 @@ import { Card } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 
-const CardWrapper = styled.div`
-  & .ant-card {
+const StyledCard = styled(Card)`
     width:300px;
-  }
 `
 interface IProps {
   title: string
@@ -13,11 +11,10 @@ interface IProps {
 
 const SettingsCard: React.FC<IProps> = (props) => {
   return (
-    <CardWrapper>
-      <Card title={props.title}>
-        {props.children}
-      </Card>
-    </CardWrapper>
+    <StyledCard title={props.title}>
+      {props.children}
+    </StyledCard>
   )
 }
+
 export default SettingsCard

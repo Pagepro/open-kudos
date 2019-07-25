@@ -2,7 +2,7 @@ import { Button, Divider } from 'antd'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
 import { settingsCardsTitles } from '../../setup/messages'
-import SelectFinal, { IOption } from '../fields/SelectFinal'
+import Select, { IOption } from '../fields/Select'
 import SettingsCard from './SettingsCard'
 
 interface IProps {
@@ -11,31 +11,35 @@ interface IProps {
   onSubmit(data: any): void
 }
 
-const SettingsForm = (props: IProps) => (
-  <Form
-    onSubmit={props.onSubmit}
-    initialValues={{
-      botResponseChannelId: props.botResponseChannelId
-    }}
-    render={({ handleSubmit }) => (
-      <form onSubmit={handleSubmit}>
-        <SettingsCard
-          title={settingsCardsTitles.answerChannels}
-        >
-          <Field
-            name="botResponseChannelId"
-            component={SelectFinal({
-              options: props.allChannels
-            })}
-          />
-        </SettingsCard>
-        <Divider />
-        <Button htmlType='submit'>
-          Save settings
-        </Button>
-      </form>
-    )}
-  />
-)
+const SettingsForm = ({
+  onSubmit,
+  botResponseChannelId,
+  allChannels
+}: IProps) => (
+    <Form
+      onSubmit={onSubmit}
+      initialValues={{
+        botResponseChannelId
+      }}
+      render={({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <SettingsCard
+            title={settingsCardsTitles.answerChannels}
+          >
+            <Field
+              name="botResponseChannelId"
+              component={Select({
+                options: allChannels
+              })}
+            />
+          </SettingsCard>
+          <Divider />
+          <Button htmlType='submit'>
+            Save settings
+          </Button>
+        </form>
+      )}
+    />
+  )
 
 export default SettingsForm
