@@ -77,7 +77,7 @@ export default class TransferService {
       limit,
       page,
       sort: {
-        giftRequestDate: -1
+        date: -1
       }
     })
 
