@@ -3,5 +3,6 @@ export default interface ISettings {
 }
 
 export enum SettingsEnum {
-  BotResponseChannelId = 'botResponseChannelId'
+  BotResponseChannelId = 'botResponseChannelId',
+  MonthlyKudosAmount = 'monthlyKudosAmount'
 }
