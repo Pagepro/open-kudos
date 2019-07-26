@@ -15,12 +15,12 @@ export default class SlackConsts {
   }
 
   public static get slackInstallLink(): string {
-    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line: max-line-length
     return `https://slack.com/oauth/authorize?client_id=${Config.clientId}&scope=bot,channels:read,chat:write:bot,groups:read,users:read,commands&redirect_uri=${Config.installRedirectUrl}`
   }
 
   public static get slackLoginLink(): string {
-    // tslint:disable-next-line:max-line-length
+    // tslint:disable-next-line: max-line-length
     return `https://slack.com/oauth/authorize?scope=identify&amp;client_id=${Config.clientId}&redirect_uri=${Config.authRedirectUrl}`
   }
 

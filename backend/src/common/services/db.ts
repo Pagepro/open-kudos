@@ -11,7 +11,7 @@ export default class DbService {
     })
     mongoose.Promise = global.Promise
     mongoose.connection.on('error', (err) => {
-      // tslint:disable-next-line:no-console
+      // tslint:disable-next-line: no-console
       console.error(`🚫🚫🚫🚫🚫 → ${err.message}`)
     })
   }

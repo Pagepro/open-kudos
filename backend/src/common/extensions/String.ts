@@ -1,12 +1,12 @@
 import _ from 'lodash'
 export { }
 declare global {
-  // tslint:disable-next-line
+  // tslint:disable-next-line: interface-name
   interface StringConstructor {
     empty: string
   }
 
-  // tslint:disable-next-line
+  // tslint:disable-next-line: interface-name
   interface String {
     format(...formatValues: Array<number | string>): string
     toPascalCase(): string
