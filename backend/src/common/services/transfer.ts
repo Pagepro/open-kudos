@@ -1,6 +1,7 @@
 import '../../models/transfer.model'
 import Transfer, { ITransfer } from '../../models/transfer.model'
 import LoggerService from './logger'
+import SlackClientService from './slackClient'
 import TranslationsService from './translationsService'
 import UserService from './user'
 
@@ -8,6 +9,7 @@ export default class TransferService {
   private translationsService = new TranslationsService()
   private userService = new UserService()
   private logger = new LoggerService()
+  private slackClientService = new SlackClientService()
 
   public async transferKudos(transfer: ITransfer) {
     const { teamId, senderId, receiverId, value } = transfer
@@ -54,5 +56,42 @@ export default class TransferService {
       kudosGiveable,
       kudosSpendable
     )
+  }
+
+  public async getAllPaginated(
+    teamId: string,
+    limit?: number,
+    page?: number
+  ) {
+    const aggregate = Transfer.aggregate()
+    aggregate.match({
+      teamId
+    })
+
+    const members = await this.slackClientService.getWorkspaceMembers(
+      teamId,
+      false
+    )
+
+    const transfers = await Transfer.aggregatePaginate(aggregate, {
+      limit,
+      page,
+      sort: {
+        giftRequestDate: -1
+      }
+    })
+
+    return {
+      ...transfers,
+      docs: transfers.docs.map(transfer => ({
+        ...transfer,
+        receiverName: members.find(
+          member => member.userId === transfer.receiverId
+        ).name,
+        senderName: members.find(
+          member => member.userId === transfer.senderId
+        ).name
+      }))
+    }
   }
 }

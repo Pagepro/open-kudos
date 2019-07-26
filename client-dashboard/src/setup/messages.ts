@@ -7,7 +7,8 @@ export const pageTitles = {
   newGift: 'New gift',
   requests: 'Requests',
   settings: 'Settings',
-  title1: 'Title1'
+  title1: 'Title1',
+  transfers: 'Transfers'
 }
 
 export const settingsCardsTitles = {
