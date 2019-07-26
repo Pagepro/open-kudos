@@ -38,14 +38,6 @@ const userSchema = new Schema<IUser>({
     min: 0,
     type: Number
   },
-  name: {
-    trim: true,
-    type: String
-  },
-  realName: {
-    trim: true,
-    type: String
-  },
   teamId: {
     required: 'Slack team id is required',
     trim: true,

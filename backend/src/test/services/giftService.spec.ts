@@ -8,12 +8,11 @@ describe('GiftService tests', () => {
       const giftService = new GiftService()
       const paginatedGifts = await giftService.getAllPaginated(testTeamId, 1)
 
-      expect(paginatedGifts.docs.length).to.be.equal(1)
-      expect(paginatedGifts.total).to.be.equal(
-        testGifts.filter(
-          testGift => testGift.isAvailable !== false
-        ).length
-      )
-    }
-  )
+    expect(paginatedGifts.docs.length).to.be.equal(1)
+    expect(paginatedGifts.totalDocs).to.be.equal(
+      testGifts.filter(
+        testGift => testGift.isAvailable !== false
+      ).length
+    )
+  })
 })

@@ -2,11 +2,13 @@
   "name": "open-kudos-backend",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "chmod +x ./alterNodeModules.sh && ./alterNodeModules.sh test:mocha",
+    "test:mocha": "mocha --exit",
     "start": "node -r dotenv/config ./dist/server.js",
-    "build": "npm run get-translations && tsc",
+    "build": "yarn run get-translations && yarn run build:ts",
     "watch": "nodemon",
-    "watch:build": "tsc",
+    "tsc": "tsc",
+    "build:ts": "chmod +x ./alterNodeModules.sh && ./alterNodeModules.sh tsc",
     "localtunnel": "node -r dotenv/config ./localtunnel.js",
     "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js"
   },
@@ -27,7 +29,7 @@
     "mocha-prepare": "^0.1.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
-    "mongoose-paginate": "^5.0.3",
+    "mongoose-aggregate-paginate-v2": "^1.0.2",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.3.0",
     "query-string": "^6.4.2"
@@ -43,7 +45,6 @@
     "@types/mocha": "^5.2.6",
     "@types/mongodb": "^3.1.19",
     "@types/mongoose": "^5.3.21",
-    "@types/mongoose-paginate": "^5.0.6",
     "@types/node-cron": "^2.0.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

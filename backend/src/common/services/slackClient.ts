@@ -7,13 +7,12 @@ import { SlackResponseType } from '../factories/definitions/slackCommandHandlerF
 import {
   IChannelsListResponse,
   IExtendedWebApiCallResult,
-  IImOpenResponse,
-  ISlackUserResponse
+  IImOpenResponse
 } from './definitions/slackApi'
 
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
-  public static generalChannels: IStringTMap<string> = {}
+  public static botResponseChannelsIds: IStringTMap<string> = {}
   public static authClient = new WebClient()
 
   public initWebClient(workspace: IWorkspace) {
@@ -42,8 +41,8 @@ export default class SlackClientService {
   }
 
   public async  getGeneralChannelId(teamId: string): Promise<string> {
-    if (SlackClientService.generalChannels[teamId]) {
-      return SlackClientService.generalChannels[teamId]
+    if (SlackClientService.botResponseChannelsIds[teamId]) {
+      return SlackClientService.botResponseChannelsIds[teamId]
     } else {
       try {
         const client = await this.getWebClient(teamId)
@@ -53,7 +52,8 @@ export default class SlackClientService {
         if (ok) {
           const { id: generalChannelId } = channels
             .find(({ is_general }) => is_general)
-          SlackClientService.generalChannels[teamId] = generalChannelId
+          SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
+
           return generalChannelId
         } else {
           throw new Error(error)
@@ -92,13 +92,14 @@ export default class SlackClientService {
     }
   }
 
-  public async getWorkspaceMembers(teamId: string) {
+  public async getWorkspaceMembers(teamId: string, onlyActive = true) {
     const client = await this.getWebClient(teamId)
     const webApiResult = await client.users.list() as IExtendedWebApiCallResult
+
     if (webApiResult.ok) {
       return webApiResult.members
-        .filter(user =>
-          !user.is_bot && !user.deleted && user.name !== 'slackbot'
+      .filter(user =>
+        !user.is_bot && user.deleted === onlyActive && user.name !== 'slackbot'
         ).map(user => {
           return {
             email: user.is_admin ? user.profile.email : '',
@@ -128,5 +129,30 @@ export default class SlackClientService {
     } catch (error) {
       throw error
     }
+  }
+
+  public async getAllPublicChannelsNames(teamId: string) {
+    try {
+      const client = await this.getWebClient(teamId)
+      const response: IChannelsListResponse = await client.channels.list(
+        {
+          exclude_archived: true,
+          exclude_members: true
+        }
+      )
+      const { ok, channels, error } = response
+
+      if (ok) {
+        return channels.map(({ id, name }) => ({ id, name }))
+      } else {
+        throw new Error(error)
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  public setBotResponseChannel(teamId: string, channelId: string) {
+    SlackClientService.botResponseChannelsIds[teamId] = channelId
   }
 }

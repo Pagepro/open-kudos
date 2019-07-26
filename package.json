@@ -12,10 +12,12 @@
     "build:client": "cd ./client-dashboard && yarn && yarn build"
   },
   "engines": {
-    "yarn": "1.x"
+    "yarn": "1.x",
+    "node": "12.x"
   },
   "devDependencies": {
     "@semantic-release/github": "^5.4.2",
+    "@types/styled-components": "^4.1.18",
     "chalk": "^2.4.2",
     "commitizen": "^3.1.1",
     "cross-env": "^5.2.0",
