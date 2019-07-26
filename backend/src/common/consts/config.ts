@@ -12,7 +12,7 @@ export default class Config {
 
     if (varValue === undefined) {
       throw new ReferenceError(
-        // tslint:disable-next-line:max-line-length
+        // tslint:disable-next-line: max-line-length
         `Could not find environment variable with key ${key}! Check your .env file or provided env variables.`
       )
     }

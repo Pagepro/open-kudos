@@ -1,13 +1,12 @@
-/* tslint:disable */
 import DbService from '../common/services/db'
-import User from '../models/user.model'
 import Gift from '../models/gift.model'
+import User from '../models/user.model'
 import {
-  testUserData,
-  testReceiverData,
+  testBuyerUserData,
   testGifts,
+  testReceiverData,
   testTeamId,
-  testBuyerUserData
+  testUserData
 } from './testData'
 const db = new DbService()
 const giftsWithTeamId = testGifts.map(gift => ({ ...gift, teamId: testTeamId }))
