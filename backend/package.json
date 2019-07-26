@@ -2,12 +2,13 @@
   "name": "open-kudos-backend",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --exit",
+    "test": "chmod +x ./alterNodeModules.sh && ./alterNodeModules.sh test:mocha",
+    "test:mocha": "mocha --exit",
     "start": "node -r dotenv/config ./dist/server.js",
     "build": "yarn run get-translations && yarn run build:ts",
     "watch": "nodemon",
     "tsc": "tsc",
-    "build:ts": "chmod +x ./build.sh && ./build.sh",
+    "build:ts": "chmod +x ./alterNodeModules.sh && ./alterNodeModules.sh tsc",
     "localtunnel": "node -r dotenv/config ./localtunnel.js",
     "get-translations": "node -r dotenv/config fetchAndSaveTranslations.js"
   },

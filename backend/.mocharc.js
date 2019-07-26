@@ -5,7 +5,8 @@ module.exports = {
     './mongoInMemory.js',
     'ts-node/register',
     './src/common/extensions/index.ts',
-    './src/common/definitions/index.ts'
+    './src/common/definitions/index.ts',
+    './@types/mongose-aggregate-paginate-v2/index.ts'
   ],
   timeout: 9999
 }
