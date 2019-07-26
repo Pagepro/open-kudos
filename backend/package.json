@@ -25,7 +25,7 @@
     "fs-extra": "^7.0.1",
     "heroku-logger": "^0.3.3",
     "i18n": "^0.8.3",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.15",
     "mocha-prepare": "^0.1.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
