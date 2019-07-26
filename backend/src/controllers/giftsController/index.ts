@@ -25,15 +25,15 @@ export default class GiftsController {
   @Get('/', [schemaValidatorFatory(GiftsPaginationSchema)])
   public async getAllGifts(
     @RequestDecorator() req: IUserEnhancedRequest,
-    @QueryParam('skip') offset: number = 0,
-    @QueryParam('take') take: number = 10,
+    @QueryParam('limit') limit: number = 10,
+    @QueryParam('page') page: number = 1,
     @ResponseDecorator() res: Response
   ) {
     const teamId = req.user.team_id
     const paginatedGifts = await this.giftService.getAllPaginated(
       teamId,
-      Number(take),
-      Number(offset)
+      Number(limit),
+      Number(page)
     )
 
     res.json(paginatedGifts)
@@ -46,7 +46,7 @@ export default class GiftsController {
     @ResponseDecorator() res: Response
   ) {
     const teamId = req.user.team_id
-    const gift = await this.giftService.getGift(id, teamId)
+    const gift = await this.giftService.getGiftById(teamId, id)
 
     if (!gift) {
       return res.status(404).send()

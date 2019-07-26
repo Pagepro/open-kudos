@@ -1,8 +1,9 @@
 import { SubmissionErrors } from 'final-form'
 import { IFormGift } from './IFormGift'
 
-export interface IGiftFormProps extends IFormGift {
+export interface IGiftFormProps {
   loading: boolean,
+  initialValues?: IFormGift,
   onCancel(): void,
-  onSubmit(gift: IFormGift): Promise<SubmissionErrors | undefined>
+  onSubmit(gift: IFormGift): Promise<SubmissionErrors | undefined>,
 }

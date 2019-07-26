@@ -1,4 +1,5 @@
-import { Document, model, Schema } from 'mongoose'
+import { Document, model, PaginateModel, Schema } from 'mongoose'
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 import Gift from './gift.model'
 
 export interface IGiftTransfer {
@@ -13,7 +14,8 @@ export interface IGiftTransfer {
   giftCost?: number
 }
 
-type IGiftTransferDocument = IGiftTransfer & Document
+export type IGiftTransferDocument = IGiftTransfer & Document
+type IGiftTransferModel<T extends Document> = PaginateModel<T>
 
 const giftTransferSchema: Schema<IGiftTransfer> = new Schema({
   giftCost: {
@@ -61,13 +63,19 @@ giftTransferSchema.index({
   userId: 'text'
 })
 
-giftTransferSchema.pre('save', async function () {
-  const currentDocument = this as IGiftTransferDocument
-  const gift = await Gift.findById(currentDocument.giftId)
-
-  currentDocument.giftName = gift.name
-  currentDocument.giftDescription = gift.description
-  currentDocument.giftCost = gift.cost
+giftTransferSchema.pre('save', async function(this: IGiftTransferDocument) {
+  const gift = await Gift.findById(this.giftId)
+  this.giftName = gift.name
+  this.giftDescription = gift.description
+  this.giftCost = gift.cost
 })
 
-export default model<IGiftTransferDocument>('GiftTransfer', giftTransferSchema)
+giftTransferSchema.plugin(mongooseAggregatePaginate)
+
+const GiftTransferModel: IGiftTransferModel<IGiftTransferDocument> = model<
+  IGiftTransferDocument
+>('GiftTransfer', giftTransferSchema) as IGiftTransferModel<
+  IGiftTransferDocument
+>
+
+export default GiftTransferModel

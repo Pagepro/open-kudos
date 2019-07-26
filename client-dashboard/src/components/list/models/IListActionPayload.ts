@@ -1,5 +1,6 @@
 export interface IListActionPayload<T> {
   current: number,
   dataSource: T[],
-  total: number
+  total: number,
+  pageSize: number
 }
