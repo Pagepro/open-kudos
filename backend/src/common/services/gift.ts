@@ -49,21 +49,22 @@ export default class GiftService {
   public async getAllPaginated(
     teamId: string,
     limit?: number,
-    offset?: number
+    page?: number
   ) {
-    return await Gift.paginate(
-      {
-        isAvailable: true,
-        teamId
-      },
-      {
-        limit,
-        offset,
-        sort: {
-          cost: 1
-        }
+    const aggregate = Gift.aggregate()
+
+    aggregate.match({
+      isAvailable: true,
+      teamId
+    })
+
+    return await Gift.aggregatePaginate(aggregate, {
+      limit,
+      page,
+      sort: {
+        cost: 1
       }
-    )
+    })
   }
 
   public async patchGift (

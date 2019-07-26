@@ -10,10 +10,10 @@ export const NewGiftSchema: Schema = {
     }
   },
   description: {
+    isString: true,
     optional: {
       nullable: true
-    },
-    isString: true,
+    }
   },
   name: {
     isString: {
@@ -23,21 +23,21 @@ export const NewGiftSchema: Schema = {
 }
 
 export const GiftsPaginationSchema: Schema = {
-  offset: {
-    in: 'query',
-    isInt: {
-      options: {
-        min: 0
-      }
-    },
-    optional: true
-  },
-  take: {
+  limit: {
     in: 'query',
     isInt: {
       options: {
         max: 50,
         min: 0
+      }
+    },
+    optional: true
+  },
+  page: {
+    in: 'query',
+    isInt: {
+      options: {
+        min: 1
       }
     },
     optional: true

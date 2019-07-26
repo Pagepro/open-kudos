@@ -1,5 +1,5 @@
 import { Document, model, PaginateModel, Schema } from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
 export interface IGift {
   amount?: number,
@@ -48,7 +48,7 @@ giftSchema.index({
   teamId: 'text'
 })
 
-giftSchema.plugin(mongoosePaginate)
+giftSchema.plugin(mongooseAggregatePaginate)
 
 const GiftModel: IGiftModel<IGiftDocument> = model<IGiftDocument>(
   'Gift',

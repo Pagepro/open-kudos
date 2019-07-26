@@ -16,24 +16,31 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     paginatedListInitialState<T>()
   )
 
-  const fetchGifts = useCallback(async (
-    skip: number,
-    take: number = 10,
-    current: number = 1
+  const fetchData = useCallback(async (
+    limit: number = 10,
+    page: number = 1
   ) => {
     dispatch({
       type: ActionTypes.FETCH_DATA_REQUEST
     })
 
     try {
-      const { data: { docs, total } } = await axios.get<IPaginatedResponse<T>>(
-        endpoint, {
-          params: { skip, take }
+      const {
+        data: {
+          docs,
+          totalDocs
         }
-      )
+      } = await axios.get<IPaginatedResponse<T>>(endpoint, {
+          params: { limit, page }
+      })
 
       dispatch({
-        payload: { dataSource: docs, total, current },
+        payload: {
+          current: page,
+          dataSource: docs,
+          pageSize: limit,
+          total: totalDocs
+        },
         type: ActionTypes.FETCH_DATA_SUCCESS
       })
     } catch (error) {
@@ -50,14 +57,13 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
   const handleTableChange = useCallback((pagination: PaginationConfig) => {
     const limit = pagination.pageSize || 10
     const current = pagination.current || 1
-    const skip = (current - 1) * limit
 
-    fetchGifts(skip, limit, current)
-  }, [fetchGifts])
+    fetchData(limit, current)
+  }, [fetchData])
 
   useEffect(() => {
-    fetchGifts(0, pageSize || 10)
-  }, [fetchGifts, pageSize])
+    fetchData(pageSize || 10, 1)
+  }, [fetchData, pageSize])
 
 
   if (getAPIRef) {
@@ -67,11 +73,10 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
 
         if (pagination) {
           const current = pagination.current || 1
-          const skip = (current - 1) * (pageSize || 10)
 
-          fetchGifts(skip, pageSize, current)
+          fetchData(pageSize, current)
         } else {
-          fetchGifts(0, pageSize || 10)
+          fetchData(0, pageSize || 10)
         }
       }
     }

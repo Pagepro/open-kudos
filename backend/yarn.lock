@@ -173,21 +173,6 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose-paginate@^5.0.6":
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/@types/mongoose-paginate/-/mongoose-paginate-5.0.6.tgz#0e354981e4071b38fefc816a38f9b9652a96a99b"
-  integrity sha512-asVOqceVhoBuO7HddSDV+SgGwuCQHBWTSnlz8xwgVBOaXpfB4aa4+fXPQoZ8cVxcvSd/9Clp0RoclSRd2s8Ecg==
-  dependencies:
-    "@types/mongoose" "*"
-
-"@types/mongoose@*":
-  version "5.5.8"
-  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.8.tgz#079d32514939c0344d2fd020f0524a71482d0779"
-  integrity sha512-PtKUS5IC72F/5dwaUaCleYlXuaXXLDUL2wUGSnteq7ifUDQRqNji/vEpK8KQR+uHiRih1l90g4doOAZOc9veUg==
-  dependencies:
-    "@types/mongodb" "*"
-    "@types/node" "*"
-
 "@types/mongoose@^5.3.21":
   version "5.5.7"
   resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.5.7.tgz#fb39d79f81527eb19b15095fb8c23bc649a3354d"
@@ -520,11 +505,6 @@ bl@^1.0.0:
   dependencies:
     readable-stream "^2.3.5"
     safe-buffer "^5.1.1"
-
-bluebird@3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.0.5.tgz#2ff9d07c9b3edb29d6d280fe07528365e7ecd392"
-  integrity sha1-L/nQfJs+2ynW0oD+B1KDZefs05I=
 
 bluebird@3.5.1:
   version "3.5.1"
@@ -2730,17 +2710,15 @@ mongodb@~2.2.31:
     mongodb-core "2.1.20"
     readable-stream "2.2.7"
 
+mongoose-aggregate-paginate-v2@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mongoose-aggregate-paginate-v2/-/mongoose-aggregate-paginate-v2-1.0.2.tgz#4b1d82c1ecc9879645cfc65609ffec9cb2cac1ef"
+  integrity sha512-iKKtSzmkVMDodZBGiA1AWlOsZ4L3tO144xo1hnF/HcKpIC3Y9o+E1kqonOYymV6IR37oNT4gxAOAyHBia8E/0w==
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
-
-mongoose-paginate@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/mongoose-paginate/-/mongoose-paginate-5.0.3.tgz#d7ae49ed5bf64f1f7af7620ea865b67058c55371"
-  integrity sha1-165J7Vv2Tx9692IOqGW2cFjFU3E=
-  dependencies:
-    bluebird "3.0.5"
 
 mongoose@^5.4.19:
   version "5.6.2"
