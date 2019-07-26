@@ -36,7 +36,9 @@ const workspaceSchema: Schema<IWorkspace> = new Schema({
     type: String,
     unique: true,
   },
-  settings: [{ type: Schema.Types.ObjectId, ref: 'Setting' }],
+  settings: [
+    { type: Schema.Types.ObjectId, ref: 'Setting' }
+  ],
   teamId: {
     required: 'Team id team id is required',
     trim: true,

@@ -11,5 +11,6 @@ export const pageTitles = {
 }
 
 export const settingsCardsTitles = {
-  answerChannels: 'Kudos bot will answer on:'
+  answerChannels: 'Kudos bot answer channel:',
+  monthlyKudosAmount: 'Amount of Kudos in month:'
 }

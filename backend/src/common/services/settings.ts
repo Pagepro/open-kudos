@@ -10,6 +10,10 @@ export default class SettingsService {
     {
       key: SettingsEnum.BotResponseChannelId,
       value: String.empty
+    },
+    {
+      key: SettingsEnum.MonthlyKudosAmount,
+      value: '100'
     }
   ]
 

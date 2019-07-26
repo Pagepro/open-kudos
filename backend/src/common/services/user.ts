@@ -5,6 +5,7 @@ import { IWorkspace } from '../../models/workspace.model'
 import Helpers from './helpers'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
+import { IKudosAmountForWorkspace } from './workspace'
 
 export default class UserService {
   private slackClientService = new SlackClientService()
@@ -70,18 +71,24 @@ export default class UserService {
     })
   }
 
-  public async getAdmin(teamId: string) {
-    return await User.findOne({
-      isAdmin: true,
-      teamId
-    })
+
+  public resetAllUsersGiveableKudos
+    (kudosAmountForWorkspace: IKudosAmountForWorkspace[]) {
+    const updateUsersFromTeams = kudosAmountForWorkspace
+      .map((item) => User.updateMany(
+        { teamId: item.teamId },
+        { $set: { kudosGiveable: item.monthlyKudosAmount || 100 } }).exec()
+      )
+
+    return Promise.all(updateUsersFromTeams)
   }
 
-  public resetAllUsersGiveableKudos() {
-    return User.updateMany({}, {
-      $set: { kudosGiveable: 100 }
-    })
-  }
+  public async getAdmin(teamId: string) {
+      return await User.findOne({
+        isAdmin: true,
+        teamId
+      })
+   }
 
   public async checkIfUserExist(teamId: string, userId: string) {
     const user = await this.getUser(teamId, userId)

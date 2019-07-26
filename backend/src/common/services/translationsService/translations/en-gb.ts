@@ -16,5 +16,6 @@ export default {
   "youDontHaveEnoughKudosToTransfer": "You don't have enough kudos to transfer",
   "youTriedToGiveXPointsButThisIsNotValid": "You tried to give {0} but this is not valid amount of points :(",
   "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
-  "leaderboard": "*Leaderboard*"
+  "leaderboard": "*Leaderboard*",
+  "notifyAdminNewGiftPurchase": "<@{0}> just purchased {1} for {2} kudos."
 } as ILocaleTranslations
