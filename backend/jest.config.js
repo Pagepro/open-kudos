@@ -4,8 +4,8 @@ module.exports = {
   globals: {
     "__DEV__": true,
   },
-  globalSetup: "./globalSetup.ts",
-  globalTeardown: "./globalTeardown.ts",
+  globalSetup: "./src/test/globalSetup.ts",
+  globalTeardown: "./src/test/globalTeardown.ts",
   testPathIgnorePatterns: [
     "/node_modules/",
     "/dist/"

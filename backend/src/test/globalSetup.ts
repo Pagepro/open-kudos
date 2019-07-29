@@ -1,14 +1,14 @@
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import DbService from './src/common/services/db'
-import Gift from './src/models/gift.model'
-import User from './src/models/user.model'
+import DbService from '../common/services/db'
+import Gift from '../models/gift.model'
+import User from '../models/user.model'
 import {
   testBuyerUserData,
   testGifts,
   testReceiverData,
   testTeamId,
   testUserData,
-} from './src/test/testData'
+} from './testData'
 
 const globalSetup = async () => {
   const mongod = new MongoMemoryServer()

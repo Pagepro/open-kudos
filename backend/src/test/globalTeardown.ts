@@ -1,6 +1,6 @@
-import DbService from './src/common/services/db'
-import Gift from './src/models/gift.model'
-import User from './src/models/user.model'
+import DbService from '../common/services/db'
+import Gift from '../models/gift.model'
+import User from '../models/user.model'
 
 const globalTeardown = async () => {
   const db = new DbService()
