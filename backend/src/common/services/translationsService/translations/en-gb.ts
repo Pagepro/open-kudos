@@ -1,4 +1,4 @@
-// tslint:disable: max-line-length
+// tslint:disable:max-line-length
 import { ILocaleTranslations } from "../../definitions/translationsService"
 export default {
   "couldntFindThePersonYouWantedToGivePointsTo": "Couldn't find the person you wanted to give points to :(",
