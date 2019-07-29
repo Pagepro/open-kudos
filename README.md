@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Pagepro/open-kudos.svg?branch=development)](https://travis-ci.org/Pagepro/open-kudos)
+[![codecov](https://codecov.io/gh/Pagepro/open-kudos/branch/master/graph/badge.svg)](https://codecov.io/gh/Pagepro/open-kudos)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
@@ -47,8 +48,7 @@ Open Kudos uses a number of open source projects to work properly in the future 
 * [Mongoose] - elegant MongoDB object modelling for node.js
 * [Poeditor] - software localization management platform 
 * [TSLint] - an extensible static analysis tool that checks TypeScript code
-* [Mocha] - feature-rich JavaScript test framework
-* [Chai] - is a BDD / TDD assertion library
+* [Jest] - feature-rich JavaScript testing framework
 * [Travis] - is a hosted continuous integration service used to build and test software projects
 * [semantic-release] - fully automated version management and package publishing tool
 * [commitizen] - simple commit conventions for internet citizens
@@ -114,8 +114,7 @@ Read more about [Pagepro]
 [kudos]: <https://github.com/Pagepro/open-kudos>
 [Poeditor]: <https://poeditor.com/>
 [TSLint]: <https://palantir.github.io/tslint/>
-[Mocha]: <https://mochajs.org/>
-[Chai]: <https://www.chaijs.com/>
+[Jest]: <https://jestjs.io/>
 [Travis]: <https://travis-ci.org/>
 [guid]: <https://docs.google.com/document/d/1O-LsTqhQfWLOXwW8MWjFVgd3imIqG9-IcYjh3FU_wcE/edit?usp=sharing>
 [semantic-release]: <https://github.com/semantic-release/semantic-release>

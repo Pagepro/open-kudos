@@ -1,32 +1,32 @@
-import { expect } from 'chai'
 import UserService from '../../common/services/user'
 import { newUserData } from '../testData'
 
 describe('UserService tests', () => {
-  it(`method checkIfUserExist should return false if user not exist`,
-    async () => {
+  it(`method checkIfUserExist should return false if user not exist`, () => {
       const userService = new UserService()
-      const userExist = await userService.checkIfUserExist(
-        newUserData.teamId, newUserData.userId)
-
-      expect(userExist).to.be.equal(false)
+      userService.checkIfUserExist(
+        newUserData.teamId,
+        newUserData.userId
+      ).then(data => {
+        expect(data).toBe(false)
+      })
     }
   )
 
-  it(`method createUser should return new user Id`, async () => {
+  it(`method createUser should return new user Id`, () => {
     const userService = new UserService()
-    const newUser = await userService.createUser(newUserData)
-
-    expect(newUser.id).to.be.a('string').that.is.not.empty
+    userService.createUser(newUserData).then(newUser => {
+      expect(newUser.id).not.toBeNull()
+    })
   })
 
   it(`New user should has 100 givable kudos`, async () => {
     const userService = new UserService()
-    const newUser = await userService.getUser(
+    userService.getUser(
       newUserData.teamId,
       newUserData.userId
-    )
-
-    expect(newUser.kudosGiveable).to.be.eq(100)
+    ).then(user => {
+      expect(user.kudosGiveable).toEqual(100)
+    })
   })
 })

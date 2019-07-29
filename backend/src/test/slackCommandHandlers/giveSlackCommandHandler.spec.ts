@@ -1,5 +1,3 @@
-import * as chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
 import GiveCommandHandler from '../../common/slackCommandHandlers/giveSlackCommandHandler'
 import { ISlackCommandInfo } from '../../controllers/definitions/slackController'
 import User from '../../models/user.model'
@@ -16,8 +14,6 @@ class GiveCommandHandlerToTest extends GiveCommandHandler {
   }
 }
 
-chai.use(chaiAsPromised)
-const { expect } = chai
 const testHelper = new TestHelper<ISlackCommandInfo>()
 
 const giveKudosCommand = testHelper.createTestObject(
@@ -58,7 +54,7 @@ describe('GiveCommandHandler tests', () => {
     const giveCommandHandler = new GiveCommandHandlerToTest(giveKudosCommand)
     const informationWhyUserGetsPoints = giveCommandHandler.transactionComment
 
-    expect(informationWhyUserGetsPoints).to.be.equal('for test purpose')
+    expect(informationWhyUserGetsPoints).toEqual('for test purpose')
   })
 
   it('should return basic reason for giving kudos', () => {
@@ -67,58 +63,59 @@ describe('GiveCommandHandler tests', () => {
 
       const validMessage = giveCommandHandler.transactionComment
 
-      expect(validMessage).to.be.equal(`for no reason`)
+      expect(validMessage).toEqual(`for no reason`)
     }
   )
 
-  it('should throw error if sender equals receiver', async () => {
+  it('should throw error if sender equals receiver', () => {
     const giveCommandHandler =
       new GiveCommandHandlerToTest(giveKudosMyselfCommand)
 
-    return await expect(giveCommandHandler.validate())
-      .to
-      .be
-      .rejectedWith('You cant add points for yourself :(')
+    expect(giveCommandHandler.validate()).rejects
+      .toThrow('You cant add points for yourself :(')
   })
 
-  it('should throw error if points amount is invalid', async () => {
+  it('should throw error if points amount is invalid', () => {
     const giveCommandHandler =
       new GiveCommandHandlerToTest(giveKudosInvalidValueCommand)
 
-    return await expect(
+    expect(
       giveCommandHandler.validate()
-    ).to.be.rejectedWith(
+    ).rejects.toThrow(
       'You tried to give XYZ but this is not valid amount of points :('
     )
   })
 
-  it('should throw error if receiver username is invalid', async () => {
+  it('should throw error if receiver username is invalid', () => {
     const giveCommandHandler =
       new GiveCommandHandlerToTest(giveKudosInvalidReceiverCommand)
 
-    return await expect(giveCommandHandler.validate())
-      .to
-      .be
-      .rejectedWith(`Couldn't find the person you wanted to give points to :(`)
+    expect(giveCommandHandler.validate())
+      .rejects.toThrow(
+        `Couldn't find the person you wanted to give points to :(`
+      )
   })
 
-  it('giveCommandHandler should add points for receiver', async () => {
+  it('giveCommandHandler should add points for receiver', () => {
     const giveCommandHandler =
       new GiveCommandHandlerToTest(giveKudosWithValidDataCommand)
 
-    await giveCommandHandler.handleCommand()
-    const receiver = await User.findOne({ userId: testReceiverData.userId })
-
-    expect(receiver.kudosSpendable).to.be.equal(30)
+    giveCommandHandler.handleCommand().then(() => {
+      User.findOne({
+        userId: testReceiverData.userId
+      }).then(user => {
+        expect(user.kudosSpendable).toEqual(30)
+      })
+    })
   })
 
-  it('giveCommandHandler should response with proper information', async () => {
+  it('giveCommandHandler should response with proper information', () => {
     const giveCommandHandler =
       new GiveCommandHandlerToTest(giveKudosWithValidDataCommand)
 
     const message = giveCommandHandler.getCommandResponse()
 
-    expect(message).to.be.equal(
+    expect(message).toEqual(
       // tslint:disable-next-line: max-line-length
       '<@U072A8BOG> just received *10* kudos from <@U061F7AUR> for test purpose.'
     )
