@@ -1,4 +1,5 @@
-import { Document, model, Schema } from 'mongoose'
+import { Document, model, PaginateModel, Schema } from 'mongoose'
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
 export interface ITransfer {
   senderId: string,
@@ -8,7 +9,8 @@ export interface ITransfer {
   comment?: string
 }
 
-type ITransferDocument = ITransfer & Document
+export type ITransferDocument = ITransfer & Document
+type ITransferModel<T extends Document> = PaginateModel<T>
 
 const transferSchema: Schema<ITransfer> = new Schema({
   comment: String,
@@ -43,4 +45,12 @@ transferSchema.index({
   teamId: 'text'
 })
 
-export default model<ITransferDocument>('Transfer', transferSchema)
+transferSchema.plugin(mongooseAggregatePaginate)
+
+const TransferModel: ITransferModel<ITransferDocument> = model<
+  ITransferDocument
+>('Transfer', transferSchema) as ITransferModel<
+  ITransferDocument
+>
+
+export default TransferModel

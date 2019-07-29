@@ -15,6 +15,7 @@ import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController/settingsController'
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
+import TransfersController from './controllers/transfersController'
 import UserController from './controllers/userController'
 
 class App {
@@ -55,6 +56,7 @@ class App {
       GiftsController,
       UserController,
       ChannelsController,
+      TransfersController,
       ...(Config.isProduction ? [] : [TestController])
     ])
 

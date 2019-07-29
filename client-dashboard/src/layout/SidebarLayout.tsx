@@ -37,6 +37,11 @@ const menuItems: IMenuItem[] = [
     url: dashboardRoutes.giftsManagementPage
   },
   {
+    content: pageTitles.transfers,
+    iconType: 'transaction',
+    url: dashboardRoutes.transfersPage
+  },
+  {
     content: pageTitles.settings,
     iconType: 'setting',
     url: dashboardRoutes.settingPage
