@@ -1,0 +1,48 @@
+.app-container {
+    min-height: 100vh !important;
+    padding-left: $sidebar-size;
+}
+
+.content-container {
+    margin: 24px 16px;
+    padding: 24px;
+    background: $container-color;
+    min-height: 280px;
+}
+
+.footer-container {
+    text-align: center
+}
+
+.header-container {
+    padding-right: 16px !important;
+}
+
+.sidebar-container {
+    width: $sidebar-size;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    position: fixed !important;
+}
+
+.logo-container{
+    text-align: center;
+    padding-top: 10px;
+    h1 {
+        color: white;
+        font-size: 1.8em
+    }
+}
+
+.user-menu-container{
+    max-width: 200px;
+    float: right;
+    width: auto !important;
+    z-index: 1;
+    position: relative;
+
+    li.ant-menu-item{
+        padding: 0px 16px !important
+    }
+}

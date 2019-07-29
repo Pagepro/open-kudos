@@ -1,0 +1,27 @@
+@import './variables';
+@import './layout';
+
+.text-danger {
+    color: $danger-color !important;
+}
+
+a.text-danger:hover,
+button.text-danger:hover,
+button.text-danger:focus,
+button.text-danger:active {
+    color: darken($danger-color, 20%) !important;
+}
+
+.px-0 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.py-0 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.c-pointer {
+    cursor: pointer;
+}
