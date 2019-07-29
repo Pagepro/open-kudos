@@ -1,5 +1,4 @@
-import * as chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import DbService from '../../common/services/db'
 import BuyGiftSlackActionHandler from '../../common/slackActionHandlers/buyGiftSlackActionHandler'
 import { ISlackAction } from '../../controllers/definitions/slackController'
 import Gift, { IGiftDocument } from '../../models/gift.model'
@@ -20,18 +19,26 @@ class BuyGiftSlackActionHandlerToTest extends BuyGiftSlackActionHandler {
   }
 }
 
-chai.use(chaiAsPromised)
-const { expect } = chai
 const testHelper = new TestHelper<ISlackAction>()
-let gifts: IGiftDocument[]
 
-function getAllTestGifts() {
-  return Gift.find({})
-}
+jest.mock('../../common/services/slackClient', () => {
+  return jest.fn().mockImplementation(() => {
+    return {sendMessage: () => Promise.resolve()}
+  })
+})
 
 describe('BuyGiftSlackActionHandler tests', () => {
-  before(async () => {
-    gifts = await getAllTestGifts()
+  let gifts: IGiftDocument[]
+  let db: DbService
+
+  beforeAll(async () => {
+    db = new DbService()
+    db.connect()
+    gifts = await Gift.find({})
+  })
+
+  afterAll(() => {
+    db.disconnect()
   })
 
   it('BuyGiftSlackActionHandler should decrease the amount of users kudos',
@@ -48,16 +55,16 @@ describe('BuyGiftSlackActionHandler tests', () => {
         new BuyGiftSlackActionHandlerToTest(slackActionWithGame)
 
       await buyGifActionHandler.handleAction()
-      const buyer = await User.findOne({
+      const user = await User.findOne({
         teamId: testBuyerUserData.teamId,
         userId: testBuyerUserData.userId,
       })
-      expect(buyer.kudosSpendable).to.be.equal(100)
+      expect(user.kudosSpendable).toEqual(100)
     }
   )
 
   it('BuyGiftSlackActionHandler should decrease the amount of bought gift',
-    async () => {
+    done => {
       const game = gifts[gameGiftIndex]
       const slackActionWithGame = testHelper.createTestObject(
         slackActionBasic,
@@ -69,9 +76,15 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const buyGifActionHandler =
         new BuyGiftSlackActionHandlerToTest(slackActionWithGame)
 
-      await buyGifActionHandler.handleAction()
-      const gameGift = await Gift.findOne({ _id: game.id, teamId: game.teamId })
-      expect(gameGift.amount).to.be.equal(9)
+      buyGifActionHandler.handleAction().then(() => {
+        Gift.findOne({
+          _id: game.id,
+          teamId: game.teamId
+        }).then(gift => {
+          expect(gift.amount).toEqual(9)
+          done()
+        })
+      })
     }
   )
 
@@ -97,7 +110,7 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const giveCommandHandler =
         new BuyGiftSlackActionHandlerToTest(slackActionWithMonopoly)
 
-      return await expect(giveCommandHandler.validate()).to.be.rejectedWith(
+      expect(giveCommandHandler.validate()).rejects.toThrowError(
         // tslint:disable-next-line: max-line-length
         `You don't have enough kudos to buy a gift or the gift is out of stock :(`
       )
@@ -117,7 +130,7 @@ describe('BuyGiftSlackActionHandler tests', () => {
 
       const giveCommandHandler =
       new BuyGiftSlackActionHandlerToTest(slackActionWithMug)
-      return await expect(giveCommandHandler.validate()).to.be.rejectedWith(
+      return await expect(giveCommandHandler.validate()).rejects.toThrowError(
         // tslint:disable-next-line: max-line-length
         `You don't have enough kudos to buy a gift or the gift is out of stock :(`
       )
