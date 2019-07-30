@@ -5,7 +5,7 @@ import React, { Fragment, useCallback, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { IPostRequestError } from '../../common/models'
 import { dashboardRoutes } from '../../setup/config'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import GiftForm from './GiftForm'
 import { IGift } from './models'
 
@@ -51,7 +51,7 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <Fragment>
-      <PageHeader title={pageTitles.newGift} />
+      <PageHeader title={titles.newGift} />
       <Divider />
       <GiftForm
         loading={loading}

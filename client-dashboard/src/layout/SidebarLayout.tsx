@@ -2,7 +2,7 @@ import { Icon, Layout, Menu } from 'antd'
 import React from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { dashboardRoutes } from '../setup/config'
-import { pageTitles } from '../setup/messages'
+import { titles } from '../setup/messages'
 
 interface IMenuItem {
   content: string,
@@ -15,34 +15,34 @@ const { Sider } = Layout
 const { Item, SubMenu } = Menu
 const menuItems: IMenuItem[] = [
   {
-    content: pageTitles.dashboard,
+    content: titles.dashboard,
     iconType: 'dashboard',
     url: dashboardRoutes.dashboardPage
   },
   {
     children: [
       {
-        content: pageTitles.list,
+        content: titles.list,
         iconType: 'unordered-list',
         url: dashboardRoutes.giftsManagementPage
       },
       {
-        content: pageTitles.requests,
+        content: titles.requests,
         iconType: 'ordered-list',
         url: dashboardRoutes.giftRequestsPage
       }
     ],
-    content: pageTitles.gifts,
+    content: titles.gifts,
     iconType: 'gift',
     url: dashboardRoutes.giftsManagementPage
   },
   {
-    content: pageTitles.transfers,
+    content: titles.transfers,
     iconType: 'transaction',
     url: dashboardRoutes.transfersPage
   },
   {
-    content: pageTitles.settings,
+    content: titles.settings,
     iconType: 'setting',
     url: dashboardRoutes.settingPage
   }

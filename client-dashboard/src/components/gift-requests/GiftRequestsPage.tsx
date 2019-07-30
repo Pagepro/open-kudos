@@ -3,7 +3,7 @@ import { ColumnProps } from 'antd/lib/table'
 import Axios from 'axios'
 import moment from 'moment'
 import React, { Fragment, useCallback, useRef } from 'react'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import { IPaginatedListAPI } from '../list/models/IPaginatedListAPI'
 import PaginatedList from '../list/PaginatedList'
 import { IGiftTransfer } from './models/IGiftRequest'
@@ -93,7 +93,7 @@ const GiftRequestsPage: React.FC = () => {
   return (
     <Fragment>
       <PageHeader
-        title={pageTitles.giftRequests}
+        title={titles.giftRequests}
       />
       <Divider />
       <PaginatedList<IGiftTransfer>
