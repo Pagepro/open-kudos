@@ -90,6 +90,22 @@ export default class UserService {
       })
    }
 
+  public async getAdmins(teamId: string) {
+    const users =
+      await this.slackClientService.getWorkspaceMembers(teamId, false)
+
+    const admins = await User.find({
+      isAdmin: true,
+      teamId
+    })
+
+    return admins.map(({_id, name, userId}) => ({
+      _id,
+      name: name || users.find(user => user.userId === userId).name,
+      userId,
+    }))
+  }
+
   public async checkIfUserExist(teamId: string, userId: string) {
     const user = await this.getUser(teamId, userId)
     return user ? true : false

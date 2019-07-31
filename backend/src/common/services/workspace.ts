@@ -59,6 +59,12 @@ export default class WorkspaceService {
     return Number(kudosAmount) || 100
   }
 
+  public async getGiftRequestsReceiver(teamId: string): Promise<string> {
+    const giftRequestsReceiver =
+      await this.getWorkspaceSetting(teamId, SettingsEnum.GiftRequestsReceiver)
+    return giftRequestsReceiver || String.empty
+  }
+
   public async updateSetting(teamId: string, settings: ISettings) {
     try {
       const operations:

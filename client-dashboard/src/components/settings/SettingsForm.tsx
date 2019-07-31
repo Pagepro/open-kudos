@@ -8,21 +8,26 @@ import SettingsCard from './SettingsCard'
 
 interface IProps {
   allChannels: IOption[],
+  allAdmins: IOption[],
   botResponseChannelId?: string,
-  monthlyKudosAmount?: number
+  monthlyKudosAmount?: number,
+  giftRequestsReceiver?: string,
   onSubmit(data: any): void
 }
 
 const SettingsForm = ({
   allChannels,
+  allAdmins,
   botResponseChannelId,
   monthlyKudosAmount,
+  giftRequestsReceiver,
   onSubmit
 }: IProps) => (
     <Form
       onSubmit={onSubmit}
       initialValues={{
         botResponseChannelId,
+        giftRequestsReceiver,
         monthlyKudosAmount
       }}
       render={({ handleSubmit }) => (
@@ -43,6 +48,16 @@ const SettingsForm = ({
             <Field
               name="monthlyKudosAmount"
               component={InputNumber}
+            />
+          </SettingsCard>
+          <SettingsCard
+            title={settingsCardsTitles.giftRequestsReceiver}
+          >
+            <Field
+              name="giftRequestsReceiver"
+              component={Select({
+                options: allAdmins
+              })}
             />
           </SettingsCard>
           <Divider />

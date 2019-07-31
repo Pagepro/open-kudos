@@ -14,6 +14,10 @@ export default class SettingsService {
     {
       key: SettingsEnum.MonthlyKudosAmount,
       value: '100'
+    },
+    {
+      key: SettingsEnum.GiftRequestsReceiver,
+      value: String.empty
     }
   ]
 
