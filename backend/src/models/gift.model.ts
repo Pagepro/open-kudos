@@ -7,11 +7,12 @@ export interface IGift {
   description: string,
   teamId: string,
   cost: number,
-  isAvailable?: boolean
+  isAvailable?: boolean,
+  imgUrl?: string
 }
 
 export type IGiftDocument = IGift & Document
-interface IGiftModel<T extends Document> extends PaginateModel<T> {}
+interface IGiftModel<T extends Document> extends PaginateModel<T> { }
 
 const giftSchema: Schema<IGift> = new Schema({
   amount: {
@@ -41,6 +42,10 @@ const giftSchema: Schema<IGift> = new Schema({
     trim: true,
     type: String,
   },
+  imgUrl: {
+    trim: true,
+    type: String,
+  }
 })
 
 giftSchema.index({

@@ -1,4 +1,6 @@
 import { Schema } from 'express-validator'
+import CommonConst from '../../common/consts/common';
+import { IFile } from './models'
 
 export const NewGiftSchema: Schema = {
   cost: {
@@ -18,6 +20,18 @@ export const NewGiftSchema: Schema = {
   name: {
     isString: {
       errorMessage: 'Gift name is required'
+    }
+  },
+  files: {
+    custom: {
+      options: (value, { req, location, path }) => {
+        const file: IFile = req.file
+
+        if (file) {
+          return file.size <= CommonConst.allowedImageSize
+        }
+      },
+      errorMessage: 'File to large.'
     }
   }
 }

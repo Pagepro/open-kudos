@@ -1,8 +1,13 @@
-import { Button, Col, Input, Row } from 'antd'
+import { Button, Col, Input, Row, Upload } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
-import { composeValidators, minValue, required } from '../../common/helpers/validators'
+import {
+  composeValidators,
+  fileKbSizeValid,
+  minValue,
+  required
+} from '../../common/helpers/validators'
 import './GiftForm.scss'
 import { IFormFieldProps, IFormInputProps, IGiftFormProps } from './models'
 
@@ -40,20 +45,33 @@ const renderInput = ({
   meta,
   label
 }: IFormInputProps) => (
-  <FormField meta={meta} label={label}>
-    <Input {...input} />
-  </FormField>
-)
+    <FormField meta={meta} label={label}>
+      <Input {...input} />
+    </FormField>
+  )
 
 const renderTextArea = ({
   input,
   meta,
   label
 }: IFormInputProps) => (
-  <FormField meta={meta} label={label}>
-    <TextArea {...input} />
-  </FormField>
-)
+    <FormField meta={meta} label={label}>
+      <TextArea {...input} />
+    </FormField>
+  )
+
+const renderFileInput = ({
+  input,
+  meta,
+  label
+}: IFormInputProps) => (
+    <FormField meta={meta} label={label}>
+      <input type="file"
+        accept="image/*"
+        onChange={e => input.onChange(e.target.files)}
+      />
+    </FormField>
+  )
 
 const GiftForm = ({
   onSubmit,
@@ -61,51 +79,62 @@ const GiftForm = ({
   loading,
   initialValues
 }: IGiftFormProps) => (
-  <Form
-    onSubmit={onSubmit}
-    initialValues={initialValues}
-    render={({ handleSubmit }) => (
-      <form onSubmit={handleSubmit}>
-        <Field name='name' validate={required<string>()}>
-          {({ input, meta }) => renderInput({
-            input,
-            label: 'Name',
-            meta
-          })}
-        </Field>
-        <Field name='description'>
-          {({ input, meta }) => renderTextArea({
-            input,
-            label: 'Description',
-            meta
-          })}
-        </Field>
-        <Field
-          name='cost'
-          type='number'
-          validate={composeValidators(required(), minValue(1))}
-        >
-          {({ input, meta }) => renderInput({
-            input,
-            label: 'Cost',
-            meta
-          })}
-        </Field>
-        <Row className='form__buttons'>
-          <Button type='primary' htmlType='submit' loading={loading}>
-            Save
-          </Button>
-          <Button
-            htmlType='button'
-            onClick={onCancel}
-            className='form__button--add'
+    <Form
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      render={({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <Field name='name' validate={required<string>()}>
+            {({ input, meta }) => renderInput({
+              input,
+              label: 'Name',
+              meta
+            })}
+          </Field>
+          <Field name='description'>
+            {({ input, meta }) => renderTextArea({
+              input,
+              label: 'Description',
+              meta
+            })}
+          </Field>
+          <Field
+            name='cost'
+            type='number'
+            validate={composeValidators(required(), minValue(1))}
           >
-            Cancel
+            {({ input, meta }) => renderInput({
+              input,
+              label: 'Cost',
+              meta
+            })}
+          </Field>
+          <Field
+            type='file'
+            name='files'
+            validate={fileKbSizeValid(80)}
+          >
+            {({ input, meta }) => renderFileInput({
+              input,
+              label: 'Image',
+              meta
+            })}
+          </Field>
+          <Row className='form__buttons'>
+            <Button type='primary' htmlType='submit' loading={loading}>
+              Save
           </Button>
-        </Row>
-      </form>
-    )}
-  />
-)
+            <Button
+              htmlType='button'
+              onClick={onCancel}
+              className='form__button--add'
+            >
+              Cancel
+          </Button>
+          </Row>
+        </form>
+      )}
+    />
+  )
 
 export default GiftForm
