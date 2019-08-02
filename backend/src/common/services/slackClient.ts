@@ -1,9 +1,11 @@
 import { MessageAttachment, WebClient } from '@slack/client'
 import { IMessageConsumer } from '../../controllers/definitions/slackController'
+import { SettingsEnum } from '../../controllers/settingsController/models/ISettings'
 import { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import Workspace from '../../models/workspace.model'
 import { SlackResponseType } from '../factories/definitions/slackCommandHandlerFactory'
+import SettingService from '../services/settings'
 import {
   IChannelsListResponse,
   IExtendedWebApiCallResult,
@@ -14,6 +16,7 @@ export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
   public static botResponseChannelsIds: IStringTMap<string> = {}
   public static authClient = new WebClient()
+  private settingService = new SettingService()
 
   public initWebClient(workspace: IWorkspace) {
     SlackClientService.clients[workspace.teamId] =
@@ -40,7 +43,7 @@ export default class SlackClientService {
     }
   }
 
-  public async  getGeneralChannelId(teamId: string): Promise<string> {
+  public async  getDefaultChannelId(teamId: string): Promise<string> {
     if (SlackClientService.botResponseChannelsIds[teamId]) {
       return SlackClientService.botResponseChannelsIds[teamId]
     } else {
@@ -81,7 +84,7 @@ export default class SlackClientService {
       case SlackResponseType.General:
         client.chat.postMessage({
           attachments,
-          channel: await this.getGeneralChannelId(teamId),
+          channel: await this.getResponseBotChannelId(teamId),
           text
         })
         break
@@ -98,8 +101,8 @@ export default class SlackClientService {
 
     if (webApiResult.ok) {
       return webApiResult.members
-      .filter(user =>
-        !user.is_bot && user.deleted === onlyActive && user.name !== 'slackbot'
+        .filter(user =>
+          !user.is_bot && user.deleted === onlyActive && user.name !== 'slackbot'
         ).map(user => {
           return {
             email: user.is_admin ? user.profile.email : '',
@@ -154,5 +157,17 @@ export default class SlackClientService {
 
   public setBotResponseChannel(teamId: string, channelId: string) {
     SlackClientService.botResponseChannelsIds[teamId] = channelId
+  }
+
+  public async getResponseBotChannelId(teamId: string): Promise<string> {
+    const responseChannelId = SlackClientService.botResponseChannelsIds[teamId]
+    if (responseChannelId) {
+      return responseChannelId
+    }
+
+    const settingsResponseChannelId = await this.settingService.
+      getWorkspaceSetting(teamId, SettingsEnum.BotResponseChannelId)
+
+    return settingsResponseChannelId || await this.getDefaultChannelId(teamId)
   }
 }
