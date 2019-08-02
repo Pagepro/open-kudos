@@ -80,8 +80,8 @@ export default class SettingsService {
           workspace
             .settings
             .find(({ key }) => key === SettingsEnum.MonthlyKudosAmount)
-
         const monthlyKudosAmount = settingMonthlyKudosAmount.value || 100
+
         return { teamId, monthlyKudosAmount }
       })
 

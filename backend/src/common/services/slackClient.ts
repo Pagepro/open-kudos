@@ -160,18 +160,14 @@ export default class SlackClientService {
   }
 
   public async getResponseBotChannelId(teamId: string): Promise<string> {
-    let responseChannelId = SlackClientService.botResponseChannelsIds[teamId]
+    const responseChannelId = SlackClientService.botResponseChannelsIds[teamId]
     if (responseChannelId) {
       return responseChannelId
-    } else {
-      responseChannelId = await this.settingService.
-        getWorkspaceSetting(teamId, SettingsEnum.BotResponseChannelId)
-
-      if (responseChannelId) {
-        return responseChannelId
-      } else {
-        return await this.getDefaultChannelId(teamId)
-      }
     }
+
+    const settingsResponseChannelId = await this.settingService.
+      getWorkspaceSetting(teamId, SettingsEnum.BotResponseChannelId)
+
+    return settingsResponseChannelId || await this.getDefaultChannelId(teamId)
   }
 }
