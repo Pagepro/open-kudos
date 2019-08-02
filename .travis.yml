@@ -18,6 +18,6 @@ jobs:
   - stage: test
     script: yarn run test:backend
   - stage: semantic-release
-    script: yarn run semantic-release
+    script: yarn && yarn run semantic-release
 after_success:
   - yarn run codecov:backend

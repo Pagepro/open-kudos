@@ -2,10 +2,10 @@ import { MessageAttachment } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
+import { IKudosAmountForWorkspace } from './definitions/settingsService'
 import Helpers from './helpers'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
-import { IKudosAmountForWorkspace } from './workspace'
 
 export default class UserService {
   private slackClientService = new SlackClientService()
@@ -71,7 +71,6 @@ export default class UserService {
     })
   }
 
-
   public resetAllUsersGiveableKudos
     (kudosAmountForWorkspace: IKudosAmountForWorkspace[]) {
     const updateUsersFromTeams = kudosAmountForWorkspace
@@ -84,11 +83,11 @@ export default class UserService {
   }
 
   public async getAdmin(teamId: string) {
-      return await User.findOne({
-        isAdmin: true,
-        teamId
-      })
-   }
+    return await User.findOne({
+      isAdmin: true,
+      teamId
+    })
+  }
 
   public async checkIfUserExist(teamId: string, userId: string) {
     const user = await this.getUser(teamId, userId)
