@@ -2,7 +2,6 @@ import { Dropbox } from 'dropbox'
 import fetch from 'isomorphic-fetch'
 import uuidv4 from 'uuid/v4'
 import { IFile } from '../../controllers/giftsController/models'
-import CommonConst from '../consts/common'
 import LoggerService from './logger'
 
 export default class ImagesService {
@@ -35,6 +34,6 @@ export default class ImagesService {
       }
     }
 
-    return CommonConst.defaultImageSrc
+    return String.empty
   }
 }

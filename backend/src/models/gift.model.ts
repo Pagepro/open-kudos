@@ -12,7 +12,7 @@ export interface IGift {
 }
 
 export type IGiftDocument = IGift & Document
-interface IGiftModel<T extends Document> extends PaginateModel<T> { }
+type IGiftModel<T extends Document> = PaginateModel<T>
 
 const giftSchema: Schema<IGift> = new Schema({
   amount: {

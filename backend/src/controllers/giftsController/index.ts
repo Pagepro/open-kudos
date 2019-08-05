@@ -105,10 +105,13 @@ export default class GiftsController {
     @Body() body: INewGift,
     @ResponseDecorator() res: Response
   ) {
-
+    const defaultImgUrl =
+      `${req.protocol}://${req.hostname}:${req.socket.localPort}/default.png`
     const { name, cost, description } = body
     const teamId = req.user.team_id
-    const imgUrl = await this.imagesService.saveImage(teamId, req.file)
+    const imgUrl = await this.imagesService
+      .saveImage(teamId, req.file) || defaultImgUrl
+
     const newGift = await this.giftService.addGift(
       teamId,
       name,

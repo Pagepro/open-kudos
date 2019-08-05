@@ -1,11 +1,14 @@
 import { Schema } from 'express-validator'
-import CommonConst from '../../common/consts/common';
+import CommonConst from '../../common/consts/common'
+import TranslationsService from '../../common/services/translationsService'
 import { IFile } from './models'
+
+const translationsService = new TranslationsService()
 
 export const NewGiftSchema: Schema = {
   cost: {
     isInt: {
-      errorMessage: 'Gift cost must be a positive integer',
+      errorMessage: translationsService.getTranslation('giftMustBePositiveInt'),
       options: {
         min: 1,
       }
@@ -19,7 +22,7 @@ export const NewGiftSchema: Schema = {
   },
   name: {
     isString: {
-      errorMessage: 'Gift name is required'
+      errorMessage: translationsService.getTranslation('giftNameReq')
     }
   },
   files: {
@@ -30,8 +33,10 @@ export const NewGiftSchema: Schema = {
         if (file) {
           return file.size <= CommonConst.allowedImageSize
         }
+
+        return true
       },
-      errorMessage: 'File to large.'
+      errorMessage: translationsService.getTranslation('fileToLarge')
     }
   }
 }

@@ -30,12 +30,9 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
     setLoading(true)
 
     try {
-      await Axios({
-        data,
+      await Axios.post(endpoint, data, {
         headers:
-          { 'Content-Type': `multipart/form-data` },
-        method: 'post',
-        url: endpoint,
+          { 'Content-Type': `multipart/form-data` }
       })
 
       setLoading(false)
