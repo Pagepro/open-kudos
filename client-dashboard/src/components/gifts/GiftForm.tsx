@@ -1,4 +1,4 @@
-import { Button, Col, Input, Row, Upload } from 'antd'
+import { Button, Col, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import React from 'react'
 import { Field, Form } from 'react-final-form'
