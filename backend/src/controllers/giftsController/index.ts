@@ -11,16 +11,33 @@ import {
   Response as ResponseDecorator,
 } from '@decorators/express'
 import { Response } from 'express'
+import multer from 'multer'
 import GiftService from '../../common/services/gift'
+import ImagesService from '../../common/services/images'
 import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
 import { schemaValidatorFatory } from '../../middleware/schemaValidationMiddleware'
 import { INewGift } from './models'
 import { GiftsPaginationSchema, NewGiftSchema } from './schemas'
 
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/')
+    if (isPhoto) {
+      next(null, true)
+    } else {
+      next({ message: 'That filetype isn\'t allowed!' }, false)
+    }
+  }
+}
+
+const upload = multer(multerOptions)
+
 @Controller('/gifts', [AuthMiddleware])
 export default class GiftsController {
   private giftService = new GiftService()
+  private imagesService = new ImagesService()
 
   @Get('/', [schemaValidatorFatory(GiftsPaginationSchema)])
   public async getAllGifts(
@@ -79,19 +96,28 @@ export default class GiftsController {
     res.json(editedGift)
   }
 
-  @Post('/', [schemaValidatorFatory(NewGiftSchema)])
+  @Post('/', [
+    upload.single('file'),
+    schemaValidatorFatory(NewGiftSchema)
+  ])
   public async postGift(
     @RequestDecorator() req: IUserEnhancedRequest,
     @Body() body: INewGift,
     @ResponseDecorator() res: Response
   ) {
+    const defaultImgUrl =
+      `${req.protocol}://${req.hostname}:${req.socket.localPort}/default.png`
     const { name, cost, description } = body
     const teamId = req.user.team_id
+    const imgUrl = await this.imagesService
+      .saveImage(teamId, req.file) || defaultImgUrl
+
     const newGift = await this.giftService.addGift(
       teamId,
       name,
       cost,
-      description
+      description,
+      imgUrl
     )
 
     res.json(newGift)

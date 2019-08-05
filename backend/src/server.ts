@@ -1,7 +1,8 @@
+import './common/extensions'
+// tslint:disable-next-line: ordered-imports
 import App from './app'
 import Config from './common/consts/config'
 import './common/definitions'
-import './common/extensions'
 
 const {
   expressApp

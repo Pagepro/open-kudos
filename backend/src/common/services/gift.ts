@@ -67,37 +67,39 @@ export default class GiftService {
     })
   }
 
-  public async patchGift (
+  public async patchGift(
     id: string,
     teamId: string,
     name: string,
     cost: number,
-    description? : string
+    description?: string
   ) {
     return await Gift.findOneAndUpdate({
       _id: id,
       teamId
     }, {
-      cost,
-      description: description || null,
-      name,
-    }, {
-      new: true
-    })
+        cost,
+        description: description || null,
+        name,
+      }, {
+        new: true
+      })
   }
 
-  public async addGift (
+  public async addGift(
     teamId: string,
     name: string,
     cost: number,
-    description? : string
+    description?: string,
+    imgUrl?: string
   ) {
     return await new Gift({
       cost,
       description: description || null,
       isAvailable: true,
       name,
-      teamId
+      teamId,
+      imgUrl: imgUrl || null
     }).save()
   }
 
