@@ -1,8 +1,7 @@
-import { AttachmentAction, MessageAttachment } from '@slack/client'
+import { KnownBlock } from '@slack/client'
 import '../../models/gift.model'
-import Gift from '../../models/gift.model'
+import Gift, { IGiftDocument } from '../../models/gift.model'
 import SlackConsts from '../consts/slack'
-import Helpers from './helpers'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
@@ -16,34 +15,122 @@ export default class GiftService {
     return Gift.findOne({ teamId, _id: giftId })
   }
 
-  public async getAllGiftsAsAttachment(teamId: string) {
-    const allGifts = await Gift.find({ teamId })
-    const giftAsAttachment = allGifts.map(({
+  public getAllGiftsBlockInOneArray(gifts: IGiftDocument[]) {
+    return gifts.map(({
       name,
       description,
-      id,
-      cost
+      _id,
+      cost,
+      imgUrl
     }) => {
-      return {
-        actions: [
-          {
-            name,
-            text: this.translationsService.getTranslation(
-              'getForKudos',
-              cost
-            ),
-            type: 'button',
-            value: id
+      return [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${name}*`
           }
-        ] as AttachmentAction[],
-        callback_id: SlackConsts.buyGiftCallback,
-        color: Helpers.getRandomHexColor(),
-        text: description,
-        title: name
+        },
+        {
+          type: "section",
+          text: {
+            type: "plain_text",
+            text: description || " "
+          }
+        },
+        {
+          type: "image",
+          image_url: imgUrl,
+          alt_text: name
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              type: "button",
+              text: {
+                type: "plain_text",
+                text: this.translationsService.getTranslation(
+                  'getForKudos',
+                  cost
+                )
+              },
+              value: _id,
+              action_id: SlackConsts.buyGiftCallback
+            }
+          ]
+        },
+        {
+          type: "divider"
+        }
+      ] as KnownBlock[]
+    }).reduce((acc, value) => {
+      return acc.concat(...value)
+    }, [])
+  }
+
+  public getGiftPaginationBlock(page: number, totalPages: number) {
+    const options = []
+    const selectedOption = {
+      text: {
+        type: "plain_text",
+        text: `Page ${page}`,
+        emoji: true
+      },
+      value: `${page}`
+    }
+
+    for (let i = 1; i <= totalPages; i++) {
+      options.push({
+        text: {
+          type: "plain_text",
+          text: `Page ${i}`,
+          emoji: true
+        },
+        value: `${i}`
+      })
+
+    }
+    return [{
+      type: "section",
+      text: {
+        type: "mrkdwn",
+        text: "Display gifts page:"
+      },
+      accessory: {
+        type: "static_select",
+        action_id: SlackConsts.selectGiftPageCallback,
+        initial_option: selectedOption,
+        options
+      }
+    }] as KnownBlock[]
+  }
+
+  public async getAllPaginatedGiftBlocks(
+    teamId: string,
+    limit?: number,
+    page?: number
+  ) {
+    const aggregate = Gift.aggregate()
+
+    aggregate.match({
+      isAvailable: true,
+      teamId
+    })
+
+    const gifts = await Gift.aggregatePaginate(aggregate, {
+      limit,
+      page,
+      sort: {
+        cost: 1
       }
     })
 
-    return giftAsAttachment as MessageAttachment[]
+    const { page: currentPage, totalPages } = gifts
+    const giftBlocks = this.getAllGiftsBlockInOneArray(gifts.docs)
+    const giftPaginationBlock = this.getGiftPaginationBlock(currentPage, totalPages)
+
+    return [...giftBlocks, ...giftPaginationBlock]
   }
 
   public async getAllPaginated(

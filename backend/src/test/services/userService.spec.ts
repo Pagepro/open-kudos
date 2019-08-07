@@ -3,14 +3,14 @@ import { newUserData } from '../testData'
 
 describe('UserService tests', () => {
   it(`method checkIfUserExist should return false if user not exist`, () => {
-      const userService = new UserService()
-      userService.checkIfUserExist(
-        newUserData.teamId,
-        newUserData.userId
-      ).then(data => {
-        expect(data).toBe(false)
-      })
-    }
+    const userService = new UserService()
+    userService.checkIfUserExist(
+      newUserData.teamId,
+      newUserData.userId
+    ).then(data => {
+      expect(data).toBe(false)
+    })
+  }
   )
 
   it(`method createUser should return new user Id`, () => {

@@ -16,10 +16,6 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
     return this.giftAction.value
   }
 
-  get giftName() {
-    return this.giftAction.name
-  }
-
   get giftTransfer(): IGiftTransfer {
     return {
       giftId: this.giftId,
@@ -45,15 +41,13 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
     const { name, cost } = await this.giftTransferService
       .transferGift(this.giftTransfer)
 
-    this.sendMessage(
-      this.translationsService.getTranslation(
-        "youBoughtGift",
+    this.sendResponse(this.translationsService
+      .getTranslation(
+        "notifyAdminNewGiftPurchase",
+        this.userId,
         name,
         cost
-      ),
-      this.messageConsumer,
-      SlackResponseType.Hidden
-    )
+      ))
 
     const admin = await this.userService.getAdmin(this.teamId)
 

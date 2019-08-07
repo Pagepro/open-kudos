@@ -10,6 +10,10 @@ export default class SlackConsts {
     return SlackActionsCallbacks.BuyGift.toString()
   }
 
+  public static get selectGiftPageCallback(): string {
+    return SlackActionsCallbacks.SelectGiftPage.toString()
+  }
+
   public static get directMessageType(): string {
     return 'directmessage'
   }

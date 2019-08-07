@@ -23,7 +23,7 @@ const testHelper = new TestHelper<ISlackAction>()
 
 jest.mock('../../common/services/slackClient', () => {
   return jest.fn().mockImplementation(() => {
-    return {sendMessage: () => Promise.resolve()}
+    return { sendMessage: () => Promise.resolve() }
   })
 })
 
@@ -129,7 +129,7 @@ describe('BuyGiftSlackActionHandler tests', () => {
       )
 
       const giveCommandHandler =
-      new BuyGiftSlackActionHandlerToTest(slackActionWithMug)
+        new BuyGiftSlackActionHandlerToTest(slackActionWithMug)
       return await expect(giveCommandHandler.validate()).rejects.toThrowError(
         // tslint:disable-next-line: max-line-length
         `You don't have enough kudos to buy a gift or the gift is out of stock :(`

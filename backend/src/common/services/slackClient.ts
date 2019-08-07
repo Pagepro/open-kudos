@@ -1,4 +1,4 @@
-import { MessageAttachment, WebClient } from '@slack/client'
+import { KnownBlock, WebClient } from '@slack/client'
 import { IMessageConsumer } from '../../controllers/definitions/slackController'
 import { SettingsEnum } from '../../controllers/settingsController/models/ISettings'
 import { IUser } from '../../models/user.model'
@@ -11,6 +11,7 @@ import {
   IExtendedWebApiCallResult,
   IImOpenResponse
 } from './definitions/slackApi'
+
 
 export default class SlackClientService {
   public static clients: IStringTMap<WebClient> = {}
@@ -71,19 +72,19 @@ export default class SlackClientService {
     text: string,
     consumer: IMessageConsumer,
     type: SlackResponseType = SlackResponseType.Standard,
-    attachments?: MessageAttachment[],
+    blocks?: KnownBlock[],
   ) {
     const { teamId, channel, user } = consumer
     const client = await this.getWebClient(teamId)
 
     switch (type) {
       case SlackResponseType.Hidden:
-        client.chat.postEphemeral({ channel, text, user, attachments })
+        client.chat.postEphemeral({ channel, text, user, blocks })
         break
 
       case SlackResponseType.General:
         client.chat.postMessage({
-          attachments,
+          blocks,
           channel: await this.getResponseBotChannelId(teamId),
           text
         })
@@ -91,7 +92,7 @@ export default class SlackClientService {
 
       case SlackResponseType.Standard:
       default:
-        client.chat.postMessage({ channel, text, attachments })
+        client.chat.postMessage({ channel, text, blocks })
     }
   }
 

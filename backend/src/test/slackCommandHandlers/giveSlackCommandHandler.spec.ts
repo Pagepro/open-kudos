@@ -58,13 +58,13 @@ describe('GiveCommandHandler tests', () => {
   })
 
   it('should return basic reason for giving kudos', () => {
-      const giveCommandHandler =
-        new GiveCommandHandlerToTest(giveKudosNoReasonCommand)
+    const giveCommandHandler =
+      new GiveCommandHandlerToTest(giveKudosNoReasonCommand)
 
-      const validMessage = giveCommandHandler.transactionComment
+    const validMessage = giveCommandHandler.transactionComment
 
-      expect(validMessage).toEqual(`for no reason`)
-    }
+    expect(validMessage).toEqual(`for no reason`)
+  }
   )
 
   it('should throw error if sender equals receiver', () => {
