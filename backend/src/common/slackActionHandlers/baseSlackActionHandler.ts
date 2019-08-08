@@ -52,13 +52,16 @@ abstract class BaseSlackActionHandler {
     this.slackClientService.sendMessage(text, consumer, type, blocks)
   }
 
-  public sendResponse(text: string) {
+  public sendResponse(text: string, blocks?: KnownBlock[]) {
+    const data = {
+      text,
+      response_type: "ephemeral",
+      replace_original: "true",
+      blocks
+    }
+
     axios.post(this.responseUrl,
-      {
-        text,
-        response_type: "ephemeral",
-        replace_original: "true"
-      },
+      data,
       {
         headers:
           { 'Content-Type': 'application/json' }

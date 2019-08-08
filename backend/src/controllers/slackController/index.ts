@@ -10,7 +10,6 @@ import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandl
 import SlackEventHandlerFactory from '../../common/factories/slackEventHandlerFactory'
 import SubscriptionMiddleware from '../../middleware/subscriptionMiddleware'
 import {
-  ISlackAction,
   ISlackActionBlock,
   ISlackActionPayload,
   ISlackCommandInfo,

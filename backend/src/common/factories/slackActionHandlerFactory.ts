@@ -2,6 +2,7 @@ import { ISlackActionBlock } from "../../controllers/definitions/slackController
 import BaseSlackActionHandler from "../slackActionHandlers/baseSlackActionHandler"
 import BuyGiftSlackActionHandler from "../slackActionHandlers/buyGiftSlackActionHandler"
 import DefaultSlackActionHandler from "../slackActionHandlers/defaultSlackActionHandler"
+import SelectGiftPageSlackActionHandler from "../slackActionHandlers/selectGiftPageSlackActionHandler"
 import { SlackActionsCallbacks } from "./definitions/slackCommandHandlerFactory"
 
 
@@ -29,6 +30,8 @@ export default class SlackActionHandlerFactory {
     switch (this.actionType) {
       case SlackActionsCallbacks.BuyGift:
         return new BuyGiftSlackActionHandler(this.action)
+      case SlackActionsCallbacks.SelectGiftPage:
+        return new SelectGiftPageSlackActionHandler(this.action)
       default:
         return new DefaultSlackActionHandler(this.action)
     }

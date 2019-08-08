@@ -1,3 +1,3 @@
-import { ISlackAction, ISlackEventInfo } from "../../../controllers/definitions/slackController"
+import { ISlackActionBlock, ISlackEventInfo } from "../../../controllers/definitions/slackController"
 
-export type LogMetadata = ISlackEventInfo | ISlackAction | object
+export type LogMetadata = ISlackEventInfo | ISlackActionBlock | object

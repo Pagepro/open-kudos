@@ -81,7 +81,15 @@ export interface ISlackActionBlock {
       },
       value: string,
       type: string,
-      action_ts: string
+      action_ts: string,
+      selected_option?: {
+        text: {
+          type: string,
+          text: string,
+          emoji: boolean
+        },
+        value: string
+      }
     }
   ]
 }

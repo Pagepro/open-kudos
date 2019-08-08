@@ -1,3 +1,4 @@
+import CommonConst from "../consts/common"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import GiftService from "../services/gift"
 import BaseSlackCommandHandler from "./baseSlackCommandHandler"
@@ -22,7 +23,11 @@ export default class GiftsSlackCommandHandler extends
 
   public async getGiftsAsBlocks(teamId: string) {
     const paginatedGiftAsBlocks = await this.giftService
-      .getAllPaginatedGiftBlocks(teamId, 5, 1)
+      .getAllPaginatedGiftBlocks(
+        teamId,
+        CommonConst.giftsCountPerPage,
+        CommonConst.firstPageNumber
+      )
 
     return paginatedGiftAsBlocks
   }
