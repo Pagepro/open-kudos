@@ -3,12 +3,13 @@ import fetch from 'isomorphic-fetch'
 import jimp from 'jimp'
 import uuidv4 from 'uuid/v4'
 import { IFile } from '../../controllers/giftsController/models'
+import Config from '../consts/config'
 import LoggerService from './logger'
 
 export default class ImagesService {
   private logger = new LoggerService()
   private dropbox = new Dropbox({
-    accessToken: process.env.DROPBOX_TOKEN, fetch
+    accessToken: Config.dropboxToken, fetch
   })
 
   public async saveImage(teamId: string, image: IFile): Promise<string> {

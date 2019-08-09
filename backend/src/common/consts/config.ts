@@ -6,6 +6,9 @@ export default class Config {
   private static DB_CONNECTION_STRING = 'DB_CONNECTION_STRING'
   private static SLACK_AUTH_REDIRECT_URI = 'SLACK_AUTH_REDIRECT_URI'
   private static SLACK_INSTALL_REDIRECT_URI = 'SLACK_INSTALL_REDIRECT_URI'
+  private static SIGNING_SECRET = 'SIGNING_SECRET'
+  private static SIGNING_SECRET_VERSION = 'SIGNING_SECRET_VERSION'
+  private static DROPBOX_TOKEN = 'DROPBOX_TOKEN'
 
   private static getEnvVariableByKey(key: string): string {
     const varValue = process.env[key]
@@ -46,5 +49,17 @@ export default class Config {
 
   public static get installRedirectUrl(): string {
     return Config.getEnvVariableByKey(Config.SLACK_INSTALL_REDIRECT_URI)
+  }
+
+  public static get signingSecret(): string {
+    return Config.getEnvVariableByKey(Config.SIGNING_SECRET)
+  }
+
+  public static get signingSecretVersion(): string {
+    return Config.getEnvVariableByKey(Config.SIGNING_SECRET_VERSION)
+  }
+
+  public static get dropboxToken(): string {
+    return Config.getEnvVariableByKey(Config.DROPBOX_TOKEN)
   }
 }

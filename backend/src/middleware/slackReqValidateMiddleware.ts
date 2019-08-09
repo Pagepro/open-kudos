@@ -5,25 +5,23 @@ import {
 } from '@decorators/express'
 import crypto from 'crypto'
 import { NextFunction, Request, Response } from 'express'
+import { stringify } from 'query-string'
+import Config from '../common/consts/config'
 
 export default class SlackReqValidateMiddleware implements Middleware {
-
   public async use(
     @RequestDecorator() req: Request,
     @ResponseDecorator() res: Response,
     next: NextFunction
-  ): Promise<void> {
+  ): Promise<Response> {
     const { body } = req
-    const signingSecretVersion = process.env.SIGNING_SECRET_VERSION
-    const signingSecret = process.env.SIGNING_SECRET
+    const signingSecretVersion = Config.signingSecretVersion
+    const signingSecret = Config.signingSecret
     const slackRequestTimestamp = req.headers['x-slack-request-timestamp']
     const slackSignature = req.headers['x-slack-signature']
-    const bodyString = Object.keys(body)
-      .map((key) => `${key}=${encodeURIComponent(body[key])}`)
-      .join('&')
-
-    // tslint:disable-next-line: max-line-length
-    const dataToHash = `${signingSecretVersion}:${slackRequestTimestamp}:${bodyString}`
+    const bodyString = stringify(body, { sort: false })
+    const dataToHash =
+      `${signingSecretVersion}:${slackRequestTimestamp}:${bodyString}`
     const hashedData = crypto
       .createHmac("sha256", signingSecret)
       .update(dataToHash)
@@ -31,8 +29,8 @@ export default class SlackReqValidateMiddleware implements Middleware {
 
     const calculatedSignatureToCompare = `${signingSecretVersion}=${hashedData}`
 
-    if (slackSignature === calculatedSignatureToCompare) {
-      return next()
+    if (calculatedSignatureToCompare !== slackSignature) {
+      return res.status(401).send("unauthorized")
     }
 
     next()
