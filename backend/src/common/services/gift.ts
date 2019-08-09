@@ -1,6 +1,5 @@
 import { KnownBlock } from '@slack/client'
 import _range from 'lodash/range'
-
 import '../../models/gift.model'
 import Gift, { IGiftDocument } from '../../models/gift.model'
 import SlackConsts from '../consts/slack'
