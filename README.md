@@ -60,6 +60,13 @@ And of course, Kudos itself is **open source** with a [public repository][kudos]
 
 In case you need it, follow the [Installation Guide][guid].
 
+![Step001](instruction/001.png?raw=true "Step 1")
+![Step002](instruction/002.png?raw=true "Step 2")
+![Step003](instruction/003.png?raw=true "Step 3")
+![Step004](instruction/004.png?raw=true "Step 4")
+![Step005](instruction/005.png?raw=true "Step 5")
+![Step006](instruction/006.png?raw=true "Step 6")
+
 # Kudos bot commands
 
 Give command:
