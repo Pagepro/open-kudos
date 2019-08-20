@@ -14,20 +14,21 @@ export default class SlackReqValidateMiddleware implements Middleware {
     @ResponseDecorator() res: Response,
     next: NextFunction
   ): Promise<Response> {
-    const { body } = req
-    const signingSecretVersion = Config.signingSecretVersion
-    const signingSecret = Config.signingSecret
-    const slackRequestTimestamp = req.headers['x-slack-request-timestamp']
-    const slackSignature = req.headers['x-slack-signature']
+    const { body, headers } = req
+    const {
+      'x-slack-request-timestamp': slackRequestTimestamp,
+      'x-slack-signature': slackSignature
+    } = headers
     const bodyString = stringify(body, { sort: false })
     const dataToHash =
-      `${signingSecretVersion}:${slackRequestTimestamp}:${bodyString}`
+      `${Config.signingSecretVersion}:${slackRequestTimestamp}:${bodyString}`
     const hashedData = crypto
-      .createHmac("sha256", signingSecret)
+      .createHmac("sha256", Config.signingSecret)
       .update(dataToHash)
       .digest("hex")
 
-    const calculatedSignatureToCompare = `${signingSecretVersion}=${hashedData}`
+    const calculatedSignatureToCompare =
+      `${Config.signingSecretVersion}=${hashedData}`
 
     if (calculatedSignatureToCompare !== slackSignature) {
       return res.status(401).send("unauthorized")
