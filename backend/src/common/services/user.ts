@@ -88,17 +88,20 @@ export default class UserService {
     })
   }
 
-  public async checkIfUserExist(teamId: string, userId: string) {
+  public async checkIfUserExist(
+    teamId: string,
+    userId: string
+  ): Promise<boolean> {
     const user = await this.getUser(teamId, userId)
-    return user ? true : false
+
+    return !!user
   }
 
   public async createUser(user: IUser) {
     return User.create(user)
   }
 
-  public async getLeaderboardBlocks(teamId: string):
-    Promise<KnownBlock[]> {
+  public async getLeaderboardBlocks(teamId: string): Promise<KnownBlock[]> {
     const usersPosition = [':one:', ':two:', ':three:', ':four:', ':five:']
     const top5Users = await User
       .find({ teamId })
@@ -112,11 +115,11 @@ export default class UserService {
 
     return [
       {
-        type: "section",
         text: {
-          type: "mrkdwn",
-          text
-        }
+          text,
+          type: "mrkdwn"
+        },
+        type: "section",
       }
     ]
   }

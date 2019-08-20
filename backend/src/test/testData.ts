@@ -9,38 +9,38 @@ const receiverUserId = 'U072A8BOG'
 const testUserName = 'test.test'
 
 const slackActionBasic: ISlackActionBlock = {
-  type: 'block_actions',
-  team: { id: testTeamId, domain: 'TEAM_NAME' },
-  user: {
-    id: testUserId,
-    username: testUserName,
-    name: testUserName,
-    team_id: testTeamId
-  },
-  api_app_id: 'AGA33M802',
-  token: 'SFsdgsdgdSFewrW32$dgrwefd',
-  container: {
-    type: 'message',
-    message_ts: '1565185093.000300',
-    channel_id: 'CHANNEL_ID',
-    is_ephemeral: true
-  },
-  trigger_id: '719083115637.553423178486.f4b7759bf044435df81c3b4ba57c652e',
-  channel: { id: 'CHANNEL_ID', name: 'CHANNEL_ID' },
-  response_url: 'https://hooks.slack.com/actions/TEAM_ID/1111/fsDSgyTEsd235YH',
   actions: [
     {
       action_id: 'buyGift',
+      action_ts: '1565185476.998286',
       block_id: 'MvE',
       text: {
+        text: 'test',
         type: 'plain_text',
-        text: 'test'
       },
-      value: '5cd95196eaaab85caf12948c',
       type: 'button',
-      action_ts: '1565185476.998286'
+      value: '5cd95196eaaab85caf12948c',
     }
-  ]
+  ],
+  api_app_id: 'AGA33M802',
+  channel: { id: 'CHANNEL_ID', name: 'CHANNEL_ID' },
+  container: {
+    channel_id: 'CHANNEL_ID',
+    is_ephemeral: true,
+    message_ts: '1565185093.000300',
+    type: 'message'
+  },
+  response_url: 'https://hooks.slack.com/actions/TEAM_ID/1111/fsDSgyTEsd235YH',
+  team: { id: testTeamId, domain: 'TEAM_NAME' },
+  token: 'SFsdgsdgdSFewrW32$dgrwefd',
+  trigger_id: '719083115637.553423178486.f4b7759bf044435df81c3b4ba57c652e',
+  type: 'block_actions',
+  user: {
+    id: testUserId,
+    name: testUserName,
+    team_id: testTeamId,
+    username: testUserName
+  },
 }
 
 const slackEventBasicObject: ISlackEventInfo = {

@@ -49,11 +49,11 @@ describe('BuyGiftSlackActionHandler tests', () => {
         {
           actions: [{
             action_id: 'buyGift',
+            action_ts: '1565185476.998286',
             block_id: 'MvE',
             text: {},
-            value: coffee.id,
             type: 'button',
-            action_ts: '1565185476.998286'
+            value: coffee.id
           }],
           user: { id: testBuyerUserData.userId }
         }
@@ -78,11 +78,11 @@ describe('BuyGiftSlackActionHandler tests', () => {
         {
           actions: [{
             action_id: 'buyGift',
+            action_ts: '1565185476.998286',
             block_id: 'MvE',
             text: {},
-            value: game.id,
             type: 'button',
-            action_ts: '1565185476.998286'
+            value: game.id
           }],
           user: { id: testBuyerUserData.userId }
         }
@@ -110,11 +110,11 @@ describe('BuyGiftSlackActionHandler tests', () => {
         {
           actions: [{
             action_id: 'buyGift',
+            action_ts: '1565185476.998286',
             block_id: 'MvE',
             text: {},
-            value: monopoly.id,
             type: 'button',
-            action_ts: '1565185476.998286'
+            value: monopoly.id
           }],
           user: {
             id: testBuyerUserData.userId
@@ -141,11 +141,11 @@ describe('BuyGiftSlackActionHandler tests', () => {
           // actions: [{ name: mug.name, type: "button", value: mug.id }],
           actions: [{
             action_id: 'buyGift',
+            action_ts: '1565185476.998286',
             block_id: 'MvE',
             text: {},
-            value: mug.id,
             type: 'button',
-            action_ts: '1565185476.998286'
+            value: mug.id
           }],
           user: { id: testBuyerUserData.userId }
         }

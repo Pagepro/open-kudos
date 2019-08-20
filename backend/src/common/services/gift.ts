@@ -1,4 +1,6 @@
 import { KnownBlock } from '@slack/client'
+import _range from 'lodash/range'
+
 import '../../models/gift.model'
 import Gift, { IGiftDocument } from '../../models/gift.model'
 import SlackConsts from '../consts/slack'
@@ -15,7 +17,7 @@ export default class GiftService {
     return Gift.findOne({ teamId, _id: giftId })
   }
 
-  public getAllGiftsBlockInOneArray(gifts: IGiftDocument[]) {
+  public getAllGiftsBlockInOneArray(gifts: IGiftDocument[]): KnownBlock[] {
     return gifts.map(({
       name,
       description,
@@ -25,84 +27,78 @@ export default class GiftService {
     }) => {
       return [
         {
-          type: "section",
           text: {
-            type: "mrkdwn",
-            text: `*${name}*`
-          }
+            text: `*${name}*`,
+            type: "mrkdwn"
+          },
+          type: "section"
         },
         {
-          type: "section",
           text: {
-            type: "plain_text",
-            text: description || " "
-          }
+            text: description || " ",
+            type: "plain_text"
+          },
+          type: "section",
         },
         {
-          type: "image",
+          alt_text: name,
           image_url: imgUrl,
-          alt_text: name
+          type: "image"
         },
         {
-          type: "actions",
           elements: [
             {
-              type: "button",
+              action_id: SlackConsts.buyGiftCallback,
               text: {
-                type: "plain_text",
                 text: this.translationsService.getTranslation(
                   'getForKudos',
                   cost
-                )
+                ),
+                type: "plain_text"
               },
-              value: _id,
-              action_id: SlackConsts.buyGiftCallback
+              type: "button",
+              value: _id
             }
-          ]
+          ],
+          type: "actions"
         },
         {
           type: "divider"
         }
       ] as KnownBlock[]
-    }).reduce((acc, value) => {
-      return acc.concat(...value)
-    }, [])
+    }).reduce((acc, value) => ([ ...acc, ...value ]), [])
   }
 
   public getGiftPaginationBlock(page: number, totalPages: number) {
-    const options = []
     const selectedOption = {
       text: {
-        type: "plain_text",
+        emoji: true,
         text: `Page ${page}`,
-        emoji: true
+        type: "plain_text"
       },
-      value: `${page}`
+      value: page.toString()
     }
-
-    for (let i = 1; i <= totalPages; i++) {
-      options.push({
-        text: {
-          type: "plain_text",
-          text: `Page ${i}`,
-          emoji: true
-        },
-        value: `${i}`
-      })
-
-    }
-    return [{
-      type: "section",
+    const options = _range(1, totalPages).map(i => ({
       text: {
-        type: "mrkdwn",
-        text: "Display gifts page:"
+        emoji: true,
+        text: `Page ${i}`,
+        type: "plain_text"
       },
+      value: i.toString()
+    }))
+
+    return [{
       accessory: {
-        type: "static_select",
         action_id: SlackConsts.selectGiftPageCallback,
         initial_option: selectedOption,
-        options
-      }
+        options,
+        type: "static_select"
+      },
+      text: {
+        text: "Display gifts page:",
+        type: "mrkdwn"
+      },
+      type: "section"
     }] as KnownBlock[]
   }
 
@@ -128,7 +124,10 @@ export default class GiftService {
 
     const { page: currentPage, totalPages } = gifts
     const giftBlocks = this.getAllGiftsBlockInOneArray(gifts.docs)
-    const giftPaginationBlock = this.getGiftPaginationBlock(currentPage, totalPages)
+    const giftPaginationBlock = this.getGiftPaginationBlock(
+      currentPage,
+      totalPages
+    )
 
     return [...giftBlocks, ...giftPaginationBlock]
   }
@@ -183,10 +182,10 @@ export default class GiftService {
     return await new Gift({
       cost,
       description: description || null,
+      imgUrl: imgUrl || null,
       isAvailable: true,
       name,
-      teamId,
-      imgUrl: imgUrl || null
+      teamId
     }).save()
   }
 

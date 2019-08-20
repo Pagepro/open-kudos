@@ -12,7 +12,7 @@ export default class SlackActionHandlerFactory {
   private get actionCallbackId() {
     return Object.tryGetProperty(
       this.action,
-      a => a.actions[0].action_id,
+      ({ actions }) => actions[0].action_id,
       String.empty
     )
   }

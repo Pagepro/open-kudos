@@ -1,4 +1,4 @@
-import CommonConst from "../consts/common";
+import CommonConst from "../consts/common"
 import GiftService from "../services/gift"
 import BaseSlackActionHandler from "./baseSlackActionHandler"
 export default class SelectGiftPageSlackActionHandler
@@ -7,12 +7,14 @@ export default class SelectGiftPageSlackActionHandler
 
   get pageAction() {
     const [pageClickAction] = this.action.actions
+
     return pageClickAction
   }
 
   get pageSelectedOption() {
     const { value } = this.pageAction.selected_option
-    return parseInt(value)
+
+    return Number.parseInt(value, 10)
   }
 
   public async onHandleAction(): Promise<void> {
