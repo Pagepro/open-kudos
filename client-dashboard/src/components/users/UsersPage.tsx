@@ -6,7 +6,7 @@ import PaginatedList from '../list/PaginatedList'
 import { IUser } from './models/IUser'
 
 const UsersPage: React.FC = () => {
-  const endpoint = `/api/users/noKudos`
+  const endpoint = `/api/users/no_kudos`
 
   const columns: Array<ColumnProps<IUser>> = [
     {

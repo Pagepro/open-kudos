@@ -25,8 +25,8 @@ export default class UsersController {
     res.json({ user })
   }
 
-  @Get('/noKudos', [schemaValidatorFatory(UsersPaginationSchema)])
-  public async getAllGifts(
+  @Get('/no_kudos', [schemaValidatorFatory(UsersPaginationSchema)])
+  public async getUsersWithoutKudos(
     @RequestDecorator() req: IUserEnhancedRequest,
     @QueryParam('limit') limit: number = 10,
     @QueryParam('page') page: number = 1,
