@@ -1,4 +1,4 @@
-import { ISlackAction, ISlackCommandInfo, ISlackEventInfo } from "../controllers/definitions/slackController"
+import { ISlackActionBlock, ISlackCommandInfo, ISlackEventInfo } from "../controllers/definitions/slackController"
 import { IGift } from "../models/gift.model"
 import { IUser } from "../models/user.model"
 
@@ -8,36 +8,39 @@ const testBuyerUserId = 'U0TESTBUR'
 const receiverUserId = 'U072A8BOG'
 const testUserName = 'test.test'
 
-const slackActionBasic: ISlackAction = {
-  action_ts: "1471473851.000000",
+const slackActionBasic: ISlackActionBlock = {
   actions: [
     {
-      name: "yes",
-      type: "button",
-      value: "yes"
+      action_id: 'buyGift',
+      action_ts: '1565185476.998286',
+      block_id: 'MvE',
+      text: {
+        text: 'test',
+        type: 'plain_text',
+      },
+      type: 'button',
+      value: '5cd95196eaaab85caf12948c',
     }
   ],
-  attachment_id: "1",
-  callback_id: "",
-  channel: {
-    id: "CHANNEL_ID",
-    name: "CHANNEL_NAME"
+  api_app_id: 'AGA33M802',
+  channel: { id: 'CHANNEL_ID', name: 'CHANNEL_ID' },
+  container: {
+    channel_id: 'CHANNEL_ID',
+    is_ephemeral: true,
+    message_ts: '1565185093.000300',
+    type: 'message'
   },
-  is_app_unfurl: false,
-  message_ts: "1471473846.000000",
-  response_url: "UNIQUE_RESPONSE_URL",
-  team: {
-    domain: "TEAM_NAME",
-    id: testTeamId
-  },
-  token: "TOKEN",
-  trigger_id: "test",
-  type: "test",
+  response_url: 'https://hooks.slack.com/actions/TEAM_ID/1111/fsDSgyTEsd235YH',
+  team: { id: testTeamId, domain: 'TEAM_NAME' },
+  token: 'SFsdgsdgdSFewrW32$dgrwefd',
+  trigger_id: '719083115637.553423178486.f4b7759bf044435df81c3b4ba57c652e',
+  type: 'block_actions',
   user: {
     id: testUserId,
-    name:
-      testUserName
-  }
+    name: testUserName,
+    team_id: testTeamId,
+    username: testUserName
+  },
 }
 
 const slackEventBasicObject: ISlackEventInfo = {

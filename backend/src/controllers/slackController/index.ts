@@ -10,7 +10,7 @@ import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandl
 import SlackEventHandlerFactory from '../../common/factories/slackEventHandlerFactory'
 import SubscriptionMiddleware from '../../middleware/subscriptionMiddleware'
 import {
-  ISlackAction,
+  ISlackActionBlock,
   ISlackActionPayload,
   ISlackCommandInfo,
   ISlackEventInfo,
@@ -65,7 +65,7 @@ export default class SlackController {
 
     const { payload } = body as ISlackActionPayload
     if (payload) {
-      const slackAction: ISlackAction = JSON.parse(payload)
+      const slackAction: ISlackActionBlock = JSON.parse(payload)
       const actionHandlerFactory =
         new SlackActionHandlerFactory(slackAction)
 

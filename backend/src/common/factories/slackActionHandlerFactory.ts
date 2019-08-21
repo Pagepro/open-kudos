@@ -1,17 +1,18 @@
-import { ISlackAction } from "../../controllers/definitions/slackController"
+import { ISlackActionBlock } from "../../controllers/definitions/slackController"
 import BaseSlackActionHandler from "../slackActionHandlers/baseSlackActionHandler"
 import BuyGiftSlackActionHandler from "../slackActionHandlers/buyGiftSlackActionHandler"
 import DefaultSlackActionHandler from "../slackActionHandlers/defaultSlackActionHandler"
+import SelectGiftPageSlackActionHandler from "../slackActionHandlers/selectGiftPageSlackActionHandler"
 import { SlackActionsCallbacks } from "./definitions/slackCommandHandlerFactory"
 
 
 export default class SlackActionHandlerFactory {
-  constructor(private action: ISlackAction) { }
+  constructor(private action: ISlackActionBlock) { }
 
   private get actionCallbackId() {
     return Object.tryGetProperty(
       this.action,
-      a => a.callback_id,
+      ({ actions }) => actions[0].action_id,
       String.empty
     )
   }
@@ -29,6 +30,8 @@ export default class SlackActionHandlerFactory {
     switch (this.actionType) {
       case SlackActionsCallbacks.BuyGift:
         return new BuyGiftSlackActionHandler(this.action)
+      case SlackActionsCallbacks.SelectGiftPage:
+        return new SelectGiftPageSlackActionHandler(this.action)
       default:
         return new DefaultSlackActionHandler(this.action)
     }
