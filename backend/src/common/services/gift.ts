@@ -62,7 +62,7 @@ export default class GiftService {
     const selectedOption = {
       text: {
         emoji: true,
-        text: `Page ${page}`,
+        text: `Page\xa0${page}`,
         type: "plain_text"
       },
       value: page.toString()
@@ -70,7 +70,7 @@ export default class GiftService {
     const options = _range(1, totalPages).map(i => ({
       text: {
         emoji: true,
-        text: `Page ${i}`,
+        text: `Page\xa0${i}`,
         type: "plain_text"
       },
       value: i.toString()
