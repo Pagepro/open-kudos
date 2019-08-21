@@ -27,25 +27,19 @@ export default class GiftService {
     }) => {
       return [
         {
-          text: {
-            text: `*${name}*`,
-            type: "mrkdwn"
-          },
-          type: "section"
-        },
-        {
-          text: {
-            text: description || " ",
-            type: "plain_text"
-          },
           type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${name}*\n${cost} kudos\n${description}`
+          },
+          accessory: {
+            type: "image",
+            image_url: imgUrl,
+            alt_text: name
+          }
         },
         {
-          alt_text: name,
-          image_url: imgUrl,
-          type: "image"
-        },
-        {
+          type: "actions",
           elements: [
             {
               action_id: SlackConsts.buyGiftCallback,
@@ -59,14 +53,13 @@ export default class GiftService {
               type: "button",
               value: _id
             }
-          ],
-          type: "actions"
+          ]
         },
         {
           type: "divider"
         }
       ] as KnownBlock[]
-    }).reduce((acc, value) => ([ ...acc, ...value ]), [])
+    }).reduce((acc, value) => ([...acc, ...value]), [])
   }
 
   public getGiftPaginationBlock(page: number, totalPages: number) {
