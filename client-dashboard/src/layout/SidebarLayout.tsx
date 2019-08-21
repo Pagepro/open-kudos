@@ -44,7 +44,7 @@ const menuItems: IMenuItem[] = [
   {
     children: [
       {
-        content: pageTitles.list,
+        content: pageTitles.usersWithoutKudos,
         iconType: 'unordered-list',
         url: dashboardRoutes.usersNoKudos
       }
