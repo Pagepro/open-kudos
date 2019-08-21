@@ -1,4 +1,5 @@
 import { dashboardRoutes } from './config'
+import { IGlobalState } from './reducers';
 
 export const titles = {
   dashboard: 'Dashboard',
@@ -13,14 +14,15 @@ export const titles = {
   transfers: 'Transfers'
 }
 
-export const pageTitles = {
-  [dashboardRoutes.dashboardPage]: titles.dashboard,
-  [dashboardRoutes.editGiftPage]: titles.editGift,
-  [dashboardRoutes.giftRequestsPage]: titles.giftRequests,
-  [dashboardRoutes.giftsManagementPage]: titles.gifts,
-  [dashboardRoutes.newGiftPage]: titles.newGift,
-  [dashboardRoutes.settingPage]: titles.settings,
-  [dashboardRoutes.transfersPage]: titles.transfers,
+export const pageTitleMapping = {
+  [dashboardRoutes.dashboardPage]: (state?: IGlobalState) => titles.dashboard,
+  [dashboardRoutes.editGiftPage]: (state?: IGlobalState) => titles.editGift,
+  [dashboardRoutes.giftRequestsPage]:
+    (state?: IGlobalState) => titles.giftRequests,
+  [dashboardRoutes.giftsManagementPage]: (state?: IGlobalState) => titles.gifts,
+  [dashboardRoutes.newGiftPage]: (state?: IGlobalState) => titles.newGift,
+  [dashboardRoutes.settingPage]: (state?: IGlobalState) => titles.settings,
+  [dashboardRoutes.transfersPage]: (state?: IGlobalState) => titles.transfers,
 }
 
 export const settingsCardsTitles = {
