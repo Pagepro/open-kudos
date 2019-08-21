@@ -1,4 +1,5 @@
-import { Document, model, Schema } from 'mongoose'
+import { Document, model, PaginateModel, Schema } from 'mongoose'
+import mongooseAggregatePaginate from 'mongoose-aggregate-paginate-v2'
 
 export interface IUser {
   userId: string,
@@ -13,6 +14,7 @@ export interface IUser {
 }
 
 type IUserDocument = IUser & Document
+type IUserModel<T extends Document> = PaginateModel<T>
 
 const userSchema = new Schema<IUser>({
   email: {
@@ -51,4 +53,10 @@ const userSchema = new Schema<IUser>({
 })
 
 userSchema.index({ teamId: 1, userId: 1 }, { unique: true })
-export default model<IUserDocument>('User', userSchema)
+
+userSchema.plugin(mongooseAggregatePaginate)
+
+const UserModel: IUserModel<IUserDocument> =
+  model<IUserDocument>('User', userSchema) as IUserModel<IUserDocument>
+
+export default UserModel

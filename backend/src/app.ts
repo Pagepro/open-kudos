@@ -16,7 +16,7 @@ import SettingsController from './controllers/settingsController/settingsControl
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
 import TransfersController from './controllers/transfersController'
-import UserController from './controllers/userController'
+import UsersController from './controllers/usersController'
 
 class App {
   public expressApp: express.Application
@@ -54,7 +54,7 @@ class App {
       SettingsController,
       GiftTransfersController,
       GiftsController,
-      UserController,
+      UsersController,
       ChannelsController,
       TransfersController,
       ...(Config.isProduction ? [] : [TestController])

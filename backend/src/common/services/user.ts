@@ -110,4 +110,36 @@ export default class UserService {
       title: `${index + 1}. <@${user.userId}> - ${user.kudosGranted}`
     }))
   }
+
+  public async getAllPaginatedWithoutKudos(
+    teamId: string,
+    limit?: number,
+    page?: number
+  ) {
+    const aggregate = User.aggregate()
+    aggregate.match({
+      kudosGranted: 0,
+      teamId
+    })
+
+    const members = await this.slackClientService.getWorkspaceMembers(
+      teamId,
+      false
+    )
+
+    const users = await User.aggregatePaginate(aggregate, {
+      limit,
+      page
+    })
+
+    return {
+      ...users,
+      docs: users.docs.map(user => ({
+        ...user,
+        userName: members.find(
+          ({ userId }) => userId === user.userId
+        ).name
+      }))
+    }
+  }
 }
