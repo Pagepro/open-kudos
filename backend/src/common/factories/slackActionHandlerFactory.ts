@@ -5,7 +5,6 @@ import DefaultSlackActionHandler from "../slackActionHandlers/defaultSlackAction
 import SelectGiftPageSlackActionHandler from "../slackActionHandlers/selectGiftPageSlackActionHandler"
 import { SlackActionsCallbacks } from "./definitions/slackCommandHandlerFactory"
 
-
 export default class SlackActionHandlerFactory {
   constructor(private action: ISlackActionBlock) { }
 

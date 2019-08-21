@@ -43,10 +43,7 @@ export default class GiftService {
             {
               action_id: SlackConsts.buyGiftCallback,
               text: {
-                text: this.translationsService.getTranslation(
-                  'getForKudos',
-                  cost
-                ),
+                text: this.translationsService.getTranslation('choose'),
                 type: "plain_text"
               },
               type: "button",
