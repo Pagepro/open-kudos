@@ -28,5 +28,6 @@ export interface ILocaleTranslations {
   notifyAdminNewGiftPurchase: string,
   fileToLarge: string,
   giftNameReq: string,
-  giftMustBePositiveInt: string
+  giftMustBePositiveInt: string,
+  choose: string
 }

@@ -20,5 +20,6 @@ export default {
   "notifyAdminNewGiftPurchase": "<@{0}> just purchased {1} for {2} kudos.",
   "fileToLarge": "File too large.",
   "giftNameReq": "Gift name is required.",
-  "giftMustBePositiveInt": "Gift cost must be a positive integer."
+  "giftMustBePositiveInt": "Gift cost must be a positive integer.",
+  "choose": "Choose"
 } as ILocaleTranslations
