@@ -60,13 +60,6 @@ And of course, Kudos itself is **open source** with a [public repository][kudos]
 
 In case you need it, follow the [Installation Guide][guid].
 
-![Step001](instruction/001.png?raw=true "Step 1")
-![Step002](instruction/002.png?raw=true "Step 2")
-![Step003](instruction/003.png?raw=true "Step 3")
-![Step004](instruction/004.png?raw=true "Step 4")
-![Step005](instruction/005.png?raw=true "Step 5")
-![Step006](instruction/006.png?raw=true "Step 6")
-
 # Kudos bot commands
 
 Give command:
@@ -123,6 +116,6 @@ Read more about [Pagepro]
 [TSLint]: <https://palantir.github.io/tslint/>
 [Jest]: <https://jestjs.io/>
 [Travis]: <https://travis-ci.org/>
-[guid]: <https://docs.google.com/document/d/1O-LsTqhQfWLOXwW8MWjFVgd3imIqG9-IcYjh3FU_wcE/edit?usp=sharing>
+[guid]: <https://github.com/Pagepro/open-kudos/blob/development/INSTALLATION.md>
 [semantic-release]: <https://github.com/semantic-release/semantic-release>
 [commitizen]: <https://github.com/commitizen/cz-cli>
