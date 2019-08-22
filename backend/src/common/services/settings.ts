@@ -19,6 +19,10 @@ export default class SettingsService {
     {
       key: SettingsEnum.MonthlyKudosAmount,
       value: '100'
+    },
+    {
+      key: SettingsEnum.GiftRequestsReceiver,
+      value: String.empty
     }
   ]
 
@@ -86,5 +90,12 @@ export default class SettingsService {
       })
 
     return monthlyKudosAmountForTeam as IKudosAmountForWorkspace[]
+  }
+
+  public async getGiftRequestsReceiver(teamId: string): Promise<string> {
+    const giftRequestsReceiver =
+      await this.getWorkspaceSetting(teamId, SettingsEnum.GiftRequestsReceiver)
+
+    return giftRequestsReceiver || String.empty
   }
 }

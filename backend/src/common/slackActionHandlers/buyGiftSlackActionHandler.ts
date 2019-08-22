@@ -3,10 +3,13 @@ import { IGiftTransfer } from "../../models/giftTransfer.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import GiftTransferService from "../services/giftTransfer"
 import LoggerService from "../services/logger"
+import SettingsService from "../services/settings"
 import BaseSlackActionHandler from "./baseSlackActionHandler"
 
 export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
   private giftTransferService = new GiftTransferService()
+  private settingsService = new SettingsService()
+
   get giftAction() {
     const [giftClickAction] = this.action.actions
     return giftClickAction
@@ -49,18 +52,18 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
         cost
       ))
 
-    const admin = await this.userService.getAdmin(this.teamId)
+    const adminId =
+      await this.settingsService.getGiftRequestsReceiver(this.teamId)
 
-    if (admin) {
-      const { userId } = admin
+    if (adminId) {
       const channelId = await this.slackClientService.getKudosBotChannelId(
         this.teamId,
-        userId
+        adminId
       )
       const messageConsumer: IMessageConsumer = {
         channel: channelId,
         teamId: this.teamId,
-        user: userId,
+        user: adminId,
       }
 
       this.sendMessage(

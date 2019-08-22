@@ -42,4 +42,16 @@ export default class UsersController {
 
     res.json(paginatedUsersWithoutKudosGranted)
   }
+
+  @Get('/admins')
+  public async getAdmins(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @ResponseDecorator() res: Response
+  ) {
+    res.json(
+      await this.userService.getAdmins(
+        req.user.team_id
+      )
+    )
+  }
 }

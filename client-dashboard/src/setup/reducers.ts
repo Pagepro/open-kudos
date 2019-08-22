@@ -1,14 +1,14 @@
 import { combineReducers } from "redux"
 import token from '../components/auth/reducers'
-import { IChannel } from "../components/settings/actions"
-import channels from '../components/settings/reducers'
+import { ISettingsState } from '../components/settings/models/ISettingsState'
+import settings from '../components/settings/reducer'
 
 export interface IGlobalState {
   token: string
-  channels: IChannel[]
+  settings: ISettingsState
 }
 
 export default combineReducers({
-  channels,
+  settings,
   token
 })
