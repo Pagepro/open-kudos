@@ -17,5 +17,9 @@ export default {
   "youTriedToGiveXPointsButThisIsNotValid": "You tried to give {0} but this is not valid amount of points :(",
   "demoExpired": "Demo of the bot expired. Please check the instructions how to install the bot on own server or contact kudos@pagepro.co to extend the demo mode.",
   "leaderboard": "*Leaderboard*",
-  "notifyAdminNewGiftPurchase": "<@{0}> just purchased {1} for {2} kudos."
+  "notifyAdminNewGiftPurchase": "<@{0}> just purchased {1} for {2} kudos.",
+  "fileToLarge": "File too large.",
+  "giftNameReq": "Gift name is required.",
+  "giftMustBePositiveInt": "Gift cost must be a positive integer.",
+  "choose": "Choose"
 } as ILocaleTranslations

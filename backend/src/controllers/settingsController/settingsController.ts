@@ -7,13 +7,16 @@ import {
 } from '@decorators/express'
 import { Request, Response } from 'express'
 import SlackConsts from '../../common/consts/slack'
-import WorkspaceService from '../../common/services/workspace'
+import SettingsService from '../../common/services/settings'
+import SlackClientService from '../../common/services/slackClient'
 import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
+import ISettings from './models/ISettings'
 
 @Controller('/settings')
 export default class SettingsController {
-  private workspaceService = new WorkspaceService()
+  private settingsService = new SettingsService()
+  private slackService = new SlackClientService()
 
   @Get('/bot', [AuthMiddleware])
   public async getBotResponseChannelId(
@@ -23,15 +26,18 @@ export default class SettingsController {
     const { team_id } = req.user
     const [
       botResponseChannelId,
-      monthlyKudosAmount
+      monthlyKudosAmount,
+      giftRequestsReceiver
     ] = await Promise.all([
-      this.workspaceService.getResponseBotChannelId(team_id),
-      this.workspaceService.getKudosMonthlyAmount(team_id)
+      this.slackService.getResponseBotChannelId(team_id),
+      this.settingsService.getKudosMonthlyAmount(team_id),
+      this.settingsService.getGiftRequestsReceiver(team_id)
     ])
 
     res.json({
       botResponseChannelId,
-      monthlyKudosAmount
+      giftRequestsReceiver,
+      monthlyKudosAmount,
     })
   }
 
@@ -55,12 +61,16 @@ export default class SettingsController {
     @ResponseDecorator() res: Response
   ) {
     const { team_id } = req.user
+    const settings: ISettings = req.body
+    const { botResponseChannelId } = settings
+
     try {
-      this.workspaceService.updateSetting(team_id, req.body)
+      this.settingsService.updateWorkspaceSettings(team_id, settings)
+      this.slackService.setBotResponseChannel(team_id, botResponseChannelId)
+
       res.status(200).send()
     } catch (error) {
       res.status(500).send('Something went wrong')
     }
-
   }
 }

@@ -17,5 +17,6 @@ export enum SlackResponseType {
 }
 
 export enum SlackActionsCallbacks {
-  BuyGift = 'buyGift'
+  BuyGift = 'buyGift',
+  SelectGiftPage = 'selectGiftPage'
 }

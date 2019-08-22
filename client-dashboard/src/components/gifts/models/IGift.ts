@@ -6,4 +6,5 @@ export interface IGift {
   teamId: string,
   cost: number,
   isAvailable?: boolean,
+  files?: FileList
 }

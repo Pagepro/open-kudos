@@ -116,6 +116,6 @@ Read more about [Pagepro]
 [TSLint]: <https://palantir.github.io/tslint/>
 [Jest]: <https://jestjs.io/>
 [Travis]: <https://travis-ci.org/>
-[guid]: <https://docs.google.com/document/d/1O-LsTqhQfWLOXwW8MWjFVgd3imIqG9-IcYjh3FU_wcE/edit?usp=sharing>
+[guid]: <https://github.com/Pagepro/open-kudos/blob/development/INSTALLATION.md>
 [semantic-release]: <https://github.com/semantic-release/semantic-release>
 [commitizen]: <https://github.com/commitizen/cz-cli>

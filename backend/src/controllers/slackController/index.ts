@@ -8,16 +8,17 @@ import { Request, Response } from 'express'
 import SlackActionHandlerFactory from '../../common/factories/slackActionHandlerFactory'
 import SlackCommandHandlerFactory from '../../common/factories/slackCommandHandlerFactory'
 import SlackEventHandlerFactory from '../../common/factories/slackEventHandlerFactory'
+import SlackReqValidateMiddleware from '../../middleware/slackReqValidateMiddleware'
 import SubscriptionMiddleware from '../../middleware/subscriptionMiddleware'
 import {
-  ISlackAction,
+  ISlackActionBlock,
   ISlackActionPayload,
   ISlackCommandInfo,
   ISlackEventInfo,
   SlackEventSubtype
 } from '../definitions/slackController'
 
-@Controller('/slack')
+@Controller('/slack', [SlackReqValidateMiddleware])
 export default class SlackController {
   @Post('/command', [SubscriptionMiddleware])
   public command(
@@ -65,7 +66,7 @@ export default class SlackController {
 
     const { payload } = body as ISlackActionPayload
     if (payload) {
-      const slackAction: ISlackAction = JSON.parse(payload)
+      const slackAction: ISlackActionBlock = JSON.parse(payload)
       const actionHandlerFactory =
         new SlackActionHandlerFactory(slackAction)
 

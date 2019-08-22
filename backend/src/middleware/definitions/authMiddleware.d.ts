@@ -1,4 +1,5 @@
 import { Request } from "express"
+import { IFile } from "../../controllers/giftsController/models";
 
 interface IRequestUser {
   user: {
@@ -8,4 +9,8 @@ interface IRequestUser {
   }
 }
 
-export type IUserEnhancedRequest = IRequestUser & Request
+interface IRequestFile {
+  file?: IFile
+}
+
+export type IUserEnhancedRequest = IRequestUser & IRequestFile & Request

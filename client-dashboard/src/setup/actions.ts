@@ -4,5 +4,6 @@ export const tokenActions = {
 }
 
 export const settingsAction = {
+  getAdmins: 'GET_ADMINS',
   getChannels: 'GET_CHANNELS'
 }
