@@ -1,7 +1,7 @@
 import { Divider, PageHeader } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
 import React, { Fragment } from 'react'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import PaginatedList from '../list/PaginatedList'
 import { IUser } from './models/IUser'
 
@@ -34,7 +34,7 @@ const UsersPage: React.FC = () => {
   return (
     <Fragment>
       <PageHeader
-        title={pageTitles.usersWithoutKudos}
+        title={titles.usersWithoutKudos}
       />
       <Divider />
       <PaginatedList<IUser>

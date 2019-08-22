@@ -1,4 +1,7 @@
-export const pageTitles = {
+import { dashboardRoutes } from './config'
+import { IGlobalState } from './reducers'
+
+export const titles = {
   dashboard: 'Dashboard',
   editGift: 'Edit gift',
   giftRequests: 'Gift requests',
@@ -9,8 +12,22 @@ export const pageTitles = {
   settings: 'Settings',
   title1: 'Title1',
   transfers: 'Transfers',
+  users: 'Users',
   usersWithoutKudos: 'Users without kudos',
-  users: 'Users'
+}
+
+export const pageTitleMapping = {
+  [dashboardRoutes.dashboardPage]: (state?: IGlobalState) => titles.dashboard,
+  [dashboardRoutes.newGiftPage]: (state?: IGlobalState) => titles.newGift,
+  [dashboardRoutes.editGiftPage]: (state?: IGlobalState) => titles.editGift,
+  [dashboardRoutes.giftRequestsPage]:
+    (state?: IGlobalState) => titles.giftRequests,
+  [dashboardRoutes.giftsManagementPage]: (state?: IGlobalState) => titles.gifts,
+  [dashboardRoutes.settingPage]: (state?: IGlobalState) => titles.settings,
+  [dashboardRoutes.transfersPage]: (state?: IGlobalState) => titles.transfers,
+  [dashboardRoutes.usersManagementPage]: (state?: IGlobalState) => titles.users,
+  [dashboardRoutes.usersNoKudos]:
+    (state?: IGlobalState) => titles.usersWithoutKudos,
 }
 
 export const settingsCardsTitles = {

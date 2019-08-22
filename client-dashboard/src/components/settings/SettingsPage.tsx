@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { common } from '../../setup/const'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import { IGlobalState } from '../../setup/reducers'
 import { getAdmins, getChannels } from './actions'
 import ISettings from './models/ISettings'
@@ -73,7 +73,7 @@ const SettingsPage: React.FC = () => {
 
   return (
     <Fragment>
-      <PageHeader title={pageTitles.settings} />
+      <PageHeader title={titles.settings} />
       <Divider />
       <Spin spinning={loading}>
         <SettingsForm
