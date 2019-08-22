@@ -8,7 +8,9 @@ export const pageTitles = {
   requests: 'Requests',
   settings: 'Settings',
   title1: 'Title1',
-  transfers: 'Transfers'
+  transfers: 'Transfers',
+  usersWithoutKudos: 'Users without kudos',
+  users: 'Users'
 }
 
 export const settingsCardsTitles = {

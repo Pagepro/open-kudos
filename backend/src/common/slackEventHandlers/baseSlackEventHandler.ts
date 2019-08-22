@@ -1,4 +1,4 @@
-import { MessageAttachment } from "@slack/client"
+import { KnownBlock } from "@slack/client"
 import { IMessageConsumer, ISlackEventInfo } from "../../controllers/definitions/slackController"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
@@ -42,9 +42,9 @@ abstract class BaseSlackCommandHandler {
     text: string,
     consumer: IMessageConsumer,
     type?: SlackResponseType,
-    attachments?: MessageAttachment[]
+    blocks?: KnownBlock[]
   ): void {
-    this.slackClientService.sendMessage(text, consumer, type, attachments)
+    this.slackClientService.sendMessage(text, consumer, type, blocks)
   }
 
   public async handleEvent(): Promise<void> {

@@ -9,6 +9,7 @@ import GiftPage from './components/gifts/GiftPage'
 import NewGiftPage from './components/gifts/NewGiftPage'
 import SettingsPage from './components/settings/SettingsPage'
 import TransfersPage from './components/transfers/TransfersPage'
+import UsersPage from './components/users/UsersPage'
 import FooterLayout from './layout/FooterLayout'
 import HeaderLayout from './layout/HeaderLayout'
 import SidebarLayout from './layout/SidebarLayout'
@@ -63,6 +64,11 @@ const DashboardApp: React.FC = () => {
                 path={dashboardRoutes.transfersPage}
                 exact={true}
                 component={TransfersPage}
+              />
+              <Route
+                path={dashboardRoutes.usersNoKudos}
+                exact={true}
+                component={UsersPage}
               />
             </Switch>
           </Content>

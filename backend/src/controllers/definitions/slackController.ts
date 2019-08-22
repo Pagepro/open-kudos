@@ -51,33 +51,45 @@ export interface ISlackActionPayload {
   payload: string
 }
 
-export interface ISlackAction {
+export interface ISlackActionBlock {
   type: string,
-  actions: [
-    {
-      name: string,
-      type: string,
-      value: string
-    }
-  ],
-  callback_id: string,
-  team: {
-    id: string,
-    domain: string
-  },
-  channel: {
-    id: string,
-    name: string
-  },
+  team: { id: string, domain: string },
   user: {
     id: string,
-    name: string
+    username: string,
+    name: string,
+    team_id: string
   },
-  action_ts: string,
-  message_ts: string,
-  attachment_id: string,
+  api_app_id: string,
   token: string,
-  is_app_unfurl: boolean,
+  container: {
+    type: string,
+    message_ts: string,
+    channel_id: string,
+    is_ephemeral: true
+  },
+  trigger_id: string,
+  channel: { id: string, name: string },
   response_url: string,
-  trigger_id: string
+  actions: [
+    {
+      action_id: string,
+      block_id: string,
+      text: {
+        type: string,
+        text: string
+      },
+      value: string,
+      type: string,
+      action_ts: string,
+      selected_option?: {
+        text: {
+          type: string,
+          text: string,
+          emoji: boolean
+        },
+        value: string
+      }
+    }
+  ]
 }

@@ -42,6 +42,18 @@ const menuItems: IMenuItem[] = [
     url: dashboardRoutes.transfersPage
   },
   {
+    children: [
+      {
+        content: pageTitles.usersWithoutKudos,
+        iconType: 'unordered-list',
+        url: dashboardRoutes.usersNoKudos
+      }
+    ],
+    content: pageTitles.users,
+    iconType: 'user',
+    url: dashboardRoutes.usersManagementPage
+  },
+  {
     content: pageTitles.settings,
     iconType: 'setting',
     url: dashboardRoutes.settingPage

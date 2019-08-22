@@ -1,6 +1,6 @@
 import DbService from '../../common/services/db'
 import BuyGiftSlackActionHandler from '../../common/slackActionHandlers/buyGiftSlackActionHandler'
-import { ISlackAction } from '../../controllers/definitions/slackController'
+import { ISlackActionBlock } from '../../controllers/definitions/slackController'
 import Gift, { IGiftDocument } from '../../models/gift.model'
 import User from '../../models/user.model'
 import TestHelper from '../../utils/testHelper'
@@ -19,11 +19,11 @@ class BuyGiftSlackActionHandlerToTest extends BuyGiftSlackActionHandler {
   }
 }
 
-const testHelper = new TestHelper<ISlackAction>()
+const testHelper = new TestHelper<ISlackActionBlock>()
 
 jest.mock('../../common/services/slackClient', () => {
   return jest.fn().mockImplementation(() => {
-    return {sendMessage: () => Promise.resolve()}
+    return { sendMessage: () => Promise.resolve() }
   })
 })
 
@@ -47,7 +47,14 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const slackActionWithGame = testHelper.createTestObject(
         slackActionBasic,
         {
-          actions: [{ name: coffee.name, type: "button", value: coffee.id }],
+          actions: [{
+            action_id: 'buyGift',
+            action_ts: '1565185476.998286',
+            block_id: 'MvE',
+            text: {},
+            type: 'button',
+            value: coffee.id
+          }],
           user: { id: testBuyerUserData.userId }
         }
       )
@@ -69,7 +76,14 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const slackActionWithGame = testHelper.createTestObject(
         slackActionBasic,
         {
-          actions: [{ name: game.name, type: "button", value: game.id }],
+          actions: [{
+            action_id: 'buyGift',
+            action_ts: '1565185476.998286',
+            block_id: 'MvE',
+            text: {},
+            type: 'button',
+            value: game.id
+          }],
           user: { id: testBuyerUserData.userId }
         }
       )
@@ -94,13 +108,14 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const slackActionWithMonopoly = testHelper.createTestObject(
         slackActionBasic,
         {
-          actions: [
-            {
-              name: monopoly.name,
-              type: "button",
-              value: monopoly.id
-            }
-          ],
+          actions: [{
+            action_id: 'buyGift',
+            action_ts: '1565185476.998286',
+            block_id: 'MvE',
+            text: {},
+            type: 'button',
+            value: monopoly.id
+          }],
           user: {
             id: testBuyerUserData.userId
           }
@@ -123,13 +138,21 @@ describe('BuyGiftSlackActionHandler tests', () => {
       const slackActionWithMug = testHelper.createTestObject(
         slackActionBasic,
         {
-          actions: [{ name: mug.name, type: "button", value: mug.id }],
+          // actions: [{ name: mug.name, type: "button", value: mug.id }],
+          actions: [{
+            action_id: 'buyGift',
+            action_ts: '1565185476.998286',
+            block_id: 'MvE',
+            text: {},
+            type: 'button',
+            value: mug.id
+          }],
           user: { id: testBuyerUserData.userId }
         }
       )
 
       const giveCommandHandler =
-      new BuyGiftSlackActionHandlerToTest(slackActionWithMug)
+        new BuyGiftSlackActionHandlerToTest(slackActionWithMug)
       return await expect(giveCommandHandler.validate()).rejects.toThrowError(
         // tslint:disable-next-line: max-line-length
         `You don't have enough kudos to buy a gift or the gift is out of stock :(`

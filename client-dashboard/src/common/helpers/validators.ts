@@ -21,4 +21,12 @@ const composeValidators = <T>(...validators: Array<FieldValidator<T>>) => (
     ''
   )
 
-export { required, mustBeNumber, minValue, composeValidators }
+const fileKbSizeValid = (kbSize: number) => (value: FileList) => {
+  if (value && value.length) {
+    return value[0].size <= (kbSize * 1000) ?
+      undefined :
+      `File larger than ${kbSize} KB`
+  }
+}
+
+export { required, mustBeNumber, minValue, composeValidators, fileKbSizeValid }
