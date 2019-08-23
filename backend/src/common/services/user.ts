@@ -97,7 +97,7 @@ export default class UserService {
       teamId
     })
 
-    return admins.map(({_id, name, userId}) => ({
+    return admins.map(({ _id, name, userId }) => ({
       _id,
       name: name || users.find(user => user.userId === userId).name,
       userId,
@@ -163,12 +163,13 @@ export default class UserService {
 
     return {
       ...users,
-      docs: users.docs.map(user => ({
-        ...user,
-        userName: members.find(
-          ({ userId }) => userId === user.userId
-        ).name
-      }))
+      docs: users.docs.map(user => {
+        const member = members.find(({ userId }) => userId === user.userId)
+        return {
+          ...user,
+          userName: member ? member.name : String.empty
+        }
+      })
     }
   }
 }
