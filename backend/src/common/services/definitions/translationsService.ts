@@ -25,5 +25,9 @@ export interface ILocaleTranslations {
   youDontHaveEnoughKudosOrGiftOut: string,
   demoExpired: string
   leaderboard: string,
-  notifyAdminNewGiftPurchase: string
+  notifyAdminNewGiftPurchase: string,
+  fileToLarge: string,
+  giftNameReq: string,
+  giftMustBePositiveInt: string,
+  choose: string
 }

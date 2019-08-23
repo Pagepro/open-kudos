@@ -31,7 +31,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
           totalDocs
         }
       } = await axios.get<IPaginatedResponse<T>>(endpoint, {
-          params: { limit, page }
+        params: { limit, page }
       })
 
       dispatch({

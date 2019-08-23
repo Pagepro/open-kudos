@@ -1,8 +1,8 @@
-import { AttachmentAction, MessageAttachment } from '@slack/client'
+import { KnownBlock } from '@slack/client'
+import _range from 'lodash/range'
 import '../../models/gift.model'
-import Gift from '../../models/gift.model'
+import Gift, { IGiftDocument } from '../../models/gift.model'
 import SlackConsts from '../consts/slack'
-import Helpers from './helpers'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
@@ -16,34 +16,109 @@ export default class GiftService {
     return Gift.findOne({ teamId, _id: giftId })
   }
 
-  public async getAllGiftsAsAttachment(teamId: string) {
-    const allGifts = await Gift.find({ teamId })
-    const giftAsAttachment = allGifts.map(({
+  public getAllGiftsBlockInOneArray(gifts: IGiftDocument[]): KnownBlock[] {
+    return gifts.map(({
       name,
       description,
-      id,
-      cost
+      _id,
+      cost,
+      imgUrl
     }) => {
-      return {
-        actions: [
-          {
-            name,
-            text: this.translationsService.getTranslation(
-              'getForKudos',
-              cost
-            ),
-            type: 'button',
-            value: id
+      return [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${name}*\n${cost} kudos\n${description}`
+          },
+          accessory: {
+            type: "image",
+            image_url: imgUrl,
+            alt_text: name
           }
-        ] as AttachmentAction[],
-        callback_id: SlackConsts.buyGiftCallback,
-        color: Helpers.getRandomHexColor(),
-        text: description,
-        title: name
+        },
+        {
+          type: "actions",
+          elements: [
+            {
+              action_id: SlackConsts.buyGiftCallback,
+              text: {
+                text: this.translationsService.getTranslation('choose'),
+                type: "plain_text"
+              },
+              type: "button",
+              value: _id
+            }
+          ]
+        },
+        {
+          type: "divider"
+        }
+      ] as KnownBlock[]
+    }).reduce((acc, value) => ([...acc, ...value]), [])
+  }
+
+  public getGiftPaginationBlock(page: number, totalPages: number) {
+    const selectedOption = {
+      text: {
+        emoji: true,
+        text: `Page\xa0${page}`,
+        type: "plain_text"
+      },
+      value: page.toString()
+    }
+    const options = _range(1, totalPages).map(i => ({
+      text: {
+        emoji: true,
+        text: `Page\xa0${i}`,
+        type: "plain_text"
+      },
+      value: i.toString()
+    }))
+
+    return [{
+      accessory: {
+        action_id: SlackConsts.selectGiftPageCallback,
+        initial_option: selectedOption,
+        options,
+        type: "static_select"
+      },
+      text: {
+        text: "Display gifts page:",
+        type: "mrkdwn"
+      },
+      type: "section"
+    }] as KnownBlock[]
+  }
+
+  public async getAllPaginatedGiftBlocks(
+    teamId: string,
+    limit?: number,
+    page?: number
+  ) {
+    const aggregate = Gift.aggregate()
+
+    aggregate.match({
+      isAvailable: true,
+      teamId
+    })
+
+    const gifts = await Gift.aggregatePaginate(aggregate, {
+      limit,
+      page,
+      sort: {
+        cost: 1
       }
     })
 
-    return giftAsAttachment as MessageAttachment[]
+    const { page: currentPage, totalPages } = gifts
+    const giftBlocks = this.getAllGiftsBlockInOneArray(gifts.docs)
+    const giftPaginationBlock = this.getGiftPaginationBlock(
+      currentPage,
+      totalPages
+    )
+
+    return [...giftBlocks, ...giftPaginationBlock]
   }
 
   public async getAllPaginated(
@@ -67,34 +142,36 @@ export default class GiftService {
     })
   }
 
-  public async patchGift (
+  public async patchGift(
     id: string,
     teamId: string,
     name: string,
     cost: number,
-    description? : string
+    description?: string
   ) {
     return await Gift.findOneAndUpdate({
       _id: id,
       teamId
     }, {
-      cost,
-      description: description || null,
-      name,
-    }, {
-      new: true
-    })
+        cost,
+        description: description || null,
+        name,
+      }, {
+        new: true
+      })
   }
 
-  public async addGift (
+  public async addGift(
     teamId: string,
     name: string,
     cost: number,
-    description? : string
+    description?: string,
+    imgUrl?: string
   ) {
     return await new Gift({
       cost,
       description: description || null,
+      imgUrl: imgUrl || null,
       isAvailable: true,
       name,
       teamId

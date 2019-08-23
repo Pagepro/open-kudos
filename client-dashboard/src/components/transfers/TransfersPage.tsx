@@ -2,7 +2,7 @@ import { Divider, PageHeader } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
 import moment from 'moment'
 import React, { Fragment } from 'react'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import PaginatedList from '../list/PaginatedList'
 import { ITransfer } from './models/ITransfer'
 
@@ -41,7 +41,7 @@ const TransfersPage: React.FC = () => {
   return (
     <Fragment>
       <PageHeader
-        title={pageTitles.transfers}
+        title={titles.transfers}
       />
       <Divider />
       <PaginatedList<ITransfer>

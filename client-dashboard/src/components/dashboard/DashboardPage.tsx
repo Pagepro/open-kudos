@@ -1,11 +1,11 @@
 import { Divider, PageHeader } from 'antd'
 import React, { Fragment } from 'react'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 
 const DashboardPage: React.FC = () => {
   return (
     <Fragment>
-      <PageHeader title={pageTitles.dashboard} />
+      <PageHeader title={titles.dashboard} />
       <Divider />
       <p>Dashboard content</p>
     </Fragment>

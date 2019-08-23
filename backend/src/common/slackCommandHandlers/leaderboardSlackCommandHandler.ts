@@ -9,13 +9,13 @@ export default class LeaderboardSlackCommandHandler extends
       this.translationsService.getTranslation("leaderboard"),
       await this.getMessageConsumer(),
       SlackResponseType.Hidden,
-      await this.getLeaderboardAttachments(),
+      await this.getLeaderboardBlocks()
     )
   }
 
-  public getLeaderboardAttachments() {
+  public getLeaderboardBlocks() {
     const userService = new UserService()
 
-    return userService.getLeaderboardAttachments(this.teamId)
+    return userService.getLeaderboardBlocks(this.teamId)
   }
 }

@@ -12,13 +12,14 @@ const infoRoutes = {
 
 const dashboardRoutes = {
   dashboardPage: `${routes.dashboardPage}/dashboard`,
+  newGiftPage: `${routes.dashboardPage}/gifts/new`,
   editGiftPage: `${routes.dashboardPage}/gifts/:id`,
   giftRequestsPage: `${routes.dashboardPage}/gifts/requests`,
   giftsManagementPage: `${routes.dashboardPage}/gifts`,
-  newGiftPage: `${routes.dashboardPage}/gifts/new`,
   settingPage: `${routes.dashboardPage}/settings`,
   transfersPage: `${routes.dashboardPage}/transfers`,
-  usersManagementPage: `${routes.dashboardPage}/users`
+  usersManagementPage: `${routes.dashboardPage}/users`,
+  usersNoKudos: `${routes.dashboardPage}/users/noKudos`
 }
 
 const authRoutes = {

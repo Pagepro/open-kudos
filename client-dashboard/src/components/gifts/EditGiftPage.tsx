@@ -5,7 +5,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { IPostRequestError } from '../../common/models'
 import { dashboardRoutes } from '../../setup/config'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import GiftForm from './GiftForm'
 import { IGift } from './models'
 
@@ -75,7 +75,7 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
 
   return (
     <Fragment>
-      <PageHeader title={`${pageTitles.editGift} ${gift ? gift.name : ''}`} />
+      <PageHeader title={`${titles.editGift} ${gift ? gift.name : ''}`} />
       <Divider />
       <Spin spinning={loading && !gift}>
         <GiftForm

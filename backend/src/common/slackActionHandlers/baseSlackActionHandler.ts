@@ -1,6 +1,7 @@
-import { MessageAttachment } from "@slack/client"
-import { IMessageConsumer, ISlackAction } from "../../controllers/definitions/slackController"
-import { IUser } from "../../models/user.model"
+import { KnownBlock } from "@slack/client"
+import axios from 'axios'
+import { IMessageConsumer, ISlackActionBlock } from "../../controllers/definitions/slackController"
+import { } from "../../models/user.model"
 import { SlackResponseType } from "../factories/definitions/slackCommandHandlerFactory"
 import LoggerService from "../services/logger"
 import SlackClientService from "../services/slackClient"
@@ -13,7 +14,7 @@ abstract class BaseSlackActionHandler {
   protected logger = new LoggerService()
   protected userService = new UserService()
 
-  constructor(protected action: ISlackAction) { }
+  constructor(protected action: ISlackActionBlock) { }
 
 
   get userId() {
@@ -26,6 +27,10 @@ abstract class BaseSlackActionHandler {
 
   get teamId() {
     return this.action.team.id
+  }
+
+  get responseUrl() {
+    return this.action.response_url
   }
 
   get messageConsumer() {
@@ -42,9 +47,26 @@ abstract class BaseSlackActionHandler {
     text: string,
     consumer: IMessageConsumer,
     type?: SlackResponseType,
-    attachments?: MessageAttachment[]
+    blocks?: KnownBlock[]
   ): void {
-    this.slackClientService.sendMessage(text, consumer, type, attachments)
+    this.slackClientService.sendMessage(text, consumer, type, blocks)
+  }
+
+  public sendResponse(text: string, blocks?: KnownBlock[]) {
+    const data = {
+      text,
+      response_type: "ephemeral",
+      replace_original: "true",
+      blocks
+    }
+
+    axios.post(this.responseUrl,
+      data,
+      {
+        headers:
+          { 'Content-Type': 'application/json' }
+      }
+    )
   }
 
   public async handleAction(): Promise<void> {
@@ -52,11 +74,7 @@ abstract class BaseSlackActionHandler {
       await this.validate()
       await this.onHandleAction()
     } catch ({ message }) {
-      this.sendMessage(
-        message,
-        this.messageConsumer,
-        SlackResponseType.Hidden
-      )
+      this.sendResponse(message)
     }
   }
 

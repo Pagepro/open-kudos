@@ -5,7 +5,7 @@ import React, { Fragment, useCallback, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 import { IPostRequestError } from '../../common/models'
 import { dashboardRoutes } from '../../setup/config'
-import { pageTitles } from '../../setup/messages'
+import { titles } from '../../setup/messages'
 import GiftForm from './GiftForm'
 import { IGift } from './models'
 
@@ -13,19 +13,27 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
   const [loading, setLoading] = useState(false)
 
   const onFormSubmit = useCallback(async (gift: IGift) => {
-    const { name, cost, description } = gift
+    const { name, cost, description, files } = gift
+    const data = new FormData()
+    const file = files ? files[0] : null
+
+    data.set('cost', cost.toString())
+    data.set('description', description)
+    data.set('name', name)
+
+    if (file) {
+      data.append('file', file)
+    }
+
     const endpoint = '/api/gifts'
 
     setLoading(true)
 
     try {
-      await Axios.post<IGift>(
-        endpoint, {
-          cost,
-          description,
-          name
-        }
-      )
+      await Axios.post(endpoint, data, {
+        headers:
+          { 'Content-Type': `multipart/form-data` }
+      })
 
       setLoading(false)
       history.push(dashboardRoutes.giftsManagementPage)
@@ -51,7 +59,7 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <Fragment>
-      <PageHeader title={pageTitles.newGift} />
+      <PageHeader title={titles.newGift} />
       <Divider />
       <GiftForm
         loading={loading}

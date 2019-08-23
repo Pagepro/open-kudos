@@ -1,9 +1,8 @@
-import { MessageAttachment } from '@slack/client'
+import { KnownBlock } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
 import { IKudosAmountForWorkspace } from './definitions/settingsService'
-import Helpers from './helpers'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
 
@@ -89,25 +88,87 @@ export default class UserService {
     })
   }
 
-  public async checkIfUserExist(teamId: string, userId: string) {
+  public async getAdmins(teamId: string) {
+    const users =
+      await this.slackClientService.getWorkspaceMembers(teamId, false)
+
+    const admins = await User.find({
+      isAdmin: true,
+      teamId
+    })
+
+    return admins.map(({_id, name, userId}) => ({
+      _id,
+      name: name || users.find(user => user.userId === userId).name,
+      userId,
+    }))
+  }
+
+  public async checkIfUserExist(
+    teamId: string,
+    userId: string
+  ): Promise<boolean> {
     const user = await this.getUser(teamId, userId)
-    return user ? true : false
+
+    return !!user
   }
 
   public async createUser(user: IUser) {
     return User.create(user)
   }
 
-  public async getLeaderboardAttachments(teamId: string):
-    Promise<MessageAttachment[]> {
+  public async getLeaderboardBlocks(teamId: string): Promise<KnownBlock[]> {
+    const usersPosition = [':one:', ':two:', ':three:', ':four:', ':five:']
     const top5Users = await User
       .find({ teamId })
       .sort({ kudosGranted: 'desc' })
       .limit(5)
 
-    return top5Users.map((user, index) => ({
-      color: Helpers.getRandomHexColor(),
-      title: `${index + 1}. <@${user.userId}> - ${user.kudosGranted}`
-    }))
+    const text = top5Users
+      .map((user, index) =>
+        `${usersPosition[index]} <@${user.userId}> - ${user.kudosGranted}\n`)
+      .join('\n')
+
+    return [
+      {
+        text: {
+          text,
+          type: "mrkdwn"
+        },
+        type: "section",
+      }
+    ]
+  }
+
+  public async getAllPaginatedWithoutKudos(
+    teamId: string,
+    limit?: number,
+    page?: number
+  ) {
+    const aggregate = User.aggregate()
+    aggregate.match({
+      kudosGranted: 0,
+      teamId
+    })
+
+    const members = await this.slackClientService.getWorkspaceMembers(
+      teamId,
+      false
+    )
+
+    const users = await User.aggregatePaginate(aggregate, {
+      limit,
+      page
+    })
+
+    return {
+      ...users,
+      docs: users.docs.map(user => ({
+        ...user,
+        userName: members.find(
+          ({ userId }) => userId === user.userId
+        ).name
+      }))
+    }
   }
 }
