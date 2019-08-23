@@ -5,7 +5,7 @@ import {
 } from '@decorators/express'
 import crypto from 'crypto'
 import { NextFunction, Request, Response } from 'express'
-import { stringify } from 'query-string'
+import qs from 'qs'
 import Config from '../common/consts/config'
 
 export default class SlackReqValidateMiddleware implements Middleware {
@@ -19,7 +19,7 @@ export default class SlackReqValidateMiddleware implements Middleware {
       'x-slack-request-timestamp': slackRequestTimestamp,
       'x-slack-signature': slackSignature
     } = headers
-    const bodyString = stringify(body, { sort: false })
+    const bodyString = qs.stringify(body, { format: 'RFC1738' })
     const dataToHash =
       `${Config.signingSecretVersion}:${slackRequestTimestamp}:${bodyString}`
     const hashedData = crypto
