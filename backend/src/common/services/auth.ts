@@ -27,6 +27,15 @@ interface IRevokeResponse {
   error?: string
 }
 
+interface IWorkspaceRole {
+  ok: boolean
+  user: {
+    is_admin: boolean,
+    is_owner: boolean,
+    is_primary_owner: boolean
+  }
+}
+
 export default class AuthService {
   private slackClientService: SlackClientService
 
@@ -36,6 +45,11 @@ export default class AuthService {
 
   public async checkAuth(token: string) {
     return await this.slackClientService.checkAuth(token) as IAuthTestResponse
+  }
+
+  public async getWorkspaceRole(teamId: string, userId: string) {
+    return await this.
+      slackClientService.userInfo(teamId, userId) as IWorkspaceRole
   }
 
   public async login(code: string) {
