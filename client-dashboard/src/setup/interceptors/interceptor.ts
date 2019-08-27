@@ -1,4 +1,4 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 type IExtendedInterceptorInstance = BaseInterceptor & {
   constructor: {
@@ -12,11 +12,16 @@ export interface IInterceptorConfig extends AxiosRequestConfig {
   }>
 }
 
-
 abstract class BaseInterceptor {
-  public getInterceptorConfig(interceptorInstance: BaseInterceptor, config: IInterceptorConfig) {
-    const extendedInterceptorInstance = interceptorInstance as IExtendedInterceptorInstance
-    const interceptorKey: String = extendedInterceptorInstance.constructor.INTERCEPTOR_KEY
+  public getInterceptorConfig(
+    interceptorInstance: BaseInterceptor,
+    config: IInterceptorConfig
+  ) {
+    const extendedInterceptorInstance =
+      interceptorInstance as IExtendedInterceptorInstance
+
+    const interceptorKey: String =
+      extendedInterceptorInstance.constructor.INTERCEPTOR_KEY
 
     if (!interceptorKey) {
       console.error(`You have to define 'INTERCEPTOR_KEY' static field in your ${interceptorInstance.constructor.name} interceptor class to use it's config.`)

@@ -11,14 +11,16 @@ const responseInterceptors = [
 ]
 
 type ResolveCallbackType = (config: AxiosRequestConfig) => AxiosRequestConfig
-type ResponseCallbackType = (response: AxiosResponse<any>) => AxiosResponse<any> | Promise<AxiosResponse<any>>
+type ResponseCallbackType = (response: AxiosResponse<any>) =>
+  AxiosResponse<any> | Promise<AxiosResponse<any>>
 
 const registerInterceptors = (axiosInstance: AxiosInstance = axios) => {
   requestInterceptors.forEach(instance => {
     const {
       resolve
     } = instance
-    const boundResolve = resolve.bind(instance) as unknown as ResolveCallbackType
+    const boundResolve =
+      resolve.bind(instance) as unknown as ResolveCallbackType
 
     axiosInstance.interceptors.request.use(boundResolve)
   })
