@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 type IExtendedInterceptorInstance = BaseInterceptor & {
   constructor: {
@@ -12,11 +12,16 @@ export interface IInterceptorConfig extends AxiosRequestConfig {
   }>
 }
 
-
 abstract class BaseInterceptor {
-  getInterceptorConfig(interceptorInstance: BaseInterceptor, config: IInterceptorConfig) {
-    const extendedInterceptorInstance = interceptorInstance as IExtendedInterceptorInstance
-    const interceptorKey: String = extendedInterceptorInstance.constructor.INTERCEPTOR_KEY
+  public getInterceptorConfig(
+    interceptorInstance: BaseInterceptor,
+    config: IInterceptorConfig
+  ) {
+    const extendedInterceptorInstance =
+      interceptorInstance as IExtendedInterceptorInstance
+
+    const interceptorKey: String =
+      extendedInterceptorInstance.constructor.INTERCEPTOR_KEY
 
     if (!interceptorKey) {
       console.error(`You have to define 'INTERCEPTOR_KEY' static field in your ${interceptorInstance.constructor.name} interceptor class to use it's config.`)
@@ -33,7 +38,7 @@ abstract class BaseInterceptor {
     return interceptorConfig
   }
 
-  shouldSkipInterceptor(interceptorInstance: BaseInterceptor, config: IInterceptorConfig) {
+  public shouldSkipInterceptor(interceptorInstance: BaseInterceptor, config: IInterceptorConfig) {
     const {
       skip = false
     } = this.getInterceptorConfig(interceptorInstance, config)
@@ -43,7 +48,17 @@ abstract class BaseInterceptor {
 }
 
 export class RequestInterceptor extends BaseInterceptor {
-  resolve(config: IInterceptorConfig) {
+  public resolve(config: IInterceptorConfig) {
     return Promise.resolve(config)
+  }
+}
+
+export class ResponseInterceptor {
+  public resolve(response: AxiosResponse<any>) {
+    return Promise.resolve(response)
+  }
+
+  public reject(error: AxiosError<any>) {
+    return Promise.reject(error)
   }
 }
