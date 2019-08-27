@@ -28,6 +28,15 @@ export default class SlackClientService {
     return await SlackClientService.authClient.auth.test({ token })
   }
 
+  public async userInfo(teamId: string, userId: string) {
+    const client = await this.getWebClient(teamId)
+    const workspace = await Workspace.findOne({ teamId })
+
+    return await client
+      .users
+      .info({ token: workspace.botAccessToken, user: userId })
+  }
+
   public async revoke(token: string) {
     return await SlackClientService.authClient.auth
       .revoke({ token, test: false })
@@ -113,13 +122,13 @@ export default class SlackClientService {
           team_id,
           id
         }) => ({
-            email: is_admin ? profile.email : '',
-            isAdmin: is_admin ? is_admin : false,
-            name,
-            realName: profile.real_name,
-            teamId: team_id,
-            userId: id
-          })
+          email: is_admin ? profile.email : '',
+          isAdmin: is_admin ? is_admin : false,
+          name,
+          realName: profile.real_name,
+          teamId: team_id,
+          userId: id
+        })
         )
     }
 
