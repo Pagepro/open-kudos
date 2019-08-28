@@ -61,7 +61,10 @@ const SettingsForm = ({
             />
           </SettingsCard>
           <Divider />
-          <Button htmlType='submit'>
+          <Button
+            type="primary"
+            htmlType='submit'
+          >
             Save settings
           </Button>
         </form>
