@@ -21,7 +21,7 @@ export const GiftList: React.FC<TableProps<IGift>> = () => {
       if (current) {
         current.refetchData()
       }
-    } catch(error) {
+    } catch (error) {
       notification.error({
         message: 'Something went wrong',
       })
@@ -53,7 +53,7 @@ export const GiftList: React.FC<TableProps<IGift>> = () => {
         <Button
           type='link'
           className="text-danger px-0"
-          onClick={() => {showRemoveGiftModal(record)}}
+          onClick={() => { showRemoveGiftModal(record) }}
         >
           Delete
         </Button>
@@ -71,6 +71,11 @@ export const GiftList: React.FC<TableProps<IGift>> = () => {
       dataIndex: 'description',
       key: 'description',
       title: 'Description'
+    },
+    {
+      dataIndex: 'amount',
+      key: 'amount',
+      title: 'Stock'
     },
     {
       dataIndex: 'cost',
