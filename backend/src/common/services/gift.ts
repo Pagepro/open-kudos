@@ -1,13 +1,49 @@
 import { KnownBlock } from '@slack/client'
 import _range from 'lodash/range'
 import '../../models/gift.model'
-import Gift, { IGiftDocument } from '../../models/gift.model'
+import Gift, { IGift, IGiftDocument } from '../../models/gift.model'
 import SlackConsts from '../consts/slack'
 import TranslationsService from './translationsService'
 
 export default class GiftService {
   private translationsService: TranslationsService
-
+  private initGifts: IGift[] = [
+    {
+      amount: 10,
+      cost: 50,
+      description: "",
+      name: "iTunes Gift Card $5",
+      teamId: ""
+    },
+    {
+      amount: 10,
+      cost: 50,
+      description: "",
+      name: "Google Play Gift Card $5",
+      teamId: ""
+    },
+    {
+      amount: 10,
+      cost: 250,
+      description: "",
+      name: "XBox Life Gift Card $25",
+      teamId: ""
+    },
+    {
+      amount: 10,
+      cost: 500,
+      description: "",
+      name: "Amazon Gift Card $50",
+      teamId: ""
+    },
+    {
+      amount: 10,
+      cost: 1000,
+      description: "",
+      name: "Lunch with CEO",
+      teamId: ""
+    }
+  ]
   constructor() {
     this.translationsService = new TranslationsService()
   }
@@ -185,5 +221,27 @@ export default class GiftService {
       _id: id,
       teamId
     })
+  }
+
+  public initDefaultGifts(teamId: string) {
+    const updateOrInitDefaultGiftsOperations = this.initGifts
+      .map(gift => {
+        return Gift.findOneAndUpdate(
+          {
+            $and:
+              [
+                { name: gift.name },
+                { teamId }
+              ]
+          },
+          { ...gift, teamId },
+          {
+            setDefaultsOnInsert: true,
+            upsert: true
+          }
+        )
+      })
+
+    return updateOrInitDefaultGiftsOperations
   }
 }
