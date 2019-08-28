@@ -79,13 +79,14 @@ export default class GiftsController {
     @Body() body: INewGift,
     @ResponseDecorator() res: Response
   ) {
-    const { name, cost, description } = body
+    const { name, cost, description, amount } = body
     const teamId = req.user.team_id
     const editedGift = await this.giftService.patchGift(
       id,
       teamId,
       name,
       cost,
+      amount,
       description
     )
 
