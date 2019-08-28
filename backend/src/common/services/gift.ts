@@ -147,15 +147,17 @@ export default class GiftService {
     teamId: string,
     name: string,
     cost: number,
+    amount: number,
     description?: string
   ) {
     return await Gift.findOneAndUpdate({
       _id: id,
       teamId
     }, {
+        amount,
         cost,
         description: description || null,
-        name,
+        name
       }, {
         new: true
       })

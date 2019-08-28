@@ -9,7 +9,7 @@ import { titles } from '../../setup/messages'
 import GiftForm from './GiftForm'
 import { IGift } from './models'
 
-const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
+const EditGiftPage: React.FC<RouteComponentProps<{ id: string }>> = (
   { history, match }
 ) => {
   const { params: { id } } = match
@@ -18,13 +18,13 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
   const endpoint = `/api/gifts/${id}`
 
   const onFormSubmit = useCallback(async (newGift: IGift) => {
-    const { name, cost, description } = newGift
-
+    const { name, cost, description, amount } = newGift
     setLoading(true)
 
     try {
       await Axios.patch<IGift>(
         endpoint, {
+          amount,
           cost,
           description: description || undefined,
           name
@@ -60,7 +60,7 @@ const EditGiftPage: React.FC<RouteComponentProps<{id: string}>> = (
       const fetchedGift = await Axios.get<IGift>(endpoint)
       setGift(fetchedGift.data)
       setLoading(false)
-    } catch(error) {
+    } catch (error) {
       setLoading(false)
       history.push(dashboardRoutes.giftsManagementPage)
       notification.error({
