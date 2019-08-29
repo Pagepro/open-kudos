@@ -63,15 +63,15 @@ export default class TransferService {
     limit?: number,
     page?: number
   ) {
+    const members = await this.slackClientService.getWorkspaceMembers(teamId)
+    const membersIds = members.map(({ userId }) => userId)
     const aggregate = Transfer.aggregate()
+
     aggregate.match({
+      receiverId: { $in: membersIds },
+      senderId: { $in: membersIds },
       teamId
     })
-
-    const members = await this.slackClientService.getWorkspaceMembers(
-      teamId,
-      false
-    )
 
     const transfers = await Transfer.aggregatePaginate(aggregate, {
       limit,
