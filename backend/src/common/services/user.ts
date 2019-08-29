@@ -92,10 +92,16 @@ export default class UserService {
     const users =
       await this.slackClientService.getWorkspaceMembers(teamId, false)
 
-    const admins = await User.find({
-      isAdmin: true,
-      teamId
-    })
+    const workspaceAdminsIds = users
+      .filter(({ isAdmin }) => isAdmin)
+      .map(({ userId }) => userId)
+
+    const admins = await User.find(
+      {
+        teamId,
+        userId: { $in: workspaceAdminsIds }
+      }
+    )
 
     return admins.map(({ _id, name, userId }) => ({
       _id,
