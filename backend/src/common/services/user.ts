@@ -96,14 +96,12 @@ export default class UserService {
       .filter(({ isAdmin }) => isAdmin)
       .map(({ userId }) => userId)
 
-    const admins = await User.find({
-      $and: [
-        { userId: { $in: workspaceAdminsIds } },
-        {
-          teamId
-        }
-      ]
-    })
+    const admins = await User.find(
+      {
+        teamId,
+        userId: { $in: workspaceAdminsIds }
+      }
+    )
 
     return admins.map(({ _id, name, userId }) => ({
       _id,
