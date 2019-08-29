@@ -18,9 +18,9 @@ import {
   SlackEventSubtype
 } from '../definitions/slackController'
 
-@Controller('/slack', [SlackReqValidateMiddleware])
+@Controller('/slack')
 export default class SlackController {
-  @Post('/command', [SubscriptionMiddleware])
+  @Post('/command', [SlackReqValidateMiddleware, SubscriptionMiddleware])
   public command(
     @ResponseDecorator() res: Response,
     @RequestDecorator() { body }: Request) {
@@ -58,7 +58,7 @@ export default class SlackController {
     }
   }
 
-  @Post('/actions')
+  @Post('/actions', [SlackReqValidateMiddleware])
   public actions(
     @ResponseDecorator() res: Response,
     @RequestDecorator() { body }: Request) {
