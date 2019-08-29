@@ -64,6 +64,7 @@ export default class GiftTransferService {
     )
     const membersIds = members.map(({ userId }) => userId)
     const aggregate = GiftTransfer.aggregate()
+
     aggregate.match({
       teamId,
       userId: { $in: membersIds }

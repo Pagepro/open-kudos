@@ -154,6 +154,7 @@ export default class UserService {
     const members = await this.slackClientService.getWorkspaceMembers(teamId)
     const membersIds = members.map(({ userId }) => userId)
     const aggregate = User.aggregate()
+
     aggregate.match({
       kudosGranted: 0,
       teamId,

@@ -66,6 +66,7 @@ export default class TransferService {
     const members = await this.slackClientService.getWorkspaceMembers(teamId)
     const membersIds = members.map(({ userId }) => userId)
     const aggregate = Transfer.aggregate()
+
     aggregate.match({
       receiverId: { $in: membersIds },
       senderId: { $in: membersIds },
