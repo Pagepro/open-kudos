@@ -90,7 +90,7 @@ export default class UserService {
 
   public async getAdmins(teamId: string) {
     const users =
-      await this.slackClientService.getWorkspaceMembers(teamId, false)
+      await this.slackClientService.getWorkspaceMembers(teamId)
 
     const workspaceAdminsIds = users
       .filter(({ isAdmin }) => isAdmin)
@@ -151,16 +151,14 @@ export default class UserService {
     limit?: number,
     page?: number
   ) {
+    const members = await this.slackClientService.getWorkspaceMembers(teamId)
+    const membersIds = members.map(({ userId }) => userId)
     const aggregate = User.aggregate()
     aggregate.match({
       kudosGranted: 0,
-      teamId
-    })
-
-    const members = await this.slackClientService.getWorkspaceMembers(
       teamId,
-      false
-    )
+      userId: { $in: membersIds }
+    })
 
     const users = await User.aggregatePaginate(aggregate, {
       limit,

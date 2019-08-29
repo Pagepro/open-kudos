@@ -58,15 +58,16 @@ export default class GiftTransferService {
     limit?: number,
     page?: number
   ) {
-    const aggregate = GiftTransfer.aggregate()
-    aggregate.match({
-      teamId
-    })
-
     const members = await this.slackClientService.getWorkspaceMembers(
       teamId,
       false
     )
+    const membersIds = members.map(({ userId }) => userId)
+    const aggregate = GiftTransfer.aggregate()
+    aggregate.match({
+      teamId,
+      userId: { $in: membersIds }
+    })
 
     const giftTransfers = await GiftTransfer.aggregatePaginate(aggregate, {
       limit,
@@ -87,7 +88,7 @@ export default class GiftTransferService {
     }
   }
 
-  public async patchGiftTransfer (
+  public async patchGiftTransfer(
     id: string,
     teamId: string,
     isNewStatus: boolean
@@ -96,9 +97,9 @@ export default class GiftTransferService {
       _id: id,
       teamId
     }, {
-      isNewStatus
-    }, {
-      new: true
-    })
+        isNewStatus
+      }, {
+        new: true
+      })
   }
 }

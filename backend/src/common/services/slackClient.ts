@@ -107,7 +107,7 @@ export default class SlackClientService {
 
   public async getWorkspaceMembers(
     teamId: string,
-    onlyActive = true
+    archived = false
   ): Promise<IUser[]> {
     const client = await this.getWebClient(teamId)
     const webApiResult = await client.users.list() as IExtendedWebApiCallResult
@@ -115,8 +115,9 @@ export default class SlackClientService {
     if (webApiResult.ok) {
       return webApiResult.members
         .filter(({ is_bot, name, deleted }) =>
-          !is_bot && deleted === onlyActive && name !== 'slackbot'
-        ).map(({ is_admin,
+          !is_bot && deleted === archived && name !== 'slackbot'
+        ).map(({
+          is_admin,
           profile,
           name,
           team_id,
