@@ -25,19 +25,23 @@ export default class UsersController {
     res.json({ user })
   }
 
-  @Get('/no_kudos', [schemaValidatorFatory(UsersPaginationSchema)])
+  @Get('/team', [schemaValidatorFatory(UsersPaginationSchema)])
   public async getUsersWithoutKudos(
     @RequestDecorator() req: IUserEnhancedRequest,
     @QueryParam('limit') limit: number = 10,
     @QueryParam('page') page: number = 1,
+    @QueryParam('sortOrder') sortOrder: string = 'ascend',
+    @QueryParam('sortColumn') sortColumn: string = String.empty,
     @ResponseDecorator() res: Response
   ) {
     const teamId = req.user.team_id
     const paginatedUsersWithoutKudosGranted =
-      await this.userService.getAllPaginatedWithoutKudos(
+      await this.userService.getTeamInfo(
         teamId,
         Number(limit),
-        Number(page)
+        Number(page),
+        sortOrder,
+        sortColumn
       )
 
     res.json(paginatedUsersWithoutKudosGranted)

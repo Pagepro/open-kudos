@@ -18,7 +18,9 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
 
   const fetchData = useCallback(async (
     limit: number = 10,
-    page: number = 1
+    page: number = 1,
+    sortOrder?: string,
+    sortColumn?: string
   ) => {
     dispatch({
       type: ActionTypes.FETCH_DATA_REQUEST
@@ -31,7 +33,7 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
           totalDocs
         }
       } = await axios.get<IPaginatedResponse<T>>(endpoint, {
-        params: { limit, page }
+        params: { limit, page, sortOrder, sortColumn }
       })
 
       dispatch({
@@ -54,11 +56,17 @@ const PaginatedList = <T extends IWithKey>(props: IPaginatedListProps<T>) => {
     }
   }, [endpoint])
 
-  const handleTableChange = useCallback((pagination: PaginationConfig) => {
+  const handleTableChange = useCallback((
+    pagination: PaginationConfig,
+    filters,
+    sorter
+  ) => {
     const limit = pagination.pageSize || 10
     const current = pagination.current || 1
+    const sortOrder = sorter.order ? sorter.order : 'ascend'
+    const sortColumn = sorter.field ? sorter.field : String.empty
 
-    fetchData(limit, current)
+    fetchData(limit, current, sortOrder, sortColumn)
   }, [fetchData])
 
   useEffect(() => {

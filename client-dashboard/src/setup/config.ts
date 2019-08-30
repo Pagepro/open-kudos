@@ -18,7 +18,7 @@ const dashboardRoutes = {
   giftsManagementPage: `${routes.dashboardPage}/gifts`,
   settingPage: `${routes.dashboardPage}/settings`,
   transfersPage: `${routes.dashboardPage}/transfers`,
-  usersManagementPage: `${routes.dashboardPage}/users`,
+  teamManagementPage: `${routes.dashboardPage}/team`,
   usersNoKudos: `${routes.dashboardPage}/users/noKudos`
 }
 

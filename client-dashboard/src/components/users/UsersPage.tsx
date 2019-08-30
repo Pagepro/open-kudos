@@ -6,35 +6,38 @@ import PaginatedList from '../list/PaginatedList'
 import { IUser } from './models/IUser'
 
 const UsersPage: React.FC = () => {
-  const endpoint = `/api/users/no_kudos`
+  const endpoint = `/api/users/team`
 
   const columns: Array<ColumnProps<IUser>> = [
     {
       dataIndex: 'userName',
       key: 'userName',
-      title: 'Name',
+      title: 'Name'
     },
     {
       dataIndex: 'kudosSpendable',
       key: 'kudosSpendable',
-      title: ' Kudos to Spend'
+      title: ' Kudos to Spend',
+      sorter: true,
     },
     {
       dataIndex: 'kudosGiveable',
       key: 'kudosGiveable',
-      title: 'Kudos to Give'
+      title: 'Kudos to Give',
+      sorter: true,
     },
     {
       dataIndex: 'kudosGranted',
       key: 'kudosGranted',
-      title: 'Kudos Granted'
+      title: 'Kudos Granted',
+      sorter: true,
     }
   ]
 
   return (
     <Fragment>
       <PageHeader
-        title={titles.usersWithoutKudos}
+        title={titles.team}
       />
       <Divider />
       <PaginatedList<IUser>

@@ -10,10 +10,10 @@ export const titles = {
   newGift: 'New gift',
   requests: 'Requests',
   settings: 'Settings',
+  team: 'Team',
   title1: 'Title1',
   transfers: 'Transfers',
-  users: 'Users',
-  usersWithoutKudos: 'Users without kudos',
+  users: 'Users'
 }
 
 export const pageTitleMapping = {
@@ -25,9 +25,7 @@ export const pageTitleMapping = {
   [dashboardRoutes.giftsManagementPage]: (state?: IGlobalState) => titles.gifts,
   [dashboardRoutes.settingPage]: (state?: IGlobalState) => titles.settings,
   [dashboardRoutes.transfersPage]: (state?: IGlobalState) => titles.transfers,
-  [dashboardRoutes.usersManagementPage]: (state?: IGlobalState) => titles.users,
-  [dashboardRoutes.usersNoKudos]:
-    (state?: IGlobalState) => titles.usersWithoutKudos,
+  [dashboardRoutes.teamManagementPage]: (state?: IGlobalState) => titles.team
 }
 
 export const settingsCardsTitles = {
