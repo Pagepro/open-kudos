@@ -1,4 +1,5 @@
 export interface INewGift {
+  amount: number,
   cost: number,
   description?: string,
   name: string

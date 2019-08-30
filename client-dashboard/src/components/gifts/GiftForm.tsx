@@ -99,6 +99,17 @@ const GiftForm = ({
             })}
           </Field>
           <Field
+            name='amount'
+            type='number'
+            validate={composeValidators(required(), minValue(0))}
+          >
+            {({ input, meta }) => renderInput({
+              input,
+              label: 'Stock',
+              meta
+            })}
+          </Field>
+          <Field
             name='cost'
             type='number'
             validate={composeValidators(required(), minValue(1))}

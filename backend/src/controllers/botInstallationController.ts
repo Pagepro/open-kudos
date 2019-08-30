@@ -8,6 +8,7 @@ import axios from 'axios'
 import { Request, Response } from 'express'
 import Config from '../common/consts/config'
 import SlackConsts from '../common/consts/slack'
+import GiftService from '../common/services/gift'
 import SubscriptionService from '../common/services/subscription'
 import UserService from '../common/services/user'
 import WorkspaceService from '../common/services/workspace'
@@ -24,6 +25,7 @@ export default class BotInstallationController {
     const workspace = this.getWorkspaceFromResponse(response)
     const workspaceService = new WorkspaceService()
     const userService = new UserService()
+    const giftService = new GiftService()
     const subscriptionService = new SubscriptionService()
 
     try {
@@ -32,6 +34,8 @@ export default class BotInstallationController {
         userService.initUsers(workspace),
         subscriptionService.create(workspace.teamId)
       ])
+
+      await Promise.all(giftService.initDefaultGifts(workspace.teamId))
 
       res.redirect('/installation')
     } catch (error) {

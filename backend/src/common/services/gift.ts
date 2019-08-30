@@ -2,6 +2,7 @@ import { KnownBlock } from '@slack/client'
 import _range from 'lodash/range'
 import '../../models/gift.model'
 import Gift, { IGiftDocument } from '../../models/gift.model'
+import CommonConst from '../consts/common'
 import SlackConsts from '../consts/slack'
 import TranslationsService from './translationsService'
 
@@ -147,15 +148,17 @@ export default class GiftService {
     teamId: string,
     name: string,
     cost: number,
+    amount: number,
     description?: string
   ) {
     return await Gift.findOneAndUpdate({
       _id: id,
       teamId
     }, {
+        amount,
         cost,
         description: description || null,
-        name,
+        name
       }, {
         new: true
       })
@@ -183,5 +186,24 @@ export default class GiftService {
       _id: id,
       teamId
     })
+  }
+
+  public initDefaultGifts(teamId: string) {
+    const updateOrInitDefaultGiftsOperations = CommonConst.initGifts
+      .map(gift => {
+        return Gift.findOneAndUpdate(
+          {
+            name: gift.name,
+            teamId
+          },
+          { ...gift, teamId },
+          {
+            setDefaultsOnInsert: true,
+            upsert: true
+          }
+        )
+      })
+
+    return updateOrInitDefaultGiftsOperations
   }
 }
