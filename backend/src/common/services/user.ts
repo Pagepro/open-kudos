@@ -2,6 +2,7 @@ import { KnownBlock } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
+import { SortOrder } from '../definitions/sortOrder'
 import { IKudosAmountForWorkspace } from './definitions/settingsService'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
@@ -146,24 +147,32 @@ export default class UserService {
     ]
   }
 
-  public async getAllPaginatedWithoutKudos(
+  public async getTeamInfo(
     teamId: string,
     limit?: number,
-    page?: number
+    page?: number,
+    sortOrder?: SortOrder,
+    sortColumn?: string
   ) {
     const members = await this.slackClientService.getWorkspaceMembers(teamId)
     const membersIds = members.map(({ userId }) => userId)
     const aggregate = User.aggregate()
 
     aggregate.match({
-      kudosGranted: 0,
       teamId,
       userId: { $in: membersIds }
     })
 
+    const order = sortOrder === 'ascend' ? 1 : -1
+
+    const sortField = sortColumn
+      ? { [sortColumn]: order }
+      : { kudosSpendable: -1 }
+
     const users = await User.aggregatePaginate(aggregate, {
       limit,
-      page
+      page,
+      sort: sortField
     })
 
     return {

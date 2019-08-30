@@ -66,7 +66,7 @@ const DashboardApp: React.FC = () => {
                 component={TransfersPage}
               />
               <Route
-                path={dashboardRoutes.usersNoKudos}
+                path={dashboardRoutes.teamManagementPage}
                 exact={true}
                 component={UsersPage}
               />
