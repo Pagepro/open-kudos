@@ -2,6 +2,7 @@ import { KnownBlock } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
 import { IWorkspace } from '../../models/workspace.model'
+import { SortOrder } from '../definitions/sortOrder'
 import { IKudosAmountForWorkspace } from './definitions/settingsService'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
@@ -150,7 +151,7 @@ export default class UserService {
     teamId: string,
     limit?: number,
     page?: number,
-    sortOrder?: string,
+    sortOrder?: SortOrder,
     sortColumn?: string
   ) {
     const members = await this.slackClientService.getWorkspaceMembers(teamId)
