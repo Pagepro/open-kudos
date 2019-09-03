@@ -22,4 +22,21 @@ export default class WorkspaceService {
       this.logger.logError(error)
     }
   }
+
+  public async update(workspace: IWorkspace) {
+    try {
+      await Workspace.updateOne(
+        { teamId: workspace.teamId },
+        { ...workspace },
+        { upsert: true }
+      )
+    } catch (error) {
+      this.logger.logError(error)
+    }
+  }
+
+  public async isTeamExists(teamId: string) {
+    const workspace = await Workspace.findOne({ teamId })
+    return !!workspace
+  }
 }

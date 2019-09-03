@@ -17,7 +17,7 @@ export default class CommonConst {
     return 1
   }
 
-  public static get initGifts(): IGift[] {
+  public static get initialGifts(): IGift[] {
     return [
       {
         amount: 10,

@@ -27,19 +27,20 @@ export default class GiftService {
     }) => {
       return [
         {
-          type: "section",
           text: {
-            type: "mrkdwn",
-            text: `*${name}*\n${cost} kudos\n${description}`
+            text: `*${name}*\n${cost} kudos\n${description}`,
+            type: "mrkdwn"
           },
-          accessory: {
-            type: "image",
-            image_url: imgUrl,
-            alt_text: name
-          }
+          type: "section",
+          ...(imgUrl && {
+            accessory: {
+              alt_text: name,
+              image_url: imgUrl,
+              type: "image"
+            }
+          })
         },
         {
-          type: "actions",
           elements: [
             {
               action_id: SlackConsts.buyGiftCallback,
@@ -50,7 +51,8 @@ export default class GiftService {
               type: "button",
               value: _id
             }
-          ]
+          ],
+          type: "actions"
         },
         {
           type: "divider"
@@ -188,10 +190,10 @@ export default class GiftService {
     })
   }
 
-  public initDefaultGifts(teamId: string) {
-    const updateOrInitDefaultGiftsOperations = CommonConst.initGifts
-      .map(gift => {
-        return Gift.findOneAndUpdate(
+  public async initDefaultGifts(teamId: string) {
+    await Promise.all(
+      CommonConst.initialGifts
+        .map(gift => Gift.findOneAndUpdate(
           {
             name: gift.name,
             teamId
@@ -201,9 +203,7 @@ export default class GiftService {
             setDefaultsOnInsert: true,
             upsert: true
           }
-        )
-      })
-
-    return updateOrInitDefaultGiftsOperations
+        ))
+    )
   }
 }
