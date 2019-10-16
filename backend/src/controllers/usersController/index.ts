@@ -6,6 +6,7 @@ import {
   Response as ResponseDecorator
 } from '@decorators/express'
 import { Response } from 'express'
+import { SortOrder } from '../../common/definitions/sortOrder'
 import UserService from '../../common/services/user'
 import AuthMiddleware from '../../middleware/authMiddleware'
 import { IUserEnhancedRequest } from '../../middleware/definitions/authMiddleware'
@@ -30,7 +31,7 @@ export default class UsersController {
     @RequestDecorator() req: IUserEnhancedRequest,
     @QueryParam('limit') limit: number = 10,
     @QueryParam('page') page: number = 1,
-    @QueryParam('sortOrder') sortOrder: string = 'ascend',
+    @QueryParam('sortOrder') sortOrder: SortOrder = 'ascend',
     @QueryParam('sortColumn') sortColumn: string = String.empty,
     @ResponseDecorator() res: Response
   ) {

@@ -29,14 +29,16 @@ export default class BotInstallationController {
     const subscriptionService = new SubscriptionService()
 
     try {
-      await Promise.all([
-        workspaceService.create(workspace),
-        userService.initUsers(workspace),
-        subscriptionService.create(workspace.teamId)
-      ])
-
-      await Promise.all(giftService.initDefaultGifts(workspace.teamId))
-
+      if (await workspaceService.isTeamExists(workspace.teamId)) {
+        await workspaceService.update(workspace)
+      } else {
+        await Promise.all([
+          workspaceService.create(workspace),
+          userService.initUsers(workspace),
+          subscriptionService.create(workspace.teamId),
+          giftService.initDefaultGifts(workspace.teamId)
+        ])
+      }
       res.redirect('/installation')
     } catch (error) {
       res.send(error.message)
