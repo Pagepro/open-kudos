@@ -70,7 +70,7 @@ export default class GiftService {
       },
       value: page.toString()
     }
-    const options = _range(1, totalPages).map(i => ({
+    const options = _range(1, totalPages + 1).map(i => ({
       text: {
         emoji: true,
         text: `Page\xa0${i}`,
@@ -159,7 +159,7 @@ export default class GiftService {
     }, {
         amount,
         cost,
-        description: description || null,
+        description: description || String.empty,
         name
       }, {
         new: true
@@ -175,7 +175,7 @@ export default class GiftService {
   ) {
     return await new Gift({
       cost,
-      description: description || null,
+      description: description || String.empty,
       imgUrl: imgUrl || null,
       isAvailable: true,
       name,

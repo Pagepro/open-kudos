@@ -20,7 +20,6 @@ const EditGiftPage: React.FC<RouteComponentProps<{ id: string }>> = (
   const onFormSubmit = useCallback(async (newGift: IGift) => {
     const { name, cost, description, amount } = newGift
     setLoading(true)
-
     try {
       await Axios.patch<IGift>(
         endpoint, {
