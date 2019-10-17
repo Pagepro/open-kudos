@@ -12,6 +12,7 @@ import {
 } from '@decorators/express'
 import { Response } from 'express'
 import multer from 'multer'
+import url from 'url'
 import GiftService from '../../common/services/gift'
 import ImagesService from '../../common/services/images'
 import AuthMiddleware from '../../middleware/authMiddleware'
@@ -106,8 +107,10 @@ export default class GiftsController {
     @Body() body: INewGift,
     @ResponseDecorator() res: Response
   ) {
-    const defaultImgUrl =
-      `${req.protocol}://${req.hostname}:${req.socket.localPort}/default.png`
+    const defaultImgUrl = url.resolve(
+      req.headers.origin.toString(),
+      '/default.png'
+    )
     const { name, cost, description } = body
     const teamId = req.user.team_id
     const imgUrl = await this.imagesService

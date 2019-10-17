@@ -18,7 +18,9 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
     const file = files ? files[0] : null
 
     data.set('cost', cost.toString())
-    data.set('description', description)
+    if (description) {
+      data.set('description', description)
+    }
     data.set('name', name)
 
     if (file) {
@@ -44,12 +46,13 @@ const NewGiftPage: React.FC<RouteComponentProps> = ({ history }) => {
       setLoading(false)
 
       const errors: IPostRequestError[] = err.response.data
-
-      return errors.reduce(
-        (obj: SubmissionErrors, item: IPostRequestError) => {
-          obj[item.param] = item.msg
-          return obj
-        }, {})
+      if (Array.isArray(errors)) {
+        return errors.reduce(
+          (obj: SubmissionErrors, item: IPostRequestError) => {
+            obj[item.param] = item.msg
+            return obj
+          }, {})
+      }
     }
   }, [history])
 
