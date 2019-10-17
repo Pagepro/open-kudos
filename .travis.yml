@@ -20,4 +20,4 @@ jobs:
   - stage: semantic-release
     script: yarn && yarn run semantic-release
 after_success:
-- yarn run codecov:backend
+  - yarn run codecov:backend
