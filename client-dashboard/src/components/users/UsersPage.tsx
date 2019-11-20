@@ -1,12 +1,21 @@
-import { Divider, PageHeader } from 'antd'
+import { Button, Divider, PageHeader } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
 import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { getAuthToken } from '../../setup/interceptors/utils'
 import { titles } from '../../setup/messages'
 import PaginatedList from '../list/PaginatedList'
 import { IUser } from './models/IUser'
 
+const HeaderRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
 const UsersPage: React.FC = () => {
   const endpoint = `/api/users/team`
+  const exportEndpoint = `${endpoint}/export?authorization=${getAuthToken()}`
 
   const columns: Array<ColumnProps<IUser>> = [
     {
@@ -36,9 +45,14 @@ const UsersPage: React.FC = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={titles.team}
-      />
+      <HeaderRow>
+        <PageHeader
+          title={titles.team}
+        />
+        <Button href={exportEndpoint} target="_blank" rel="noopener noreferrer">
+          Export
+        </Button>
+      </HeaderRow>
       <Divider />
       <PaginatedList<IUser>
         columns={columns}

@@ -18,7 +18,8 @@ export default class AuthMiddleware implements Middleware {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { authorization } = req.headers
+      const authorization =
+        req.headers.authorization || req.query.authorization
       const {
         ok: authReqOk,
         team_id,
