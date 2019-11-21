@@ -1,4 +1,6 @@
+import json2csv from "json2csv"
 import { IGift } from "../../models/gift.model"
+import { IUser } from "../../models/user.model"
 
 export default class CommonConst {
   public static get demoDaysPeriod(): number {
@@ -54,6 +56,27 @@ export default class CommonConst {
         name: "Lunch with CEO",
         teamId: ""
       }
+    ]
+  }
+
+  public static get userExportFields() : Array<json2csv.FieldInfo<IUser>> {
+    return [
+      {
+        label: 'Name',
+        value: 'userName'
+      },
+      {
+        label: 'Kudos to spend',
+        value: 'kudosSpendable'
+      },
+      {
+        label: 'Kudos to give',
+        value: 'kudosGiveable'
+      },
+      {
+        label: 'Kudos granted',
+        value: 'kudosGranted'
+      },
     ]
   }
 }

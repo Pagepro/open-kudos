@@ -1,12 +1,26 @@
-import { Divider, PageHeader } from 'antd'
+import { Button, Divider, PageHeader } from 'antd'
 import { ColumnProps } from 'antd/lib/table'
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { titles } from '../../setup/messages'
+import { IGlobalState } from '../../setup/reducers'
 import PaginatedList from '../list/PaginatedList'
 import { IUser } from './models/IUser'
 
-const UsersPage: React.FC = () => {
+const HeaderRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`
+
+interface IProps {
+  token: string
+}
+
+const UsersPage: React.FC<IProps> = ({ token }) => {
   const endpoint = `/api/users/team`
+  const exportEndpoint = `${endpoint}/export?authorization=${token}`
 
   const columns: Array<ColumnProps<IUser>> = [
     {
@@ -36,9 +50,14 @@ const UsersPage: React.FC = () => {
 
   return (
     <Fragment>
-      <PageHeader
-        title={titles.team}
-      />
+      <HeaderRow>
+        <PageHeader
+          title={titles.team}
+        />
+        <Button href={exportEndpoint} target="_blank" rel="noopener noreferrer">
+          Export
+        </Button>
+      </HeaderRow>
       <Divider />
       <PaginatedList<IUser>
         columns={columns}
@@ -49,4 +68,8 @@ const UsersPage: React.FC = () => {
   )
 }
 
-export default UsersPage
+const mapStateToProps = (state: IGlobalState) => ({
+  token: state.token
+})
+
+export default connect(mapStateToProps)(UsersPage)
