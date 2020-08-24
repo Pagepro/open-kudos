@@ -59,7 +59,7 @@ export default class SlackClientService {
     } else {
       try {
         const client = await this.getWebClient(teamId)
-        const response: IChannelsListResponse = await client.channels.list()
+        const response: IChannelsListResponse = await client.conversations.list()
         const { ok, channels, error } = response
 
         if (ok) {
@@ -139,7 +139,7 @@ export default class SlackClientService {
   public async getKudosBotChannelId(teamId: string, userId: string) {
     try {
       const client = await this.getWebClient(teamId)
-      const response: IImOpenResponse = await client.im.open({ user: userId })
+      const response: IImOpenResponse = await client.conversations.open({ users: userId })
       const { ok, channel: { id }, error } = response
 
       if (ok) {
@@ -155,7 +155,7 @@ export default class SlackClientService {
   public async getAllPublicChannelsNames(teamId: string) {
     try {
       const client = await this.getWebClient(teamId)
-      const response: IChannelsListResponse = await client.channels.list(
+      const response: IChannelsListResponse = await client.conversations.list(
         {
           exclude_archived: true,
           exclude_members: true
