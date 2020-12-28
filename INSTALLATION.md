@@ -1,12 +1,6 @@
-1. Setup Node Server
-    1. Fork this [repo](https://github.com/the-vishal-kumar/open-kudos)
-    2. Deploy this to a server. Copy the `server url` as `BaseUrl`. e.g. Suppose BaseUrl is [https://www.funGyaan.com](https://www.funGyaan.com)
-    3. Copy `BaseUrl`+`/auth` as `SLACK_AUTH_REDIRECT_URI`. e.g. https://www.funGyaan.com/auth
-    4. Copy `BaseUrl`+`/api/installation` as `SLACK_INSTALL_REDIRECT_URI`. e.g. https://www.funGyaan.com/api/installation
-    5. We'll add environment variables in `Step 5`
-2. Setup and start MongoDB server
+1. Setup and start MongoDB server
     1. Copy `connection string` as `DB_CONNECTION_STRING`
-3. Go to https://poeditor.com/account/api and signup/singin to your account
+2. Go to https://poeditor.com/account/api and signup/singin to your account
 
     ![PO Editor](installation/poeditor.png "PO Editor")
 
@@ -15,7 +9,7 @@
     2. Go to [`Account Settings`->`API Access`](https://poeditor.com/account/api)
     3. Copy `API Token` as `POE_API_TOKEN`
     4. Copy `KudosVishalPOE` project id as `POE_PROJECT_ID`
-4. Go to https://www.dropbox.com/developers/apps/create and signup/singin to your account
+3. Go to https://www.dropbox.com/developers/apps/create and signup/singin to your account
     1. Choose plan. e.g. `2 GB Dropbox Basic plan`
     2. Exit the webpage and go to https://www.dropbox.com/developers/apps/create
         1. Choose an API = `Scoped Access`
@@ -26,7 +20,7 @@
         6. Click on `Generate` button next to Generated access token
         7. Choose `No Expiration` from the dropdown next to Access token expiration
         8. Copy the token as `DROPBOX_TOKEN`
-5. Create Your Own OpenKudos App in Slack App Directory
+4. Create Your Own OpenKudos App in Slack App Directory
 
     ![Slack API Applications](installation/slackapiapplications.png "Slack API Applications")
 
@@ -51,6 +45,12 @@
         ![App Icon](installation/appicon.png "App Icon")
 
         1. Click on `+Add App Icon` button to add icon of your choice (atleast 512x512)
+5. Setup Node Server
+    1. Fork this [repo](https://github.com/the-vishal-kumar/open-kudos)
+    2. Deploy this to a server. Copy the `server url` as `BaseUrl`. e.g. Suppose BaseUrl is [https://www.funGyaan.com](https://www.funGyaan.com)
+    3. Copy `BaseUrl`+`/auth` as `SLACK_AUTH_REDIRECT_URI`. e.g. https://www.funGyaan.com/auth
+    4. Copy `BaseUrl`+`/api/installation` as `SLACK_INSTALL_REDIRECT_URI`. e.g. https://www.funGyaan.com/api/installation
+    5. We'll add environment variables in `Step 6`
 6. Setup environment variables on Node Server (with values from previous steps). Following values are sample values:
     ```
     SLACK_AUTH_REDIRECT_URI=https://www.funGyaan.com/auth
@@ -82,6 +82,7 @@
             channels:read
             chat:write
             groups:read
+            users:read
             ```
     4. Go to `App Home`->`Your App’s Presence in Slack`
 
@@ -104,15 +105,15 @@
 
             1. Write Command as `/kudos`
             2. Write Request URL as `BaseUrl`+`/api/slack/actions`. e.g. https://www.funGyaan.com/slack/command
-            3. Write Short Description as `Talk with Kudos`
-            4. Write Usage Hint as `[command]`
+            3. Write Short Description as `Talk with Kudos Bot`
+            4. Write Usage Hint as `help`
             5. Enable `Escape channels, users, and links sent to your app`
             6. Save
                 ```
                 Command             /kudos
                 Request URL         https://www.funGyaan.com/slack/command
-                Short Description   Talk with Kudos
-                Usage Hint          [command]
+                Short Description   Talk with Kudos Bot
+                Usage Hint          help
                 ```
     7. Go to `Event Subscriptions`
 
@@ -148,6 +149,6 @@
         You receive these Kudos from your teammates and can spend them to buy gifts. They never expire.
 
         ```
-11. For Dashboard, go to `BaseUrl`+`/dashboard`
+11. For Dashboard, go to `BaseUrl`+`/dashboard`. e.g. https://www.funGyaan.com/dashboard
     1. Signin to your workspace
     2. Re-install App because permissions have changed

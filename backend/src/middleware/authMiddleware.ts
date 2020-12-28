@@ -19,21 +19,33 @@ export default class AuthMiddleware implements Middleware {
   ): Promise<void> {
     try {
       const { authorization } = req.headers
+      console.log(`authorization===>`, authorization, `---authorization`);
+      const x = await this.authService.checkAuth(authorization)
       const {
         ok: authReqOk,
         team_id,
         user_id,
         user
-      } = await this.authService.checkAuth(authorization)
+      } = x;
+      console.log(`authReqOk===>`, authReqOk, `---authReqOk`);
+      console.log(`team_id===>`, team_id, `---team_id`);
+      console.log(`user_id===>`, user_id, `---user_id`);
+      console.log(`user===>`, user, `---user`);
+
+      const y = await this
+        .authService
+        .getWorkspaceRole(team_id, user_id)
 
       const {
         ok: workspaceRoleReqOk,
         user: {
           is_admin, is_owner, is_primary_owner
         }
-      } = await this
-        .authService
-        .getWorkspaceRole(team_id, user_id)
+      } = y
+      console.log(`workspaceRoleReqOk===>`, workspaceRoleReqOk, `---workspaceRoleReqOk`);
+      console.log(`is_admin===>`, is_admin, `---is_admin`);
+      console.log(`is_owner===>`, is_owner, `---is_owner`);
+      console.log(`is_primary_owner===>`, is_primary_owner, `---is_primary_owner`);
 
       const userRoleIsValid =
         workspaceRoleReqOk && is_admin || is_owner || is_primary_owner
@@ -49,7 +61,9 @@ export default class AuthMiddleware implements Middleware {
       }
 
       res.status(401).send("unauthorized")
-    } catch ({ message }) {
+    } catch (err) {
+      console.log(`err===>`, err, `---err`);
+      const {message} = err
       this.logger.logError(message)
       res.status(401).send("unauthorized")
     }
