@@ -18,9 +18,7 @@ export default class UserController {
     @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response
   ) {
-    console.log(`req.user===>`, req.user, `---req.user`);
     const { user } = req.user
-    console.log(`user===>`, user, `---user`);
     res.json({ user })
   }
 

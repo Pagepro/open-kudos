@@ -20,11 +20,8 @@ export default class AuthController {
   ) {
     try {
       const { code: slackCode } = req.query
-      console.log(`slackCode===>`, slackCode, `---slackCode`);
-      const x = await this.authService
+      const { ok, access_token } = await this.authService
         .login(slackCode);
-      console.log(`x===>`, x, `---x`);
-      const { ok, access_token } = x;
 
       if (ok) {
         res.redirect(`/auth/success/${access_token}`)
