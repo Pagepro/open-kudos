@@ -7,10 +7,10 @@ import Workspace from '../../models/workspace.model'
 import { SlackResponseType } from '../factories/definitions/slackCommandHandlerFactory'
 import SettingService from '../services/settings'
 import {
-  IChannelsListResponse,
   IExtendedWebApiCallResult,
   IImOpenResponse
 } from './definitions/slackApi'
+import axios, { AxiosRequestConfig } from 'axios'
 
 
 export default class SlackClientService {
@@ -42,7 +42,7 @@ export default class SlackClientService {
       .revoke({ token, test: false })
   }
 
-  public async  getWebClient(teamId: string): Promise<WebClient> {
+  public async getWebClient(teamId: string): Promise<WebClient> {
     if (SlackClientService.clients[teamId]) {
       return SlackClientService.clients[teamId]
     } else {
@@ -53,27 +53,35 @@ export default class SlackClientService {
     }
   }
 
-  public async  getDefaultChannelId(teamId: string): Promise<string> {
+  public async getDefaultChannelId(teamId: string): Promise<string> {
     if (SlackClientService.botResponseChannelsIds[teamId]) {
       return SlackClientService.botResponseChannelsIds[teamId]
     } else {
-      try {
-        const client = await this.getWebClient(teamId)
-        const response: IChannelsListResponse = await client.channels.list()
-        const { ok, channels, error } = response
-
-        if (ok) {
-          const { id: generalChannelId } = channels
-            .find(({ is_general }) => is_general)
-          SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
-
-          return generalChannelId
-        } else {
-          throw new Error(error)
+      const workspace = await Workspace.findOne({ teamId })
+      const config: AxiosRequestConfig = {
+        method: 'get',
+        url: 'https://slack.com/api/conversations.list?pretty=1',
+        headers: {
+          'Authorization': `Bearer ${workspace.botAccessToken}`
         }
-      } catch (error) {
-        throw error
       }
+
+      return new Promise((resolve, reject) => {
+        axios(config)
+          .then((response) => {
+            const { ok, channels, error } = response.data
+            if (ok) {
+              const { id: generalChannelId } = channels.find(({ is_general }) => is_general)
+              SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
+              resolve(generalChannelId)
+            } else {
+              reject(error)
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          });
+      });
     }
   }
 
@@ -153,24 +161,29 @@ export default class SlackClientService {
   }
 
   public async getAllPublicChannelsNames(teamId: string) {
-    try {
-      const client = await this.getWebClient(teamId)
-      const response: IChannelsListResponse = await client.channels.list(
-        {
-          exclude_archived: true,
-          exclude_members: true
-        }
-      )
-      const { ok, channels, error } = response
-
-      if (ok) {
-        return channels.map(({ id, name }) => ({ id, name }))
-      } else {
-        throw new Error(error)
+    const workspace = await Workspace.findOne({ teamId })
+    const config: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://slack.com/api/conversations.list?pretty=1',
+      headers: {
+        'Authorization': `Bearer ${workspace.botAccessToken}`
       }
-    } catch (error) {
-      throw error
     }
+
+    return new Promise((resolve, reject) => {
+      axios(config)
+        .then((response) => {
+          const { ok, channels, error } = response.data
+          if (ok) {
+            resolve(channels.map(({ id, name }) => ({ id, name })))
+          } else {
+            reject(error)
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        });
+    });
   }
 
   public setBotResponseChannel(teamId: string, channelId: string) {
