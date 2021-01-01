@@ -71,6 +71,16 @@ export default class UserService {
     })
   }
 
+  public async getUsers(teamId: string) {
+    const users =
+      await this.slackClientService.getWorkspaceMembers(teamId)
+
+    return users.map(({ name, userId }) => ({
+      name,
+      userId,
+    }))
+  }
+
   public resetAllUsersGiveableKudos
     (kudosAmountForWorkspace: IKudosAmountForWorkspace[]) {
     const updateUsersFromTeams = kudosAmountForWorkspace

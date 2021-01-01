@@ -7,3 +7,7 @@ export const settingsAction = {
   getAdmins: 'GET_ADMINS',
   getChannels: 'GET_CHANNELS'
 }
+
+export const giveKudosAction = {
+  getTeamMembers: 'GET_TEAM_MEMBERS',
+}

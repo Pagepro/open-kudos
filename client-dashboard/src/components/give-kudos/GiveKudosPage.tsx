@@ -1,13 +1,49 @@
-import { Divider, PageHeader } from 'antd'
-import React, { Fragment } from 'react'
+import { Divider, notification, PageHeader, Spin } from 'antd'
+import React, { Fragment, useState, useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTeamMembers } from './actions'
 import { titles } from '../../setup/messages'
+import { IGlobalState } from '../../setup/reducers'
+import { IGiveKudosState } from './models/IGiveKudosState'
+import GiveKudosForm from './GiveKudosForm'
 
 const GiveKudosPage: React.FC = () => {
+  const [loading, setLoading] = useState(false)
+  const [kudosReceiver, setKudosReceiver] = useState(String.empty)
+  const [kudosAmount, setKudosAmount] = useState(0)
+  const [kudosReason, setKudosReason] = useState('')
+
+  const dispatch = useDispatch()
+
+  const onSubmit = useCallback(async (data) => {
+    console.log('onSubmit data==>', data);
+  }, [])
+
+  useEffect(() => {
+    getTeamMembers()(dispatch)
+  }, [dispatch])
+
+  const { teamMembers } =
+    useSelector<IGlobalState, IGiveKudosState>(({ giveKudos }) => giveKudos)
+
+  const allTeamMembersOptions = teamMembers.map(({ userId, name }) => ({
+    label: name,
+    value: userId
+  }))
+
   return (
     <Fragment>
       <PageHeader title={titles.giveKudos} />
       <Divider />
-      <p>Give Kudos content</p>
+      <Spin spinning={loading}>
+        <GiveKudosForm
+          teamMembers={allTeamMembersOptions}
+          kudosReceiver={kudosReceiver}
+          kudosAmount={kudosAmount}
+          kudosReason={kudosReason}
+          onSubmit={onSubmit}
+        />
+      </Spin>
     </Fragment>
   )
 }

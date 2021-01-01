@@ -59,4 +59,16 @@ export default class UsersController {
       )
     )
   }
+
+  @Get('/teamMembers')
+  public async geteamMembers(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @ResponseDecorator() res: Response
+  ) {
+    res.json(
+      await this.userService.getUsers(
+        req.user.team_id
+      )
+    )
+  }
 }

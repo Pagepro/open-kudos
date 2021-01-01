@@ -33,5 +33,8 @@ export const pageTitleMapping = {
 export const settingsCardsTitles = {
   answerChannels: 'Kudos bot answer channel:',
   giftRequestsReceiver: 'Receiver of gift requests:',
-  monthlyKudosAmount: 'Amount of Kudos in month:'
+  monthlyKudosAmount: 'Amount of Kudos in month:',
+  kudosReceiver: 'Receiver of Kudos:',
+  kudosAmount: 'Amount of Kudos:',
+  kudosReason: 'Reason of giving Kudos:'
 }
