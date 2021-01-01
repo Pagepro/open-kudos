@@ -104,14 +104,14 @@
             ![Create New Command](installation/createslashcommand.png "Create New Command")
 
             1. Write Command as `/kudos`
-            2. Write Request URL as `BaseUrl`+`/api/slack/actions`. e.g. https://www.funGyaan.com/slack/command
+            2. Write Request URL as `BaseUrl`+`/api/slack/command`. e.g. https://www.funGyaan.com/api/slack/command
             3. Write Short Description as `Talk with Kudos Bot`
             4. Write Usage Hint as `help`
             5. Enable `Escape channels, users, and links sent to your app`
             6. Save
                 ```
                 Command             /kudos
-                Request URL         https://www.funGyaan.com/slack/command
+                Request URL         https://www.funGyaan.com/api/slack/command
                 Short Description   Talk with Kudos Bot
                 Usage Hint          help
                 ```
