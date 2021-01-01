@@ -3,6 +3,7 @@ import { IGlobalState } from './reducers'
 
 export const titles = {
   dashboard: 'Dashboard',
+  giveKudos: 'Give Kudos',
   editGift: 'Edit gift',
   giftRequests: 'Gift requests',
   gifts: 'Gifts',
@@ -18,6 +19,7 @@ export const titles = {
 
 export const pageTitleMapping = {
   [dashboardRoutes.dashboardPage]: (state?: IGlobalState) => titles.dashboard,
+  [dashboardRoutes.giveKudosPage]: (state?: IGlobalState) => titles.giveKudos,
   [dashboardRoutes.newGiftPage]: (state?: IGlobalState) => titles.newGift,
   [dashboardRoutes.editGiftPage]: (state?: IGlobalState) => titles.editGift,
   [dashboardRoutes.giftRequestsPage]:

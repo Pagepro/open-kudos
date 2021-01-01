@@ -47,6 +47,11 @@ const menuItems: IMenuItem[] = [
     url: dashboardRoutes.teamManagementPage
   },
   {
+    content: titles.giveKudos,
+    iconType: 'dashboard',
+    url: dashboardRoutes.giveKudosPage
+  },
+  {
     content: titles.settings,
     iconType: 'setting',
     url: dashboardRoutes.settingPage
