@@ -5,16 +5,16 @@
     ![PO Editor](installation/poeditor.png "PO Editor")
 
     1. Add new project
-        1. Write a `Name` of your choice. e.g. `KudosVishalPOE`
+        1. Write a `Name` of your choice. e.g. `OpenKudosPOE`
     2. Go to [`Account Settings`->`API Access`](https://poeditor.com/account/api)
     3. Copy `API Token` as `POE_API_TOKEN`
-    4. Copy `KudosVishalPOE` project id as `POE_PROJECT_ID`
+    4. Copy `OpenKudosPOE` project id as `POE_PROJECT_ID`
 3. Go to https://www.dropbox.com/developers/apps/create and signup/singin to your account
     1. Choose plan. e.g. `2 GB Dropbox Basic plan`
     2. Exit the webpage and go to https://www.dropbox.com/developers/apps/create
         1. Choose an API = `Scoped Access`
         2. Choose the type of access you need = `Full Dropbox`
-        3. Write an `App Name` of your choice. e.g. `KudosVishalDropbox`
+        3. Write an `App Name` of your choice. e.g. `OpenKudosDbox`
         4. Agree to T&C and click `Create App`
         5. Go to `settings` of this app. Go to `OAuth 2` section
         6. Click on `Generate` button next to Generated access token
@@ -45,6 +45,8 @@
         ![App Icon](installation/appicon.png "App Icon")
 
         1. Click on `+Add App Icon` button to add icon of your choice (atleast 512x512)
+        2. Write short description `Appreciation, Engagement and Recognition Bot`
+        3. Write background color `#c55100`
 5. Setup Node Server
     1. Fork this [repo](https://github.com/the-vishal-kumar/open-kudos)
     2. Deploy this to a server. Copy the `server url` as `BaseUrl`. e.g. Suppose BaseUrl is [https://www.funGyaan.com](https://www.funGyaan.com)
@@ -65,7 +67,7 @@
     DROPBOX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ```
 7. Start Node Server
-8. Setup the created OpenKudos App in Slack App Directory. Go to https://api.slack.com/apps -> `KudosVishal` App
+8. Setup the created OpenKudos App in Slack App Directory. Go to https://api.slack.com/apps -> `OpenKudos` App
     1. Go to `OAuth & Permissions`->`Redirect URLs`
 
         ![Redirect URLs](installation/addredirecturls.png "Redirect URLs")
@@ -105,14 +107,14 @@
 
             1. Write Command as `/kudos`
             2. Write Request URL as `BaseUrl`+`/api/slack/command`. e.g. https://www.funGyaan.com/api/slack/command
-            3. Write Short Description as `Talk with Kudos Bot`
+            3. Write Short Description as `Talk with OpenKudos Bot`
             4. Write Usage Hint as `help`
             5. Enable `Escape channels, users, and links sent to your app`
             6. Save
                 ```
                 Command             /kudos
                 Request URL         https://www.funGyaan.com/api/slack/command
-                Short Description   Talk with Kudos Bot
+                Short Description   Talk with OpenKudos Bot
                 Usage Hint          help
                 ```
     7. Go to `Event Subscriptions`
@@ -132,20 +134,38 @@
 10. Go to slack workspace
     1. Create or Open a channel
     2. Add App -> Find the slack app you just created and click on `Add` button
-    3. Write `/kudos give @Vishal 10 kudos for implementing Open-Kudos Project` to give 10 kudos points to Vishal
+    3. Write `/kudos help`
         ```
-        @username1 gave @Vishal 10 for implementing Open-Kudos Project
+        Happy to help, below a list of commands that you can currently use:
+        
+        give @person 10 for helping with code review.
+        - This is the main feature of the bot.
+        - The message structure: give @pointsReceiver [number of points] for [reason]
+        - You can give some points to somebody for some reason or without reason
+        - A message with points without reason: give @pointsReceiver 10
+        
+        balance - this command returns your current balance of points.
+        
+        gifts - this command displays a list of gifts that you can get after exchanging your received points.
+        
+        leaderboard - this command displays a list of top 5 users with the biggest amount of kudos received.
+        
+        help - I guess you already know how it works.
         ```
-    4. Write `/kudos balance`
+    4. Write `/kudos give @person 10 kudos for implementing Open-Kudos Project` to give 10 kudos points to Vishal
+        ```
+        @person just received 10 kudos from @you for implementing Open-Kudos Project
+        ```
+    5. Write `/kudos balance`
         ```
         Here is your current balance
 
-        Giveable Balance
-        89 Kudos
+        Kudos to Give
+        90 Kudos
         These are Kudos you can give to your teammates and are reset at the beginning of the month.
 
         Spendable Balance
-        10 Kudos 
+        0 Kudos 
         You receive these Kudos from your teammates and can spend them to buy gifts. They never expire.
 
         ```
