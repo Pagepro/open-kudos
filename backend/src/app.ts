@@ -13,6 +13,7 @@ import GiftsController from './controllers/giftsController'
 import GiftTransfersController from './controllers/giftTransfersController'
 import LandingPageController from './controllers/landingPageController'
 import SettingsController from './controllers/settingsController/settingsController'
+import GiveKudosController from './controllers/giveKudosController'
 import SlackController from './controllers/slackController'
 import TestController from './controllers/testController'
 import TransfersController from './controllers/transfersController'
@@ -52,6 +53,7 @@ class App {
       SlackController,
       BotInstallationController,
       SettingsController,
+      GiveKudosController,
       GiftTransfersController,
       GiftsController,
       UsersController,

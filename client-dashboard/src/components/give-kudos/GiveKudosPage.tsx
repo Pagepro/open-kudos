@@ -1,4 +1,5 @@
 import { Divider, notification, PageHeader, Spin } from 'antd'
+import axios from 'axios'
 import React, { Fragment, useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeamMembers } from './actions'
@@ -9,14 +10,33 @@ import GiveKudosForm from './GiveKudosForm'
 
 const GiveKudosPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const [kudosReceiver, setKudosReceiver] = useState(String.empty)
-  const [kudosAmount, setKudosAmount] = useState(0)
-  const [kudosReason, setKudosReason] = useState('')
+  const [kudosReceiver] = useState(String.empty)
+  const [kudosAmount] = useState(0)
+  const [kudosReason] = useState('')
+  const endpoint = '/api/giveKudos'
 
   const dispatch = useDispatch()
 
   const onSubmit = useCallback(async (data) => {
-    console.log('onSubmit data==>', data);
+    setLoading(true)
+    try {
+      await axios.post(endpoint, data)
+      setLoading(false)
+      notification.success({
+        message: 'Kudos sent successfully'
+      })
+    } catch (error) {
+      setLoading(false)
+      if (error.response) {
+        notification.error({
+          message: error.response.data
+        })
+      } else {
+        notification.error({
+          message: 'Something went wrong'
+        })
+      }
+    }
   }, [])
 
   useEffect(() => {
