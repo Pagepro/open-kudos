@@ -31,7 +31,9 @@ export default class AuthMiddleware implements Middleware {
         user: {
           is_admin, is_owner, is_primary_owner
         }
-      } = await this.authService.getWorkspaceRole(team_id, user_id)
+      } = await this
+        .authService
+        .getWorkspaceRole(team_id, user_id)
 
       const userRoleIsValid =
         workspaceRoleReqOk && is_admin || is_owner || is_primary_owner
@@ -47,8 +49,7 @@ export default class AuthMiddleware implements Middleware {
       }
 
       res.status(401).send("unauthorized")
-    } catch (err) {
-      const { message } = err
+    } catch ({ message }) {
       this.logger.logError(message)
       res.status(401).send("unauthorized")
     }
