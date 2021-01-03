@@ -5,7 +5,7 @@ const { Footer } = Layout;
 
 const FooterLayout: React.FC = () => {
   const year = new Date().getFullYear()
-  const message = `Open Kudos ©${year} Created by Pagepro`
+  const message = `Open Kudos ©${year}`
 
   return (
     <Footer className="footer-container">

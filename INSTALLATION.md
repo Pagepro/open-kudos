@@ -82,9 +82,11 @@
         2. Add following scopes:
             ```
             channels:read
-            chat:write
             groups:read
+            mpim:read
+            im:read
             users:read
+            chat:write
             ```
     4. Go to `App Home`->`Your App’s Presence in Slack`
 

@@ -53,35 +53,65 @@ export default class SlackClientService {
     }
   }
 
+  public async getAllConversations(teamId: string) {
+    const workspace = await Workspace.findOne({ teamId })
+    const configPublic: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://slack.com/api/conversations.list?types=public_channel&pretty=1',
+      headers: {
+        'Authorization': `Bearer ${workspace.botAccessToken}`
+      }
+    }
+    const configPrivate: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://slack.com/api/conversations.list?types=private_channel&pretty=1',
+      headers: {
+        'Authorization': `Bearer ${workspace.botAccessToken}`
+      }
+    }
+    const configMpim: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://slack.com/api/conversations.list?types=mpim&pretty=1',
+      headers: {
+        'Authorization': `Bearer ${workspace.botAccessToken}`
+      }
+    }
+    const configIm: AxiosRequestConfig = {
+      method: 'get',
+      url: 'https://slack.com/api/conversations.list?types=im&pretty=1',
+      headers: {
+        'Authorization': `Bearer ${workspace.botAccessToken}`
+      }
+    }
+
+    let channels = [];
+    let { data: resPub } = await axios(configPublic)
+    let { ok: okPub, channels: channelsPub } = resPub
+    if (okPub) channels = channels.concat(channelsPub)
+
+    let { data: resPri } = await axios(configPrivate)
+    let { ok: okPri, channels: channelsPri } = resPri
+    if (okPri) channels = channels.concat(channelsPri)
+
+    let { data: resMpim } = await axios(configMpim)
+    let { ok: okMpim, channels: channelsMpim } = resMpim
+    if (okMpim) channels = channels.concat(channelsMpim)
+
+    let { data: resIm } = await axios(configIm)
+    let { ok: okIm, channels: channelsIm } = resIm
+    if (okIm) channels = channels.concat(channelsIm)
+
+    return channels
+  }
+
   public async getDefaultChannelId(teamId: string): Promise<string> {
     if (SlackClientService.botResponseChannelsIds[teamId]) {
       return SlackClientService.botResponseChannelsIds[teamId]
     } else {
-      const workspace = await Workspace.findOne({ teamId })
-      const config: AxiosRequestConfig = {
-        method: 'get',
-        url: 'https://slack.com/api/conversations.list?pretty=1',
-        headers: {
-          'Authorization': `Bearer ${workspace.botAccessToken}`
-        }
-      }
-
-      return new Promise((resolve, reject) => {
-        axios(config)
-          .then((response) => {
-            const { ok, channels, error } = response.data
-            if (ok) {
-              const { id: generalChannelId } = channels.find(({ is_general }) => is_general)
-              SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
-              resolve(generalChannelId)
-            } else {
-              reject(error)
-            }
-          })
-          .catch((error) => {
-            reject(error)
-          });
-      });
+      const channels = await this.getAllConversations(teamId)
+      const { id: generalChannelId } = channels.find(({ is_general }) => is_general)
+      SlackClientService.botResponseChannelsIds[teamId] = generalChannelId
+      return generalChannelId
     }
   }
 
@@ -158,32 +188,6 @@ export default class SlackClientService {
     } catch (error) {
       throw error
     }
-  }
-
-  public async getAllPublicChannelsNames(teamId: string) {
-    const workspace = await Workspace.findOne({ teamId })
-    const config: AxiosRequestConfig = {
-      method: 'get',
-      url: 'https://slack.com/api/conversations.list?pretty=1',
-      headers: {
-        'Authorization': `Bearer ${workspace.botAccessToken}`
-      }
-    }
-
-    return new Promise((resolve, reject) => {
-      axios(config)
-        .then((response) => {
-          const { ok, channels, error } = response.data
-          if (ok) {
-            resolve(channels.map(({ id, name }) => ({ id, name })))
-          } else {
-            reject(error)
-          }
-        })
-        .catch((error) => {
-          reject(error)
-        });
-    });
   }
 
   public setBotResponseChannel(teamId: string, channelId: string) {
