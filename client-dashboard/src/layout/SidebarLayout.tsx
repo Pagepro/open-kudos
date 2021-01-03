@@ -48,7 +48,7 @@ const menuItems: IMenuItem[] = [
   },
   {
     content: titles.giveKudos,
-    iconType: 'dashboard',
+    iconType: 'like',
     url: dashboardRoutes.giveKudosPage
   },
   {

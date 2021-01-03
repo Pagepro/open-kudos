@@ -12,7 +12,7 @@ const GiveKudosPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [kudosReceiver] = useState(String.empty)
   const [kudosAmount] = useState(0)
-  const [kudosReason] = useState('')
+  const [kudosReason] = useState(String.empty)
   const endpoint = '/api/giveKudos'
 
   const dispatch = useDispatch()
