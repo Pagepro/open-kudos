@@ -11,12 +11,15 @@ import TranslationsService from "../common/services/translationsService"
 import UserService from "../common/services/user"
 import TransferService from "../common/services/transfer"
 import { ITransfer } from '../models/transfer.model'
+import SlackClientService from "../common/services/slackClient"
+import { SlackResponseType } from "../common/factories/definitions/slackCommandHandlerFactory"
 
 @Controller('/giveKudos')
 export default class SettingsController {
     protected translationsService = new TranslationsService()
     protected userService = new UserService()
     protected transferService = new TransferService()
+    protected slackClientService = new SlackClientService()
 
     @Post('/', [AuthMiddleware])
     public async giveKudos(
@@ -68,6 +71,17 @@ export default class SettingsController {
             }
 
             await this.transferService.transferKudos(transferKudosPayload)
+
+            this.slackClientService.sendMessage(this.translationsService
+                .getTranslation("xGaveYZPoints",
+                    transferKudosPayload.senderId,
+                    transferKudosPayload.receiverId,
+                    transferKudosPayload.value,
+                    transferKudosPayload.comment), {
+                channel: transferKudosPayload.senderId,
+                teamId: transferKudosPayload.teamId,
+                user: transferKudosPayload.senderId
+            }, SlackResponseType.General)
 
             res.status(200).send()
         } catch ({ message }) {
