@@ -11,3 +11,7 @@ export const settingsAction = {
 export const giveKudosAction = {
   getTeamMembers: 'GET_TEAM_MEMBERS',
 }
+
+export const userRoleActions = {
+  setUserRole: 'SET_USER_ROLE',
+}
