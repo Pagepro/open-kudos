@@ -174,22 +174,6 @@ export default class SlackClientService {
     return []
   }
 
-  public async getKudosBotChannelId(teamId: string, userId: string) {
-    try {
-      const client = await this.getWebClient(teamId)
-      const response: IImOpenResponse = await client.im.open({ user: userId })
-      const { ok, channel: { id }, error } = response
-
-      if (ok) {
-        return id
-      } else {
-        throw new Error(error)
-      }
-    } catch (error) {
-      throw error
-    }
-  }
-
   public setBotResponseChannel(teamId: string, channelId: string) {
     SlackClientService.botResponseChannelsIds[teamId] = channelId
   }
