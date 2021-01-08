@@ -40,7 +40,11 @@ const GiveKudosPage: React.FC = () => {
   }, [])
 
   useEffect(() => {
+    setLoading(true)
     getTeamMembers()(dispatch)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
   }, [dispatch])
 
   const { teamMembers } =
