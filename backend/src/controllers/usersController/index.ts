@@ -22,8 +22,7 @@ export default class UsersController {
     @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response
   ) {
-    const { user } = req.user
-    res.json({ user })
+    res.json(req.user)
   }
 
   @Get('/team', [schemaValidatorFatory(UsersPaginationSchema)])

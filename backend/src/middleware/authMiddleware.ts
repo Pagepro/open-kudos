@@ -3,7 +3,7 @@ import {
   Request as RequestDecorator,
   Response as ResponseDecorator
 } from '@decorators/express'
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 import AuthService from '../common/services/auth'
 import LoggerService from '../common/services/logger'
 import { IUserEnhancedRequest } from './definitions/authMiddleware'
@@ -27,7 +27,7 @@ export default class AuthMiddleware implements Middleware {
       } = await this.authService.checkAuth(authorization)
 
       const {
-        ok: workspaceRoleReqOk,
+        // ok: workspaceRoleReqOk,
         user: {
           is_admin, is_owner, is_primary_owner
         }
@@ -35,14 +35,18 @@ export default class AuthMiddleware implements Middleware {
         .authService
         .getWorkspaceRole(team_id, user_id)
 
-      const userRoleIsValid =
-        workspaceRoleReqOk && is_admin || is_owner || is_primary_owner
+      // const userRoleIsValid = workspaceRoleReqOk && is_admin || is_owner || is_primary_owner
 
-      if (authReqOk && userRoleIsValid) {
+      if (authReqOk
+        // && userRoleIsValid
+      ) {
         req.user = {
           team_id,
           user,
-          user_id
+          user_id,
+          is_admin,
+          is_owner,
+          is_primary_owner
         }
 
         return next()
