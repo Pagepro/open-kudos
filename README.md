@@ -36,7 +36,7 @@ Take it and **share some feedback with us.**
 
 # Features roadmap:
 
-  - Web Dashboard built with React + Ant.Design
+- Web Dashboard built with React + Ant.Design
 
 # Tech Stack
 
@@ -53,8 +53,7 @@ Open Kudos uses a number of open source projects to work properly in the future 
 * [semantic-release] - fully automated version management and package publishing tool
 * [commitizen] - simple commit conventions for internet citizens
 
-And of course, Kudos itself is **open source** with a [public repository][kudos]
- on GitHub.
+And of course, Kudos itself is **open source** with a [public repository][kudos] on GitHub.
 
 # Installation Guide
 
@@ -95,18 +94,13 @@ MIT
 
 # Meet The Makers
 
-[Pagepro] is a React Codehouse.
+[Pagepro] - React Codehouse.
 
-The Masters of React and React Native. 
-
-A team of dedicated, passionate front-end  developers, trusted by digital leaders worldwide. 
-
-Building the most demanding user interfaces and front-end since 2009. 
-
-Read more about [Pagepro]
+[Vishal Kumar] - Software Engineer 👨‍💻 and an Aspiring Entrepreneur👨‍💼
 
 
 [Pagepro]: <https://pagepro.co/>
+[Vishal Kumar]: <https://www.linkedin.com/in/the-vishal-kumar/>
 [TypeScript]: <https://www.typescriptlang.org/>
 [Node.js]: <http://nodejs.org>
 [Express]: <http://expressjs.com>
