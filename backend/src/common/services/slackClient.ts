@@ -161,7 +161,7 @@ export default class SlackClientService {
           team_id,
           id
         }) => ({
-          email: is_admin ? profile.email : '',
+          email: profile.email,
           isAdmin: is_admin ? is_admin : false,
           name,
           realName: profile.real_name,
