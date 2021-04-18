@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react'
 import { Icon, Layout, Menu } from 'antd'
-import React from 'react'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { dashboardRoutes } from '../setup/config'
 import { titles } from '../setup/messages'
+import store from '../setup/store'
 
 interface IMenuItem {
   content: string,
@@ -13,28 +14,12 @@ interface IMenuItem {
 
 const { Sider } = Layout
 const { Item, SubMenu } = Menu
-const menuItems: IMenuItem[] = [
+
+let menuItemsArray: IMenuItem[] = [
   {
     content: titles.dashboard,
     iconType: 'dashboard',
     url: dashboardRoutes.dashboardPage
-  },
-  {
-    children: [
-      {
-        content: titles.list,
-        iconType: 'unordered-list',
-        url: dashboardRoutes.giftsManagementPage
-      },
-      {
-        content: titles.requests,
-        iconType: 'ordered-list',
-        url: dashboardRoutes.giftRequestsPage
-      }
-    ],
-    content: titles.gifts,
-    iconType: 'gift',
-    url: dashboardRoutes.giftsManagementPage
   },
   {
     content: titles.transfers,
@@ -42,14 +27,9 @@ const menuItems: IMenuItem[] = [
     url: dashboardRoutes.transfersPage
   },
   {
-    content: titles.team,
-    iconType: 'user',
-    url: dashboardRoutes.teamManagementPage
-  },
-  {
-    content: titles.settings,
-    iconType: 'setting',
-    url: dashboardRoutes.settingPage
+    content: titles.giveKudos,
+    iconType: 'like',
+    url: dashboardRoutes.giveKudosPage
   }
 ]
 
@@ -80,6 +60,52 @@ const renderSubMenu = (menuItem: IMenuItem) => {
 }
 
 const SidebarLayout: React.FC<RouteComponentProps> = (props) => {
+  const [menuItems, setMenuItems] = useState(menuItemsArray)
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      let { userRole: { is_admin } } = store.getState()
+      if (is_admin)
+        setMenuItems(
+          menuItems.concat([
+            {
+              children: [
+                {
+                  content: titles.list,
+                  iconType: 'unordered-list',
+                  url: dashboardRoutes.giftsManagementPage
+                },
+                {
+                  content: titles.requests,
+                  iconType: 'ordered-list',
+                  url: dashboardRoutes.giftRequestsPage
+                }
+              ],
+              content: titles.gifts,
+              iconType: 'gift',
+              url: dashboardRoutes.giftsManagementPage
+            },
+            {
+              content: titles.team,
+              iconType: 'user',
+              url: dashboardRoutes.teamManagementPage
+            },
+            {
+              content: titles.settings,
+              iconType: 'setting',
+              url: dashboardRoutes.settingPage
+            }
+          ])
+        )
+    })
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe()
+      }
+    }
+  }, [])
+
   const activeRoute = props.location.pathname
 
   return (

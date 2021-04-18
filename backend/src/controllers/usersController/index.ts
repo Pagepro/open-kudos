@@ -22,8 +22,7 @@ export default class UsersController {
     @RequestDecorator() req: IUserEnhancedRequest,
     @ResponseDecorator() res: Response
   ) {
-    const { user } = req.user
-    res.json({ user })
+    res.json(req.user)
   }
 
   @Get('/team', [schemaValidatorFatory(UsersPaginationSchema)])
@@ -55,6 +54,18 @@ export default class UsersController {
   ) {
     res.json(
       await this.userService.getAdmins(
+        req.user.team_id
+      )
+    )
+  }
+
+  @Get('/teamMembers')
+  public async geteamMembers(
+    @RequestDecorator() req: IUserEnhancedRequest,
+    @ResponseDecorator() res: Response
+  ) {
+    res.json(
+      await this.userService.getUsers(
         req.user.team_id
       )
     )

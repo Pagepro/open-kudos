@@ -12,6 +12,7 @@ const infoRoutes = {
 
 const dashboardRoutes = {
   dashboardPage: `${routes.dashboardPage}/dashboard`,
+  giveKudosPage: `${routes.dashboardPage}/giveKudos`,
   newGiftPage: `${routes.dashboardPage}/gifts/new`,
   editGiftPage: `${routes.dashboardPage}/gifts/:id`,
   giftRequestsPage: `${routes.dashboardPage}/gifts/requests`,

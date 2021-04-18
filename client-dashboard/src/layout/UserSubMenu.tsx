@@ -3,10 +3,14 @@ import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { logout as logoutAction } from '../components/auth/actions'
+import { setUserRole as setUserRoleAction } from '../components/auth/userRoleActions'
 import TitleIcon from './TitleIcon'
 
 interface IUserName {
-  user: string
+  user: string,
+  is_admin: boolean,
+  is_owner: boolean,
+  is_primary_owner: boolean,
 }
 
 const { SubMenu, Item } = Menu
@@ -21,7 +25,9 @@ const UserSubMenu: React.FC = () => {
 
   useEffect(() => {
     const fetchUserName = async () => {
-      const { data: { user } } = await axios.get<IUserName>('/api/users/me')
+      const { data } = await axios.get<IUserName>('/api/users/me')
+      setUserRoleAction(data)(dispatch)
+      const { user } = data
       setUser(user)
     }
 

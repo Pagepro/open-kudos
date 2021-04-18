@@ -20,8 +20,8 @@ export default class ChannelsController {
   ) {
     const { team_id } = req.user
     const channels = await this.slackClientService
-      .getAllPublicChannelsNames(team_id)
+      .getAllConversations(team_id)
 
-    res.send(channels)
+    res.send(channels.map(({ id, name }) => ({ id, name })))
   }
 }

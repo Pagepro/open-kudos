@@ -72,8 +72,7 @@ abstract class BaseSlackCommandHandler {
   protected async getMessageConsumer() {
     const { team_id, channel_id, channel_name, user_id } = this.commandInfo
     const channel = channel_name === SlackConsts.directMessageType
-      ? await this.getKudosBotChannelId(team_id, user_id)
-      : channel_id
+      ? user_id : channel_id
 
     const messageConsumer: IMessageConsumer = {
       channel,
@@ -82,10 +81,6 @@ abstract class BaseSlackCommandHandler {
     }
 
     return messageConsumer
-  }
-
-  private async getKudosBotChannelId(teamId, userId) {
-    return await this.slackClientService.getKudosBotChannelId(teamId, userId)
   }
 }
 

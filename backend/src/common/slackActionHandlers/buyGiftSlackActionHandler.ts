@@ -56,12 +56,8 @@ export default class BuyGiftSlackActionHandler extends BaseSlackActionHandler {
       await this.settingsService.getGiftRequestsReceiver(this.teamId)
 
     if (adminId) {
-      const channelId = await this.slackClientService.getKudosBotChannelId(
-        this.teamId,
-        adminId
-      )
       const messageConsumer: IMessageConsumer = {
-        channel: channelId,
+        channel: adminId,
         teamId: this.teamId,
         user: adminId,
       }

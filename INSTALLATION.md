@@ -1,123 +1,176 @@
-# Installation Guide
+1. Setup and start MongoDB server
+    1. Copy `connection string` as `DB_CONNECTION_STRING`
+2. Go to https://poeditor.com/account/api and signup/singin to your account
 
-<!-- ![Step001](instruction/001.png?raw=true "Step 1") -->
+    ![PO Editor](installation/poeditor.png "PO Editor")
 
-1. Create a slack bot
-    1. Go to https://api.slack.com/apps and create your own app
+    1. Add new project
+        1. Write a `Name` of your choice. e.g. `OpenKudosPOE`
+    2. Go to [`Account Settings`->`API Access`](https://poeditor.com/account/api)
+    3. Copy `API Token` as `POE_API_TOKEN`
+    4. Copy `OpenKudosPOE` project id as `POE_PROJECT_ID`
+3. Go to https://www.dropbox.com/developers/apps/create and signup/singin to your account
+    1. Choose plan. e.g. `2 GB Dropbox Basic plan`
+    2. Exit the webpage and go to https://www.dropbox.com/developers/apps/create
+        1. Choose an API = `Scoped Access`
+        2. Choose the type of access you need = `Full Dropbox`
+        3. Write an `App Name` of your choice. e.g. `OpenKudosDbox`
+        4. Agree to T&C and click `Create App`
+        5. Go to `settings` of this app. Go to `OAuth 2` section
+        6. Click on `Generate` button next to Generated access token
+        7. Choose `No Expiration` from the dropdown next to Access token expiration
+        8. Copy the token as `DROPBOX_TOKEN`
+4. Create Your Own OpenKudos App in Slack App Directory
 
-        ![Step0001](instruction/0001.png?raw=true "Step 1")
+    ![Slack API Applications](installation/slackapiapplications.png "Slack API Applications")
 
-    2. Come up with an awesome name for your new bot and choice the workspace where the bot will be available for teammates
+    1. Go to https://api.slack.com/apps and signin to your desired workspace
+    2. Click on `Your Apps`
+    3. Create New App
 
-        ![Step0002](instruction/0002.png?raw=true "Step 2")
+        ![Create Slack App](installation/createslackapp.png "Create Slack App")
 
-    3. Add a bot user
+        1. Write an `App Name` of your choice. e.g. `KudosVishal`
+        2. Choose among available workspaces under `Development Slack Workspace`
+    4. Go to `Basic Information`->`App Credentials` of the app you just created
 
-        ![Step0003](instruction/0003.png?raw=true "Step 3")
+        ![App Credentials](installation/appcredentials.png "App Credentials")
 
-        ![Step0004](instruction/0004.png?raw=true "Step 4")
+        1. Copy the following:
+            1. `Client ID` as `CLIENT_ID`
+            2. `Client Secret` as `CLIENT_SECRET`
+            3. `Signing Secret` as `SIGNING_SECRET`
+    5. [Optional] Go to `Basic Information`->`Display Information` of the app you just created
 
-        ![Step0005](instruction/0005.png?raw=true "Step 5")
+        ![App Icon](installation/appicon.png "App Icon")
 
-2. Setup your MongoDB server where data from slack bot will be saved (you can save connection string because you will need it in a few steps)
+        1. Click on `+Add App Icon` button to add icon of your choice (atleast 512x512)
+        2. Write short description `Appreciation, Engagement and Recognition Bot`
+        3. Write background color `#c55100`
+5. Setup Node Server
+    1. Fork this [repo](https://github.com/the-vishal-kumar/open-kudos)
+    2. Deploy this to a server. Copy the `server url` as `BaseUrl`. e.g. Suppose BaseUrl is [https://www.funGyaan.com](https://www.funGyaan.com)
+    3. Copy `BaseUrl`+`/auth` as `SLACK_AUTH_REDIRECT_URI`. e.g. https://www.funGyaan.com/auth
+    4. Copy `BaseUrl`+`/api/installation` as `SLACK_INSTALL_REDIRECT_URI`. e.g. https://www.funGyaan.com/api/installation
+    5. We'll add environment variables in `Step 6`
+6. Setup environment variables on Node Server (with values from previous steps). Following values are sample values:
+    ```
+    SLACK_AUTH_REDIRECT_URI=https://www.funGyaan.com/auth
+    SLACK_INSTALL_REDIRECT_URI=https://www.funGyaan.com/api/installation
+    POE_API_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    POE_PROJECT_ID=xxxxx
+    DB_CONNECTION_STRING=mongodb://username:password@host:port/database
+    CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    CLIENT_ID=xxxxxxxxxxxx.xxxxxxxxxxxxx
+    SIGNING_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    SIGNING_SECRET_VERSION=v0
+    DROPBOX_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    ```
+7. Start Node Server
+8. Setup the created OpenKudos App in Slack App Directory. Go to https://api.slack.com/apps -> `OpenKudos` App
+    1. Go to `OAuth & Permissions`->`Redirect URLs`
 
-3. Setup your server where you will host the Nodejs app that will handle the bot’s events
+        ![Redirect URLs](installation/addredirecturls.png "Redirect URLs")
 
-4. Create third-party platforms to handle resources
-    1. POEditor project:
+        1. Add urls of SLACK_AUTH_REDIRECT_URI and SLACK_INSTALL_REDIRECT_URI
+        2. Save
+    2. Go to `OAuth & Permissions`->`Scopes`->`Bot Token Scopes`
 
-        Our bot can response in different languages depends on the settings in the dashboard. Therefore you need to create a POEEditor project e.g. Awesomebot where you will put translations for the bot responses. You can use our default translations
+        ![Bot Token Scopes](installation/bottokenscopes.png "Bot Token Scopes")
 
-    2. Dropbox:
-    
-        Our bot store images of gifts that can be exchanged for kudos, Heroku be itself can't store files so the bot needs a different platform to handle that. We have chosen the Dropbox platform
+        1. Click on `Add an OAuth Scope`
+        2. Add following scopes:
+            ```
+            channels:read
+            groups:read
+            mpim:read
+            im:read
+            users:read
+            chat:write
+            ```
+    4. Go to `App Home`->`Your App’s Presence in Slack`
 
-5. Prepare ENV variables
-    1. Open your favourite IDE and type there ENV variables that you will use later:
-        * POE_API_TOKEN 
-        * POE_PROJECT_ID
-        * DB_CONNECTION_STRING
-        * CLIENT_SECRET
-        * CLIENT_ID
-        * SLACK_AUTH_REDIRECT_URI
-        * SLACK_INSTALL_REDIRECT_URI
-        * SIGNING_SECRET
-        * SIGNING_SECRET_VERSION
-        * DROPBOX_TOKEN
+        ![Edit App Display Name and Show the Bot as Online](installation/editbotdisplaynameandmarkonline.png "Edit App Display Name and Show the Bot as Online")
 
-    2. Prepare POE_API_TOKEN and POE_PROJECT_ID
-        1. Go to  https://poeditor.com/account/api 
-        2. Choice API Access tab
-        3. Copy API token to POE_API_TOKEN
-        4. Copy your project id to POE_PROJECT_ID
+        1. Click on `App Display Name` Edit
+        2. Copy the value of `Default Username` and paste it to `Display Name`. Both should be same and in lowercase. Save
+        3. Enable `Always Show My Bot as Online`
+    5. Go to `Interactivity & Shortcuts`
 
-        ![Step0006](instruction/0006.png?raw=true "Step 6")
+        ![Interactivity](installation/interactivityrequesturl.png "Interactivity")
 
-    2. Prepare DB_CONNECTION_STRING
-        1. Go to your MongoDB server
-        2. Copy the connection string to your MongoDB server DB_CONNECTION_STRING
+        1. Enable `Interactivity`
+        2. Write Request URL as `BaseUrl`+`/api/slack/actions`. e.g. https://www.funGyaan.com/api/slack/actions
+        3. Save Changes
+    6. Go to `Slash Commands`
+        1. Click on `Create New Command`
 
-    3. Prepare CLIENT_SECRET and CLIENT_ID
-        1. Go to  https://api.slack.com/ 
-        2. Choice you Awesomebot 
-        3. Copy Client ID to CLIENT_ID
-        4. Copy your project id to POE_PROJECT_ID
+            ![Create New Command](installation/createslashcommand.png "Create New Command")
 
-        ![Step0007](instruction/0007.png?raw=true "Step 7")        
+            1. Write Command as `/kudos`
+            2. Write Request URL as `BaseUrl`+`/api/slack/command`. e.g. https://www.funGyaan.com/api/slack/command
+            3. Write Short Description as `Talk with OpenKudos Bot`
+            4. Write Usage Hint as `help`
+            5. Enable `Escape channels, users, and links sent to your app`
+            6. Save
+                ```
+                Command             /kudos
+                Request URL         https://www.funGyaan.com/api/slack/command
+                Short Description   Talk with OpenKudos Bot
+                Usage Hint          help
+                ```
+    7. Go to `Event Subscriptions`
 
-    4. Prepare SLACK_AUTH_REDIRECT_URI and SLACK_INSTALL_REDIRECT_URI
-        1. SLACK_AUTH_REDIRECT_URI = https://awesomebot.url.com/auth
-        2. SLACK_INSTALL_REDIRECT_URI = https://awesomebot.url.com/api/installation
-        3. Change awesomebot.url.com to your URL address
+        ![Event Subscriptions](installation/eventsubscriptions.png "Event Subscriptions")
 
-    5. Prepare SIGNING_SECRET and SIGNING_SECRET_VERSION
-        1. SIGNING_SECRET_VERSION = v0
-        2. Go to  https://api.slack.com/
-        3. SIGNING_SECRET = Signing Secret
+        1. Enable `Enable Events`
+            1. Write Request URL as `BaseUrl`+`/api/slack/events`. e.g. https://www.funGyaan.com/api/slack/events
+                1. It'll say `verified` if the Request URL is correct
+        2. In `Subscribe to bot events`, click on `Add Bot User Event`
+            1. Add `member_joined_channel` Event Name
+        3. Save Changes
+9. Go to `BaseUrl`. e.g. https://www.funGyaan.com
+    1. Click on `Add to Slack`
+    2. Signin to your desired workspace
+    3. On successful installation, it'll say `Thanks for installing Open Kudos`
+10. Go to slack workspace
+    1. Create or Open a channel
+    2. Add App -> Find the slack app you just created and click on `Add` button
+    3. Write `/kudos help`
+        ```
+        Happy to help, below a list of commands that you can currently use:
+        
+        give @person 10 for helping with code review.
+        - This is the main feature of the bot.
+        - The message structure: give @pointsReceiver [number of points] for [reason]
+        - You can give some points to somebody for some reason or without reason
+        - A message with points without reason: give @pointsReceiver 10
+        
+        balance - this command returns your current balance of points.
+        
+        gifts - this command displays a list of gifts that you can get after exchanging your received points.
+        
+        leaderboard - this command displays a list of top 5 users with the biggest amount of kudos received.
+        
+        help - I guess you already know how it works.
+        ```
+    4. Write `/kudos give @person 10 kudos for implementing Open-Kudos Project` to give 10 kudos points to Vishal
+        ```
+        @person just received 10 kudos from @you for implementing Open-Kudos Project
+        ```
+    5. Write `/kudos balance`
+        ```
+        Here is your current balance
 
-        ![Step0008](instruction/0008.png?raw=true "Step 8")
+        Kudos to Give
+        90 Kudos
+        These are Kudos you can give to your teammates and are reset at the beginning of the month.
 
-    6. Prepare DROPBOX_TOKEN
-        1. Go to https://www.dropbox.com/developers/apps/create
-        2. Authorize, if you weren’t
-        3. Choose Dropbox API on the first step
-        4. Choose Full Dropbox access on the second
-        5. Give your app a name. That name will become a folder in your Dropbox account
-        6. Push ‘Create app’ button
-        7. Go to ‘OAuth 2’ block and hit ‘Generate’ button near ‘Generated access token’ text
-        8. After the token is generated you’ll see a string of letters and numbers
+        Spendable Balance
+        0 Kudos 
+        You receive these Kudos from your teammates and can spend them to buy gifts. They never expire.
 
-6. Clone open-kudos and deploy to your server
-    1. If you want to host your bot on Heroku you can find instruction here: https://devcenter.heroku.com/articles/getting-started-with-nodejs
-    2. After deploying the app to your server, remember to set up environment variables
-    
-7. Set up endpoints and other settings in slack bot
-    1. Configure permissions to allow your app to interact with the Slack API
-
-    ![Step0009](instruction/0009.png?raw=true "Step 9")
-
-    ![Step0010](instruction/0010.png?raw=true "Step 10")
-
-    2. Set up redirect URLs to allow installation your bot for other workspaces and authenticate users via slack oAuth
-
-    ![Step0011](instruction/0011.png?raw=true "Step 11")
-
-    3. Configure interactive components to be able to add buttons to your app messages, and create an interactive experience for users
-
-    ![Step0012](instruction/0012.png?raw=true "Step 12")
-
-    ![Step0013](instruction/0013.png?raw=true "Step 13")
-
-    ![Step0014](instruction/0014.png?raw=true "Step 14")
-
-    4. Configure the slash command to be able to use the bot
-
-    ![Step0015](instruction/0015.png?raw=true "Step 15")
-
-    ![Step0016](instruction/0016.png?raw=true "Step 16")
-
-    5. Configure events endpoint
-
-    ![Step0017](instruction/0017.png?raw=true "Step 17")
-
-    ![Step0018](instruction/0018.png?raw=true "Step 18")
+        ```
+11. For Dashboard, go to `BaseUrl`+`/dashboard`. e.g. https://www.funGyaan.com/dashboard
+    1. Signin to your workspace
+    2. Re-install App because permissions have changed
