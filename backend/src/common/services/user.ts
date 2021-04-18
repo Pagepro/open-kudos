@@ -1,11 +1,12 @@
 import { KnownBlock } from '@slack/client'
 import '../../models/user.model'
 import User, { IUser } from '../../models/user.model'
-import { IWorkspace } from '../../models/workspace.model'
+import Workspace, { IWorkspace } from '../../models/workspace.model'
 import { SortOrder } from '../definitions/sortOrder'
 import { IKudosAmountForWorkspace } from './definitions/settingsService'
 import LoggerService from './logger'
 import SlackClientService from './slackClient'
+import axios, { AxiosRequestConfig } from 'axios'
 
 export default class UserService {
   private slackClientService = new SlackClientService()
@@ -19,11 +20,34 @@ export default class UserService {
     // TODO: Add created user to cache to improve
     const doesUserExist = await this.checkIfUserExist(teamId, userId)
     if (!doesUserExist) {
-      await this.createUser({
-        isAdmin: false,
-        teamId,
-        userId
-      } as IUser)
+      const workspace = await Workspace.findOne({ teamId })
+      const configUserInfo: AxiosRequestConfig = {
+        method: 'get',
+        url: `https://slack.com/api/users.info?user==${userId}&pretty=1`,
+        headers: {
+          'Authorization': `Bearer ${workspace.botAccessToken}`
+        }
+      }
+      let { data: { ok, user } } = await axios(configUserInfo)
+      if (ok) {
+        const {
+          is_bot,
+          name,
+          deleted,
+          is_admin,
+          profile
+        } = user
+        if (!is_bot && deleted === false && name !== 'slackbot') {
+          await this.createUser({
+            email: profile.email,
+            isAdmin: is_admin ? is_admin : false,
+            name,
+            realName: profile.real_name,
+            teamId,
+            userId
+          } as IUser)
+        }
+      }
     }
   }
 
